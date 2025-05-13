@@ -20,14 +20,14 @@ location: "Shanghi, China"
 - Futaba Momo (双葉モモ) (Original Member; Withdrew August 2018)
 - Shion Rina (紫音リナ) (Original Member; Withdrew August 2018)
 - Saki Scream (サキ・スクリーム) (Original Member; Graduated December 2018)
-- 
+  
 ### `LEIWAN` 时期
 
 - Anaru Rairai (愛成来来) (Joined November 4, 2022; Training ended November 13, 2022; Temporary Member)
 - **<span style="color:yellow;">Yellow</span>**: [Kuroi Mashiro](#) 黒井マシロ (Original Member; Withdrew April 1, 2023)
 - **<span style="color:purple;">Purple</span>**: [Nekono Nemuko](#) 猫乃ねむ子 (Joined August 2018; Graduated June 11, 2024)
   
-### 现体制
+### `现体制`
 
 - **<span style="color:blue;">Blue</span>**: [Mio Monster](https://x.com/Mio_monster) 澪・モンスター (Joined February 2019)
 - **<span style="color:pink;">Pink</span>**: [Uzuki Ayaka](https://x.com/Uzuki_megane) 卯月彩華 (Joined February 2019; Leader)
