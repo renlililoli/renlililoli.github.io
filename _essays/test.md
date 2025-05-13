@@ -3,9 +3,9 @@ title: "Test file"
 collection: essays
 type: "Essay"
 permalink: /essays/test
-venue: "UC San Francisco, Department of Testing"
-date: 2012-03-01
-location: "San Francisco, CA, USA"
+# venue: "UC San Francisco, Department of Testing"
+date: 2025-05-13
+location: "Shanghi, China"
 ---
 
 

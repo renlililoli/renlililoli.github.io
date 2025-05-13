@@ -9,7 +9,7 @@
 # Basic Site Settings
 locale                   : "en-US"
 site_theme               : "default"
-title                    : "Guorui Zhu"
+title                    : "Home"
 title_separator          : "-"
 name                     : &name "Guorui Zhu"
 description              : &description "OTAKU"
