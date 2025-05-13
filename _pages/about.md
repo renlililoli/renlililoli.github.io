@@ -15,7 +15,7 @@ I am a graduate student in Fudan University majoring computational Mathematics.
 
 Currently, my interests mainly focus on
 
-- Quantum Computation
+- Quantum Computing
 
 <!-- Getting started
 ======
