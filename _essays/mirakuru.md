@@ -17,7 +17,7 @@ location: "Shanghi, China"
 #### 特典信息
 [特典信息](https://weibo.com/7983156796/5144509072804296)
 
-![特典信息](./images/特典.jpg)
+![特典信息](./images/mirakuru/特典.jpg)
 
 ## Member
 
