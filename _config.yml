@@ -23,9 +23,9 @@ repository               : "renlililoli/renlililoli.github.io"
 author:
   # Biographic information
   avatar           : "profile.png"
-  name             : "GreenZ"
+  name             : "Guorui Zhu"
   pronouns         : # example: "she/her"  
-  bio              : "Green"
+  bio              : "Guorui"
   location         : "Shanghi, China"
   employer         : "Fudan University"
   uri              : # URL
@@ -224,6 +224,9 @@ collections:
     output: true
     permalink: /:collection/:path/
   talks:
+    output: true
+    permalink: /:collection/:path/
+  essays:
     output: true
     permalink: /:collection/:path/
 
