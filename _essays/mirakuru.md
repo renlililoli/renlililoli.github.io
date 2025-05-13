@@ -8,8 +8,6 @@ location: "Shanghi, China"
 ---
 
 
-# Mirakuru 魔法转生少女
-
 ## 简介
 
 #### 所属: [绮丽偶像日](https://weibo.com/7983156796?refer_flag=1001030103_)
