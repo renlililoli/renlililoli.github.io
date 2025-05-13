@@ -9,7 +9,7 @@ location: "Shanghi, China"
 
 <div style="display: flex;">
     <nav style="margin-right: 20px; min-width: 200px;">
-    
+
         <h3>目录</h3>
 
         <ul>
@@ -41,24 +41,7 @@ location: "Shanghi, China"
         </p>
 
         <h2 id="main">Main</h2>
-        <ul>
-            <li><a href="#ygg">世界树剧场</a></li>
-            <li><a href="#theboxx">Theboxx</a></li>
-            <li><a href="#namco">万代南梦宫</a></li>
-            <li><a href="#genki">元气森林live</a></li>
-            <li><a href="#neo">Neo bar</a></li>
-            <li><a href="#yuyin">育音堂音乐公园</a></li>
-            <li><a href="#xinge">新歌空间</a></li>
-            <li><a href="#mao">Mao Livehouse</a></li>
-            <li><a href="#wasi">瓦肆 Ear</a></li>
-            <li><a href="#mehub">Me hub Livehouse</a></li>
-            <li><a href="#shanghai">上海大世界</a></li>
-            <li><a href="#cile">次乐园偶像剧场</a></li>
-            <li><a href="#shangbin">上滨荟</a></li>
-            <li><a href="#xinglin">星临天下</a></li>
-            <li><a href="#ju">聚一场</a></li>
-            <li><a href="#ani">Ani idol 偶像剧场</a></li>
-        </ul>
+
 
         <h3 id="ygg">世界树剧场</h3>
         <p>这里是世界树剧场的详细信息。</p>
