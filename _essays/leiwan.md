@@ -3,7 +3,8 @@ title: "LEIWAN"
 collection: essays
 type: "Essay"
 permalink: /essays/leiwan
-date: 2025-05-13
+date: 2025-05-14
+excerpt: '关于LEIWAN的一些简介'
 location: "Shanghi, China"
 ---
 
@@ -68,12 +69,12 @@ location: "Shanghi, China"
 </style>
 
 <div class="gallery-container">
+  <img class="gallery-image" src="./images/leiwan/2025.jpg" alt="2025">
+  <img class="gallery-image" src="./images/leiwan/2023l.png" alt="2023-late">
+  <img class="gallery-image" src="./images/leiwan/2023e.jpg" alt="2023-early">
+  <img class="gallery-image" src="./images/leiwan/2021.png" alt="2021">
   <img class="gallery-image active" src="./images/leiwan/2020e.jpg" alt="2020-early">
   <img class="gallery-image" src="./images/leiwan/2020l.png" alt="2020-late">
-  <img class="gallery-image" src="./images/leiwan/2021.png" alt="2021">
-  <img class="gallery-image" src="./images/leiwan/2023e.jpg" alt="2023-early">
-  <img class="gallery-image" src="./images/leiwan/2023l.png" alt="2023-late">
-  <img class="gallery-image" src="./images/leiwan/2025.jpg" alt="2025">
 </div>
 
 <div class="nav-buttons">
@@ -102,4 +103,4 @@ location: "Shanghi, China"
   }
 </script>
 
-## Updating
+## 

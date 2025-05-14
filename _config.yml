@@ -87,6 +87,17 @@ publication_category:
   preprints:
     title: 'Preprints'
 
+# Publication Category - The following the list of publication categories and their headings
+idolevent_category:
+  free:
+    title: 'Free'
+  outdoor:
+    title: 'Outdoor'    
+  fando:
+    title: 'Free & Outdoor'
+  general:
+    title: 'General'
+
 # Site Settings
 teaser                   :  # filename of teaser fallback teaser image placed in /images/, .e.g. "500x300.png"
 breadcrumbs              : false # true, false (default)
@@ -231,6 +242,9 @@ collections:
   essays:
     output: true
     permalink: /:collection/:path/
+  timetable:
+    output: true
+    permalink: /:collection/:path/
 
 
 # These settings control how pages and collections are included in the site
@@ -296,6 +310,15 @@ defaults:
       layout: single
       author_profile: false
       share: false
+  # _timetable
+  - scope:
+      path: ""
+      type: timetable
+    values:
+      layout: single
+      author_profile: false
+      share: false
+      comment: true
 
 
 # Sass/SCSS
