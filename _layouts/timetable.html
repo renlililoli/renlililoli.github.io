@@ -1,50 +1,70 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>{{ page.title }}</title>
-  <style>
-    .entry { margin: 10px 0; }
-    .year-month { font-weight: bold; margin-top: 20px; }
-  </style>
-</head>
-<body>
-  <h1>{{ page.title }}</h1>
+---
+layout: default
+---
 
-  <input type="text" id="search" placeholder="输入关键词搜索..." oninput="filterEntries()">
-  
-  <div id="timetable-entries">
-    {% assign sorted = site.timetable | sort: 'date' | reverse %}
-    {% assign grouped = sorted | group_by_exp:"item", "item.date | date: '%Y-%m'" %}
+{% include base_path %}
 
-    {% for group in grouped %}
-      <div class="year-month">{{ group.name }}</div>
-      <ul>
-      {% for post in group.items %}
-        <li class="entry">
-          <a href="{{ post.url }}">{{ post.title }}</a> - {{ post.date | date: "%Y-%m-%d" }}
-          <div class="content" style="display: none;">{{ post.content | strip_html | downcase }}</div>
-        </li>
-      {% endfor %}
-      </ul>
-    {% endfor %}
-  </div>
+{% if page.header.overlay_color or page.header.overlay_image or page.header.image %}
+  {% include page__hero.html %}
+{% endif %}
 
-  <script>
-    function filterEntries() {
-      const input = document.getElementById('search').value.toLowerCase();
-      const entries = document.querySelectorAll('#timetable-entries .entry');
+{% if page.url != "/" and site.breadcrumbs %}
+  {% unless paginator %}
+    {% include breadcrumbs.html %}
+  {% endunless %}
+{% endif %}
 
-      entries.forEach(entry => {
-        const text = entry.textContent.toLowerCase();
-        const content = entry.querySelector('.content').textContent.toLowerCase();
-        if (text.includes(input) || content.includes(input)) {
-          entry.style.display = '';
-        } else {
-          entry.style.display = 'none';
-        }
-      });
-    }
-  </script>
-</body>
-</html>
+<div id="main" role="main">
+  {% include sidebar.html %}
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <div class="page__inner-wrap">
+      <header>
+        <h1 class="page__title" itemprop="headline">{{ page.title }}</h1>
+      </header>
+
+      <section class="page__content" itemprop="text">
+
+        <!-- ✅ 搜索输入框 -->
+        <input type="text" id="search" placeholder="输入关键词搜索..." oninput="filterEntries()" style="margin-bottom: 1rem; padding: 0.5rem; width: 100%; max-width: 400px;">
+
+        <!-- ✅ 时间表展示区域 -->
+        <div id="timetable-entries">
+          {% assign sorted = site.timetable | sort: 'date' | reverse %}
+          {% assign grouped = sorted | group_by_exp:"item", "item.date | date: '%Y-%m'" %}
+
+          {% for group in grouped %}
+            <div class="year-month"><strong>{{ group.name }}</strong></div>
+            <ul>
+              {% for post in group.items %}
+                <li class="entry">
+                  <a href="{{ post.url }}">{{ post.title }}</a> - {{ post.date | date: "%Y-%m-%d" }}
+                  <div class="content" style="display: none;">{{ post.content | strip_html | downcase }}</div>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endfor %}
+        </div>
+
+        <!-- ✅ 前端搜索功能脚本 -->
+        <script>
+          function filterEntries() {
+            const input = document.getElementById('search').value.toLowerCase();
+            const entries = document.querySelectorAll('#timetable-entries .entry');
+
+            entries.forEach(entry => {
+              const text = entry.textContent.toLowerCase();
+              const content = entry.querySelector('.content').textContent.toLowerCase();
+              if (text.includes(input) || content.includes(input)) {
+                entry.style.display = '';
+              } else {
+                entry.style.display = 'none';
+              }
+            });
+          }
+        </script>
+
+      </section>
+    </div>
+  </article>
+</div>
