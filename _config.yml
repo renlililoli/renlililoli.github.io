@@ -87,16 +87,21 @@ publication_category:
   preprints:
     title: 'Preprints'
 
-# Publication Category - The following the list of publication categories and their headings
+# Publication Category - The following the list of timetable categories and their headings
 idolevent_category:
   free:
-    title: 'Free'
+    title: ['Free']
   outdoor:
-    title: 'Outdoor'    
-  fando:
-    title: 'Free & Outdoor'
+    title: ['Outdoor']    
   general:
-    title: 'General'
+    title: ['General']
+  birthday:
+    title: ['Birthday']
+  world:
+    title: ['World']
+  tags:
+    multiple: true # Allow multiple tags for an event
+  
 
 # Site Settings
 teaser                   :  # filename of teaser fallback teaser image placed in /images/, .e.g. "500x300.png"
