@@ -89,18 +89,12 @@ publication_category:
 
 # # Publication Category - The following the list of timetable categories and their headings
 # idolevent_category:
-#   free:
-#     title: ['Free']
-#   outdoor:
-#     title: ['Outdoor']    
-#   general:
-#     title: ['General']
-#   birthday:
-#     title: ['Birthday']
-#   world:
-#     title: ['World']
-#   tags:
-#     multiple: true # Allow multiple tags for an event
+#   January:
+#     title: 'January'
+#   February:
+#     title: 'February'
+#   March:
+#     title: 'March'
   
 
 # Site Settings
@@ -320,7 +314,7 @@ defaults:
       path: ""
       type: timetable
     values:
-      layout: single
+      layout: timetable
       author_profile: false
       share: false
       comment: true
