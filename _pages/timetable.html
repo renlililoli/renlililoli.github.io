@@ -29,31 +29,3 @@ author_profile: false
     {% include archive-single.html %}
   {% endfor %}
 {% endif %}
-
-
-<h2>Search by Date</h2>
-<form method="get" action="#results">
-  <label for="search-date">Select a date:</label>
-  <input type="date" id="search-date" name="search-date" required>
-  <button type="submit">Search</button>
-</form>
-
-<div id="results">
-  {% if site.timetable %}
-    {% assign search_date = page.search-date | date: "%Y-%m-%d" %}
-    {% if search_date %}
-      <h3>Results for {{ search_date }}</h3>
-      <hr />
-      {% assign results_found = false %}
-      {% for post in site.timetable reversed %}
-        {% if post.date | date: "%Y-%m-%d" == search_date %}
-          {% include archive-single.html %}
-          {% assign results_found = true %}
-        {% endif %}
-      {% endfor %}
-      {% unless results_found %}
-        <p>No events found for the selected date.</p>
-      {% endunless %}
-    {% endif %}
-  {% endif %}
-</div>

@@ -87,20 +87,20 @@ publication_category:
   preprints:
     title: 'Preprints'
 
-# Publication Category - The following the list of timetable categories and their headings
-idolevent_category:
-  free:
-    title: ['Free']
-  outdoor:
-    title: ['Outdoor']    
-  general:
-    title: ['General']
-  birthday:
-    title: ['Birthday']
-  world:
-    title: ['World']
-  tags:
-    multiple: true # Allow multiple tags for an event
+# # Publication Category - The following the list of timetable categories and their headings
+# idolevent_category:
+#   free:
+#     title: ['Free']
+#   outdoor:
+#     title: ['Outdoor']    
+#   general:
+#     title: ['General']
+#   birthday:
+#     title: ['Birthday']
+#   world:
+#     title: ['World']
+#   tags:
+#     multiple: true # Allow multiple tags for an event
   
 
 # Site Settings
