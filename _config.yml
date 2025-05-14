@@ -243,7 +243,7 @@ collections:
     permalink: /:collection/:path/
   timetable:
     output: true
-    permalink: /:collection/:path/
+    permalink: /:collection/:path/:name/
 
 
 # These settings control how pages and collections are included in the site
