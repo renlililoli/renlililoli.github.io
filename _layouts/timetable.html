@@ -35,6 +35,16 @@ layout: default
 
           {% for group in grouped %}
             <div class="year-month"><strong>{{ group.name }}</strong></div>
+
+            <!-- ✅ 图片画廊 -->
+            <div class="gallery" id="gallery-{{ group.name | remove: '-' }}">
+              <div class="gallery-track"></div>
+              <div class="gallery-controls">
+                <button onclick="scrollGallery('{{ group.name | remove: '-' }}', -1)">‹</button>
+                <button onclick="scrollGallery('{{ group.name | remove: '-' }}', 1)">›</button>
+              </div>
+            </div>
+
             <ul>
               {% for post in group.items %}
                 <li class="entry">
@@ -46,7 +56,7 @@ layout: default
           {% endfor %}
         </div>
 
-        <!-- ✅ 前端搜索功能脚本 -->
+        <!-- ✅ 搜索脚本 -->
         <script>
           function filterEntries() {
             const input = document.getElementById('search').value.toLowerCase();
@@ -63,6 +73,88 @@ layout: default
             });
           }
         </script>
+
+        <!-- ✅ 画廊脚本 -->
+        <script>
+          document.addEventListener("DOMContentLoaded", function() {
+            const galleries = document.querySelectorAll('.gallery');
+
+            galleries.forEach(gallery => {
+              const galleryId = gallery.id;
+              const groupName = galleryId.replace('gallery-', '');
+              const folder = `/timetable/${groupName.slice(0, 4)}/${groupName.slice(4, 6)}/images/`;
+              const track = gallery.querySelector('.gallery-track');
+
+              for (let i = 1; i <= 31; i++) {
+                for (let j = 0; j <= 5; j++) {
+                  const img = new Image();
+                  img.src = folder + i + "_" + j + ".jpg";
+                  img.onerror = function () { this.remove(); };
+                  img.onload = function () {
+                    img.className = "gallery-image";
+                    track.appendChild(img);
+                  };
+                }
+              }
+
+              setInterval(() => {
+                scrollGallery(galleryId, 1);
+              }, 5000);
+            });
+          });
+
+          function scrollGallery(id, direction) {
+            const track = document.querySelector(`#${id} .gallery-track`);
+            const scrollAmount = track.offsetWidth;
+            track.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+          }
+        </script>
+
+        <!-- ✅ 样式 -->
+        <style>
+          .gallery {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            max-width: 100%;
+          }
+
+          .gallery-track {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            gap: 10px;
+          }
+
+          .gallery-image {
+            height: 200px;
+            object-fit: cover;
+            flex-shrink: 0;
+            border-radius: 8px;
+          }
+
+          .gallery-controls {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            pointer-events: none;
+          }
+
+          .gallery-controls button {
+            pointer-events: all;
+            background: rgba(0, 0, 0, 0.4);
+            color: white;
+            border: none;
+            font-size: 2rem;
+            padding: 0.5rem;
+            cursor: pointer;
+            border-radius: 50%;
+          }
+        </style>
 
       </section>
     </div>
