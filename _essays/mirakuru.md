@@ -8,7 +8,7 @@ location: "Shanghi, China"
 ---
 
 
-## 简介
+## 收集一些资源
 
 #### 所属: [绮丽偶像日](https://weibo.com/7983156796?refer_flag=1001030103_)
 
