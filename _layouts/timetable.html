@@ -100,7 +100,7 @@ layout: default
         
           function filterByTag(tag) {
             activeTag = tag.toLowerCase();
-            document.getElementById('search').value = '';  // 清空文本搜索
+            document.getElementById('search').value = ''; 
             const entries = document.querySelectorAll('#timetable-entries .entry');
             entries.forEach(entry => {
               const tags = Array.from(entry.querySelectorAll('.tag')).map(e => e.textContent.toLowerCase());
