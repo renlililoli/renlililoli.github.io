@@ -14,8 +14,8 @@ main:
   - title: "Essays"
     url: /essays/
 
-  - title: "Timetable"
-    url: /timetable/
+  # - title: "Timetable"
+  #   url: /timetable/
     
   # - title: "Talks"
   #   url: /talks/    
