@@ -128,7 +128,7 @@ layout: default
               const folder = `/timetable/${groupName.slice(0, 4)}/${groupName.slice(4, 6)}/images/`;
               const track = gallery.querySelector('.gallery-track');
 
-              for (let i = 1; i <= 31; i++) {
+              for (let i = 31; i >= 1; i--) {
                 for (let j = 0; j <= 5; j++) {
                   const img = new Image();
                   img.src = folder + i + "_" + j + ".jpg";
