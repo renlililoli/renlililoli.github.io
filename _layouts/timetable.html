@@ -28,6 +28,20 @@ layout: default
         <!-- ✅ 搜索输入框 -->
         <input type="text" id="search" placeholder="输入关键词搜索..." oninput="filterEntries()" style="margin-bottom: 1rem; padding: 0.5rem; width: 100%; max-width: 400px;">
 
+        <!-- ✅ 标签筛选器 -->
+        <div id="tag-filter" style="margin-bottom: 1rem;">
+          <strong>筛选标签：</strong>
+          {% assign all_tags = site.timetable | map: "tags" | join: "," | split: "," | uniq | sort %}
+          {% for tag in all_tags %}
+            {% assign tag = tag | strip %}
+            {% if tag != "" %}
+              <button class="tag-button" onclick="filterByTag('{{ tag }}')">{{ tag }}</button>
+            {% endif %}
+          {% endfor %}
+          <button onclick="clearTagFilter()">清除筛选</button>
+        </div>
+
+
         <!-- ✅ 时间表展示区域 -->
         <div id="timetable-entries">
           {% assign sorted = site.timetable | sort: 'date' | reverse %}
@@ -49,6 +63,15 @@ layout: default
               {% for post in group.items %}
                 <li class="entry">
                   <a href="{{ post.url }}">{{ post.title }}</a> - {{ post.date | date: "%Y-%m-%d" }}
+                  
+                  {% if post.tags %}
+                    <div class="tags">
+                      {% for tag in post.tags %}
+                        <span class="tag">{{ tag }}</span>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                
                   <div class="content" style="display: none;">{{ post.content | strip_html | downcase }}</div>
                 </li>
               {% endfor %}
@@ -73,6 +96,33 @@ layout: default
             });
           }
         </script>
+
+        <!-- ✅ 标签筛选脚本 -->
+        <script>
+          let activeTag = null;
+        
+          function filterByTag(tag) {
+            activeTag = tag.toLowerCase();
+            document.getElementById('search').value = '';  // 清空文本搜索
+            const entries = document.querySelectorAll('#timetable-entries .entry');
+            entries.forEach(entry => {
+              const tags = Array.from(entry.querySelectorAll('.tag')).map(e => e.textContent.toLowerCase());
+              if (tags.includes(activeTag)) {
+                entry.style.display = '';
+              } else {
+                entry.style.display = 'none';
+              }
+            });
+          }
+        
+          function clearTagFilter() {
+            activeTag = null;
+            document.getElementById('search').value = '';
+            const entries = document.querySelectorAll('#timetable-entries .entry');
+            entries.forEach(entry => entry.style.display = '');
+          }
+        </script>
+        
 
         <!-- ✅ 画廊脚本 -->
         <script>
@@ -151,6 +201,33 @@ layout: default
             cursor: pointer;
             border-radius: 50%;
           }
+
+          .tag {
+            display: inline-block;
+            background-color: #eee;
+            color: #333;
+            border-radius: 0.25rem;
+            padding: 2px 6px;
+            margin: 2px;
+            font-size: 0.8rem;
+          }
+          .tags {
+            margin-top: 4px;
+          }
+
+          .tag-button {
+            background-color: #f2f2f2;
+            border: 1px solid #ccc;
+            border-radius: 0.25rem;
+            padding: 4px 8px;
+            margin: 2px;
+            font-size: 0.85rem;
+            cursor: pointer;
+          }
+          .tag-button:hover {
+            background-color: #ddd;
+          }
+          
         </style>
 
       </section>
