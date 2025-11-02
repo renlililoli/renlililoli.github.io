@@ -13,7 +13,8 @@ redirect_from:
 
 ## Hello
 
-I am a graduate student in Fudan University majoring computational Mathematics.
+I am a graduate student in Fudan University majoring computational Mathematics, advised by
+Prof. [Yingzhou Li](https://yingzhouli.com).
 
 Currently, my interests mainly focus on
 
