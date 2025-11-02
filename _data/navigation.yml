@@ -11,8 +11,8 @@ main:
   - title: "Publications"
     url: /publications/
 
-  - title: "Archive"
-    url: /archive/
+  # - title: "Archive"
+  #   url: /archive/
 
   # - title: "Timetable"
   #   url: /timetable/

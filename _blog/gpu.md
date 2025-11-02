@@ -1,7 +1,7 @@
 ---
 title: "GPU human docs"
-collection: archive
-type: "Archive"
+collection: blog
+type: "blog"
 permalink: /gpu-human-docs/
 date: 2025-07-21
 excerpt: 'A collection of GPU-related human documentation.'
