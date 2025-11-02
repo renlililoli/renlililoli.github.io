@@ -13,3 +13,14 @@ location: "Shanghi, China"
 也看过deepseek的一些介绍, 所以想看看LLM-RL的东西, 具体是什么样子的.
 
 ## 相关工作
+
+准备看这篇survay文章:
+[Reinforcement Learning Enhanced LLMs: A Survey](https://arxiv.org/abs/2412.10400)
+
+找了一些知名高star的项目, 包括:
+- [verl](https://github.com/volcengine/verl)
+- [rllm](https://github.com/rllm-org/rllm)
+- [ROLL](https://github.com/alibaba/ROLL)
+- [lamorel](https://github.com/flowersteam/lamorel)
+- [verifiers](https://github.com/PrimeIntellect-ai/verifiers)
+
