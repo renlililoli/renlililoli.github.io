@@ -15,6 +15,8 @@ location: "Shanghi, China"
 
 因为我们组不做大模型, 所以集群主要是cpu算力, gpu比较少.
 
+我们的[集群官网](https://advancedsolver.com/)上有比较详细的介绍, 这里简单说一下硬件配置.
+
 配置大概为:
 - **router**: 内网网关, 友善r4s, openwrt系统
 - **switch**: H3C huawei, 作为集群内部连接
