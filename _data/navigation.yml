@@ -11,9 +11,6 @@ main:
   - title: "Publications"
     url: /publications/
 
-  - title: "Essays"
-    url: /essays/
-
   - title: "Archive"
     url: /archive/
 
@@ -30,10 +27,13 @@ main:
   #   url: /portfolio/
         
   - title: "Blog Posts"
-    url: /Blog/
+    url: /blog/
     
   - title: "CV"
     url: /cv/
+  
+  - title: "Essays"
+    url: /essays/
     
   # - title: "CV"
   #   url: /cv-json/

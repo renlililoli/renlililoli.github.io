@@ -1,7 +1,7 @@
 ---
 title: "LLM-RL"
-collection: essays
-type: "Essay"
+collection: blog
+type: "blog"
 date: 2025-11-02
 excerpt: '学点大模型'
 location: "Shanghi, China"
