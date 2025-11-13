@@ -32,11 +32,13 @@ redirect_from:
 
 ---
 
-## Preprints
+## Publications
 - **Zhu, G.**, Bierman, J., Lu, J., & Li, Y.  
   *“Quantum Circuit for Non-Unitary Linear Transformation of Basis Sets.”*  
   *arXiv preprint arXiv:2502.08962*, 2025.  
   [arXiv:2502.08962](https://arxiv.org/abs/2502.08962)
+  To appear in **npj Quantum Inf.**
+## Preprints
 
 - **Zhu, G.**, Bierman, J., Lu, J., & Li, Y.  
   *“State-Specific Orbital Optimization for Enhanced Excited-States Calculation on Quantum Computers.”*  

@@ -10,24 +10,87 @@ location: "Shanghi, China"
 
 ## 收集一些资源
 
+### cover 曲目
+
+**[Mirakuru 魔法转生少女 - apple music](https://music.apple.com/cn/playlist/mirakuru/pl.u-d2b05dXtLPBza7L)**
+
+---
+- [**カラフルパラレル(colorfully parallel)**](https://www.youtube.com/watch?v=CXquVye7vvs) -- `UtaGe!`
+
+  相当好听的曲子, 也比较好玩. [视频](https://www.youtube.com/shorts/BexZxd2ljck)
+
+  来自于youtube的短视频.
+
+  玩法主要是山切, 然后第一段副歌跳印度舞. 唉`UtaGe!`金曲, 没有人类的一集.
+
+- [**とくべチュ、して(成为你的, 特别)**](https://www.youtube.com/watch?v=F3P8vcZkIh4) -- `= LOVE`
+
+  [甩手金曲](https://www.bilibili.com/video/BV1wfNXzHEXT)
+
+  主歌部分可以call名字
+
+  副歌前可以一起跳. (感觉看符号系的和女声优痴重合度挺高的x)
+
+- **マジカルパレード(magical parade)** -- `FES☆TIVE`
+
+  非常好马赛曲健身操 [视频1](https://www.youtube.com/watch?v=NkHAYvMEL3Q) [视频2](https://www.youtube.com/watch?v=vly65mrlct8)
+
+  开头可以混沌mix. 然后前奏开马, 接着二倍速.
+
+  马赛就完事了.
+
+  可以波浪形跳跃, 但是感觉平时没见过很多人带光棒, 如果带光棒视觉效果挺好的.
+
+- [**INTERNET MAGICAL GIRL**](https://www.youtube.com/watch?v=JYAgWNLGnJE) -- `NANIMONO`
+
+  魔转感觉和`NANIMONO`的视觉风格挺像的
+
+  感觉没什么玩法, 看了几个视频, 全是拍视频的地藏
+
+- [**LOVEです。**](https://www.youtube.com/watch?v=hAWQ5gMYgYc) -- `JamesCollection`
+
+  很标准的偶像风曲目, 副歌很简单可以跟跳, 但是缺点就是除此之外没啥玩法?
+
+  aiaiaiai aishiteru~
+
+- [**STRiNGS**]() -- `The Orchestra Tokyo`
+
+  金曲(台下动作整齐的和军训一样x)
+
+  最后一段结尾部分可以2step. 感觉过于金曲以至于不知道说什么
+
+- [**口下手ナイトメール(nightmare)**](https://www.bilibili.com/video/BV11K411G7Bg) -- `Anthurium`
+
+  神中神, 至少是目前魔转cover里我最喜欢的曲子
+
+  前两段副歌可以跟振幅, 结尾副歌可以打天驱.
+- [**いま踏み出せ夏**]() -- `真っ白なキャンバス`
+  
+  夏日金曲, 很适合夏天跳
+
+  金曲, 含金量不必多说
+
+  我第一次看到是10.31的万圣节live, 还是夏天吗x
+
+---
+
 #### 所属: [绮丽偶像日](https://weibo.com/7983156796?refer_flag=1001030103_)
 
-#### 初披露: 2025.03.16
-
-#### 特典信息
-[特典信息](https://weibo.com/7983156796/5144509072804296)
-
-![特典信息](./images/mirakuru/特典.jpg)
+#### 初披露: 2025.03.16 Theboxx城市乐园
 
 ## Member
 
-- **<span style="color:red;">红色担当</span>**: [晓月Mizuki](https://weibo.com/n/%E6%99%93%E6%9C%88Mizuki_%E6%81%8B%E8%AF%AD%E6%80%AA%E5%85%BD)
-- **<span style="color:yellow;">黄色担当</span>**: [舟舟Jiujiu](https://weibo.com/n/%E8%88%9F%E8%88%9Fjiujiu_MIRAKURU)
-- **<span style="color:green;">绿色担当</span>**: [依都Itsume](https://weibo.com/n/%E4%BE%9D%E9%83%BDItsume_MIRAKURU)
-- **<span style="color:purple;">紫色担当</span>**: [薰Kaori](https://weibo.com/n/%E8%96%B0Kaori_MIRAKURU)
-- **<span style="color:white; background-color:black;">白色担当</span>**: [雪酥Yukikoo](https://weibo.com/n/%E9%9B%AA%E9%85%A5Yukikoo_MIRAKURU)
-- **<span style="color:pink;">粉色担当</span>**: [樱樱Sakura](https://weibo.com/n/%E6%A8%B1%E6%A8%B1Sakura_MIRAKURU)
-- **<span style="color:red;">红色担当</span>**: [霁川Shimizu](https://weibo.com/n/%E9%9C%81%E5%B7%9DShimizu_MIRAKURU)
+![Mirakuru 魔法转生少女](/essays/images/mirakuru/mirakuru_timeline.svg)
+
+- **<span style="color:yellow;">黄色</span>**: [舟舟Jiujiu](https://weibo.com/n/%E8%88%9F%E8%88%9Fjiujiu_MIRAKURU) 2025.03.16 ---
+- **<span style="color:green;">绿色</span>**: [依都Itsume](https://weibo.com/n/%E4%BE%9D%E9%83%BDItsume_MIRAKURU) 2025.03.16 ---
+- **<span style="color:purple;">紫色</span>**: [薰Kaori](https://weibo.com/n/%E8%96%B0Kaori_MIRAKURU) 2025.03.16 ---
+- **<span style="color:white; background-color:black;">白色</span>**: [雪酥Yukikoo](https://weibo.com/n/%E9%9B%AA%E9%85%A5Yukikoo_MIRAKURU) 2025.03.16 ---
+- **<span style="color:pink;">粉色</span>**: [樱樱Sakura](https://weibo.com/n/%E6%A8%B1%E6%A8%B1Sakura_MIRAKURU) 2025.03.16 --- 
+- **<span style="color:blue;">蓝色</span>**: [小释Koyoi](https://weibo.com/u/7936958193) 2025.10.01 ---
+- **<span style="color:lightblue;">水色</span>**: [霁川Shimizu](https://weibo.com/n/%E9%9C%81%E5%B7%9DShimizu_MIRAKURU) **已毕业** 2025.03.16 --- 2025.07.27
+- **<span style="color:red;">红色</span>**: [晓月Mizuki](https://weibo.com/n/%E6%99%93%E6%9C%88Mizuki_%E6%81%8B%E8%AF%AD%E6%80%AA%E5%85%BD) **已毕业** 2025.03.16 --- 2025.11.02
+
 
 ## TimeTree
 
