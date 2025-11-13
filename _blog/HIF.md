@@ -11,15 +11,52 @@ location: "Shanghi, China"
 
 学一下层次插值分解(Hierarchical Interpolative Factorization, HIF).
 
-## 例子
+## 2D 串行
 
-考虑一个2D区域上的PDE, 网格是 $\sqrt{N}\times \sqrt{N}$ 的, 离散化后得到一个 $N$ 维线性系统:
-$$Ax = b.$$
+### 2分树
 
-通常的LU分解会直接对这个 $N$ 维系统进行分解, 但这在计算上可能非常昂贵. HIF的思路是利用层次结构来降低计算复杂度.
+Hypoctree在下面将会被称为T
 
-具体来说, HIF将原始问题分解为多个子问题, 每个子问题在一个较小的网格上求解.
+T的数据结构为
 
-具体的数学步骤已经有很清楚的文献了, 这里主要想具体看一个例子.
+```cpp
+struct T {
 
-假设我们有一个 $10 \times 1
+    // 网格点结构
+    using v2d = Eigen::Vector2d<double>;
+
+    int* nodes; // 节点指针数组
+    int num_nodes; // 节点数量
+
+    // 每个节点的子节点列表
+    // children[i] 存储第 i 个节点的所有子节点索引
+    std::vector<std::vector<int>> children;
+
+
+    // 每个节点的父节点索引
+    std::vector<int> parent;
+
+    // 每个level的节点范围
+    // [lvlptr[i], lvlptr[i+1]) 表示第 i+1 层的节点索引范围
+    std::vector<int> lvlptr;
+
+    // 每个节点中的网格点坐标
+    // xis[i] 存储第 i 个节点中的所有网格点坐标
+    // 只有叶子节点才有实际的坐标数据
+    std::vector<std::vector<v2d>> xis;
+
+    // 每个节点对应的区域中心
+    // centers[i] 存储第 i 个节点对应区域的中心坐标
+    std::vector<v2d> centers;
+
+    // 每个level中区域的半径
+    // lsize[i] 存储第 i 层中区域的半径
+    std::vector<double> lsize;
+
+    // 每个节点的邻居节点列表
+    // neighbors[i] 存储第 i 个节点的所有邻居节点索引
+    std::vector<std::vector<int>> neighbors;
+}
+```
+
+![2D 四叉树](/blog/pictures/hif-2d.png)
