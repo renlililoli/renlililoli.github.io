@@ -209,6 +209,86 @@ Huge Page 是一种使用较大页面大小的虚拟内存技术. 传统的页�
 
 然而也有特例, 部分指令在cpu前端被解析, 而不需要真正被执行, 这种情况下retired指令会多余excuted指令.
 
+### 编译器优化报告
+
+大部分现代编译器都支持生成优化报告. 这里看一个好玩的例子:
+
+```cpp
+// unvec.cpp
+void
+unvec(
+float* a,
+float* b,
+float* c
+) {
+    for (int i = 1; i < N; i++) {
+      a[i] = c[i-1];
+      c[i] = b[i];
+    }
+}
+
+// vec.cpp
+void
+vec(
+float* a,
+float* b,
+float* c
+) {
+    for (int i = 1; i < N; i++) {
+      c[i] = b[i];
+      a[i] = c[i-1];
+    }
+}
+
+```
+
+```bash
+g++ -O3 -S -march=core-avx2 unvec.cpp -o unvec.s
+g++ -O3 -S -march=core-avx2 vec.cpp -o vec.s
+```
+
+```asm
+# unvec.s
+.L3:
+	vmovss	-4(%rdx,%rax,4), %xmm0
+	vmovss	%xmm0, (%rdi,%rax,4)
+	vmovss	(%rsi,%rax,4), %xmm0
+	vmovss	%xmm0, (%rdx,%rax,4)
+	incq	%rax
+	cmpq	%rax, %rcx
+	jne	.L3
+
+# vec.s
+.L5:
+	vmovups	(%rsi,%rax), %ymm1
+	vmovups	%ymm1, (%rdx,%rax)
+	vmovups	-4(%rdx,%rax), %ymm2
+	vmovups	%ymm2, (%rcx,%rax)
+	addq	$32, %rax
+	cmpq	%r8, %rax
+	jne	.L5
+```
+
+`vmovss` 是标量单精度浮点数的加载/存储指令, 而 `vmovups` 是向量化的指令, 可以一次加载/存储多个单精度浮点数. 通过改变语句的顺序, 编译器能够识别出循环中的数据依赖关系, 并应用向量化优化.
+
+用`-fopt-info-vec`参数可以让编译器输出向量化的报告, 以确认向量化是否成功应用.
+
+```bash
+g++ -O3 -march=core-avx2 -fopt-info-vec vec.cpp -o vec
+g++ -O3 -march=core-avx2 -fopt-info-vec unvec.cpp -o unvec
+```
+
+```
+unvec.cpp:11:23: missed: couldn't vectorize loop
+unvec.cpp:13:21: missed: not vectorized, possible dependence between data-refs *_4 and *_8
+```
+
+```
+vec.cpp:11:23: optimized: loop vectorized using 32 byte vectors
+vec.cpp:11:23: optimized:  loop versioned for vectorization because of possible aliasing
+vec.cpp:11:23: optimized: loop vectorized using 16 byte vectors
+```
+
 
 
 

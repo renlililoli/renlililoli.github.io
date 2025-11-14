@@ -59,7 +59,7 @@ location: "Shanghi, China"
 
   最后一段结尾部分可以2step. 感觉过于金曲以至于不知道说什么
 
-- [**口下手ナイトメール(nightmare)**](https://www.bilibili.com/video/BV11K411G7Bg) -- `Anthurium`
+- [**口下手ナイトメール(night mail)**](https://www.bilibili.com/video/BV11K411G7Bg) -- `Anthurium`
 
   神中神, 至少是目前魔转cover里我最喜欢的曲子
 
