@@ -26,7 +26,7 @@ CPU 性能分析中, 有许多环境是无法控制的, 可能来自硬件, 也�
 - UNIX的环境大小(存储env var的bytes数)和给linker提供目标文件的顺序都会以不可预测的方式影响性能.
 - 内存布局: 内存布局带来的影响可以通过运行时重复的随机化代码, 堆栈和堆对象的放置来消除. 但是后续该技术没有充分的发展.
 
-![DFS](/blog/pictures/dfs.png)
+![DFS](/blog/pictures/cpu-arch-opt/dfs.png)
 
 > remark: 甚至开top/htop等监控工具也会影响性能分析的结果.
 
@@ -178,7 +178,7 @@ cpu访问主存首先需要经过内存控制器(Memory Controller Unit, MCU), M
 
 以2级页表为例, 最高的16位通常不使用, 接下来的 16 位作为第一级页表的索引, 再接下来的 20 位作为第二级页表的索引, 最后的 12 位作为页内偏移. 这样每个页表可以包含 2^20 = 1,048,576 个条目.
 
-![page_table](/blog/pictures/page_table.png)
+![page_table](/blog/pictures/cpu-arch-opt/page_table.png)
 
 例子:
 现在有一个虚拟地址.
