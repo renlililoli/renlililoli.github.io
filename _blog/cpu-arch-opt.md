@@ -1,13 +1,11 @@
 ---
-title: "CPU-Arch-Opt"
+title: "CPU Arch Optimizations"
 collection: blog
 type: "blog"
 date: 2025-11-07
 excerpt: 'An in-depth look at CPU architecture optimizations and their impact on performance.'
 location: "Shanghai, China"
 ---
-
-# CPU-Arch-Opt
 
 ## Introduction
 
