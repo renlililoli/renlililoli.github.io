@@ -109,6 +109,7 @@ Elapsed time for single Pauli: 0.25511369705200193
 符合预期.
 
 > 好吧调的过程中又遇到了奇怪的问题, 只有seed=42能跑通, 其他的seed都会报错, 这里就先凑合着用42吧. 太诡异了... 这个 42 还是自动补全帮我生成的, 不得不感慨qiskit就是一大坨.
+
 ```python
 backend = Aer.get_backend('statevector_simulator')
 
