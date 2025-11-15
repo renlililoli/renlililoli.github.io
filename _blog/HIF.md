@@ -7,15 +7,13 @@ excerpt: '层次插值分解'
 location: "Shanghi, China"
 ---
 
-# HIF
-
 学一下层次插值分解(Hierarchical Interpolative Factorization, HIF).
 
 ## 2D 串行
 
 ### 2分树数据结构
 
-Hypoctree在下面将会被称为T
+`Hypoctree`在下面将会被称为`T`
 
 T的数据结构为
 
@@ -59,7 +57,7 @@ struct T {
 }
 ```
 
-除了上述数据结构, 还需要下一个层次中的EdgeTree, 用于dim1消元
+除了上述数据结构, 还需要下一个层次中的`EdgeTree`, 用于dim1消元
 
 ```cpp
 struct EdgeTree {
@@ -73,7 +71,17 @@ struct EdgeTree {
 };
 ```
 
-![2D 四叉树](/blog/pictures/hif-2d.png)
+![2D 四叉树](/blog/pictures/HIF/hif-2d.png)
+
+### 2D 下树的构建过程
+
+这里只介绍`EdgeTree`的构建过程, `Hypoctree`的比较简单
+
+1. 从`Hypoctree`的当前层开始, 生成所有可能的边心相对于区域中心的位置偏移
+
+![2D offset](/blog/pictures/HIF/offset.png)
+
+2. 获取所有的可能边心位置, 只保留被多个区域共享的边心, 丢掉边界上的孤立边心
 
 ### HIF 算法流程
 
