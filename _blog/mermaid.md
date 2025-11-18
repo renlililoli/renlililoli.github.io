@@ -9,13 +9,17 @@ location: "Sanya, China"
 
 在用ai写文档的时候发现它会生成一些非常好看的图, 值得仔细研究一下.
 
+但是主页好像渲染不了, 必须在vscode里下载mermaid插件才行.
+
 ## 流程图
 
 基本语法是
 
+{% raw %}
 ```
 obj[descriptor] --> |arrow descriptor| obj[description]
 ```
+{% endraw %}
 其中mermaid提供了不同的样式
 
 ```mermaid
