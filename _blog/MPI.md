@@ -3,7 +3,7 @@ title: "MPI"
 collection: blog
 type: "blog"
 date: 2025-11-18
-excerpt: '层次插值分解'
+excerpt: 'Distributed memory coding.'
 location: "Sanya, China"
 ---
 
