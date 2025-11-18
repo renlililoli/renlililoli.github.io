@@ -11,6 +11,13 @@ location: "Sanya, China"
 
 但是主页好像渲染不了, 必须在vscode里下载mermaid插件才行.
 
+## render test
+<div class="mermaid">
+graph TD
+    A --> B
+</div>
+
+
 ## 流程图
 
 基本语法是
