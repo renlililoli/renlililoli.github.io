@@ -15,13 +15,12 @@ location: "Sanya, China"
 
 基本语法是
 
-{% raw %}
 ```
 obj[descriptor] --> |arrow descriptor| obj[description]
 ```
-{% endraw %}
 其中mermaid提供了不同的样式
 
+{% raw %}
 ```mermaid
 graph TD
     A[方框] -.-> B(圆角)
@@ -31,8 +30,8 @@ graph TD
     E --o A{判断?}
     F --x G{{数据}}
     G --> H[(数据库)]
-
 ```
+{% endraw %}
 
 ```mermaid
 graph TD
