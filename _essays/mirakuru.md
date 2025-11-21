@@ -12,65 +12,88 @@ location: "Shanghi, China"
 
 ### cover 曲目
 
-**[Mirakuru 魔法转生少女 - apple music](https://music.apple.com/cn/playlist/mirakuru/pl.u-d2b05dXtLPBza7L)**
+<div class="playlist">
 
----
-- [**カラフルパラレル(colorfully parallel)**](https://www.youtube.com/watch?v=CXquVye7vvs) -- `UtaGe!`
+  <div class="card">
+    <h3><a href="https://www.youtube.com/watch?v=CXquVye7vvs" target="_blank">カラフルパラレル (colorfully parallel)</a></h3>
+    <div class="artist">UtaGe!</div>
+    <div class="description">
+      相当好听的曲子, 也比较好玩. 来自于 YouTube 的短视频。
+      玩法主要是山切, 然后第一段副歌跳印度舞。唉 UtaGe! 金曲, 没有人类的一集。
+    </div>
+    <div class="video-links">
+      <a href="https://www.youtube.com/shorts/BexZxd2ljck" target="_blank">短视频</a>
+    </div>
+  </div>
 
-  相当好听的曲子, 也比较好玩. [视频](https://www.youtube.com/shorts/BexZxd2ljck)
+  <div class="card">
+    <h3><a href="https://www.youtube.com/watch?v=F3P8vcZkIh4" target="_blank">とくべチュ、して (成为你的, 特别)</a></h3>
+    <div class="artist">= LOVE</div>
+    <div class="description">
+      主歌部分可以 call 名字，副歌前可以一起跳。
+      （符号系和女声优痴重合度挺高）
+    </div>
+    <div class="video-links">
+      <a href="https://www.bilibili.com/video/BV1wfNXzHEXT" target="_blank">Bilibili 视频</a>
+    </div>
+  </div>
 
-  来自于youtube的短视频.
+  <div class="card">
+    <h3>マジカルパレード (magical parade)</h3>
+    <div class="artist">FES☆TIVE</div>
+    <div class="description">
+      非常好马赛曲健身操。开头可以混沌 mix，然后前奏开马，接着二倍速。
+      马赛就完事了。可以波浪形跳跃，如果带光棒视觉效果很好。
+    </div>
+    <div class="video-links">
+      <a href="https://www.youtube.com/watch?v=NkHAYvMEL3Q" target="_blank">视频1</a>
+      <a href="https://www.youtube.com/watch?v=vly65mrlct8" target="_blank">视频2</a>
+    </div>
+  </div>
 
-  玩法主要是山切, 然后第一段副歌跳印度舞. 唉`UtaGe!`金曲, 没有人类的一集.
+  <div class="card">
+    <h3><a href="https://www.youtube.com/watch?v=JYAgWNLGnJE" target="_blank">INTERNET MAGICAL GIRL</a></h3>
+    <div class="artist">NANIMONO</div>
+    <div class="description">
+      魔转感觉和 NANIMONO 的视觉风格挺像。感觉没什么玩法, 全是拍视频的地藏。
+    </div>
+  </div>
 
-- [**とくべチュ、して(成为你的, 特别)**](https://www.youtube.com/watch?v=F3P8vcZkIh4) -- `= LOVE`
+  <div class="card">
+    <h3><a href="https://www.youtube.com/watch?v=hAWQ5gMYgYc" target="_blank">LOVEです。</a></h3>
+    <div class="artist">JamesCollection</div>
+    <div class="description">
+      很标准的偶像风曲目, 副歌很简单可以跟跳, 但除此之外玩法不多。
+      aiaiaiai aishiteru~
+    </div>
+  </div>
 
-  [甩手金曲](https://www.bilibili.com/video/BV1wfNXzHEXT)
+  <div class="card">
+    <h3>STRiNGS</h3>
+    <div class="artist">The Orchestra Tokyo</div>
+    <div class="description">
+      金曲（台下动作整齐像军训），最后一段结尾可以 2 step。过于金曲以至于不知道说什么。
+    </div>
+  </div>
 
-  主歌部分可以call名字
+  <div class="card">
+    <h3><a href="https://www.bilibili.com/video/BV11K411G7Bg" target="_blank">口下手ナイトメール (night mail)</a></h3>
+    <div class="artist">Anthurium</div>
+    <div class="description">
+      神中神，目前魔转 cover 里我最喜欢的曲子。
+      前两段副歌可以跟振幅，结尾副歌可以打天驱。
+    </div>
+  </div>
 
-  副歌前可以一起跳. (感觉看符号系的和女声优痴重合度挺高的x)
+  <div class="card">
+    <h3>いま踏み出せ夏</h3>
+    <div class="artist">真っ白なキャンバス</div>
+    <div class="description">
+      夏日金曲，非常适合夏天跳。第一次看到是 10.31 万圣节 live，但依然夏日感十足。
+    </div>
+  </div>
 
-- **マジカルパレード(magical parade)** -- `FES☆TIVE`
-
-  非常好马赛曲健身操 [视频1](https://www.youtube.com/watch?v=NkHAYvMEL3Q) [视频2](https://www.youtube.com/watch?v=vly65mrlct8)
-
-  开头可以混沌mix. 然后前奏开马, 接着二倍速.
-
-  马赛就完事了.
-
-  可以波浪形跳跃, 但是感觉平时没见过很多人带光棒, 如果带光棒视觉效果挺好的.
-
-- [**INTERNET MAGICAL GIRL**](https://www.youtube.com/watch?v=JYAgWNLGnJE) -- `NANIMONO`
-
-  魔转感觉和`NANIMONO`的视觉风格挺像的
-
-  感觉没什么玩法, 看了几个视频, 全是拍视频的地藏
-
-- [**LOVEです。**](https://www.youtube.com/watch?v=hAWQ5gMYgYc) -- `JamesCollection`
-
-  很标准的偶像风曲目, 副歌很简单可以跟跳, 但是缺点就是除此之外没啥玩法?
-
-  aiaiaiai aishiteru~
-
-- [**STRiNGS**]() -- `The Orchestra Tokyo`
-
-  金曲(台下动作整齐的和军训一样x)
-
-  最后一段结尾部分可以2step. 感觉过于金曲以至于不知道说什么
-
-- [**口下手ナイトメール(night mail)**](https://www.bilibili.com/video/BV11K411G7Bg) -- `Anthurium`
-
-  神中神, 至少是目前魔转cover里我最喜欢的曲子
-
-  前两段副歌可以跟振幅, 结尾副歌可以打天驱.
-- [**いま踏み出せ夏**]() -- `真っ白なキャンバス`
-  
-  夏日金曲, 很适合夏天跳
-
-  金曲, 含金量不必多说
-
-  我第一次看到是10.31的万圣节live, 还是夏天吗x
+</div>
 
 ---
 
@@ -80,19 +103,108 @@ location: "Shanghi, China"
 
 ## Member
 
-![Mirakuru 魔法转生少女](/essays/images/mirakuru/mirakuru_timeline.svg)
+<table>
+  <thead>
+    <tr>
+      <th>成员</th>
+      <th>微博</th>
+      <th>日期</th>
+      <th>状态</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="yellow">
+      <td>舟舟Jiujiu</td>
+      <td><a href="https://weibo.com/n/%E8%88%9F%E8%88%9Fjiujiu_MIRAKURU" target="_blank">微博</a></td>
+      <td>2025.03.16</td>
+      <td>在团</td>
+    </tr>
+    <tr class="green">
+      <td>依都Itsume</td>
+      <td><a href="https://weibo.com/n/%E4%BE%9D%E9%83%BDItsume_MIRAKURU" target="_blank">微博</a></td>
+      <td>2025.03.16</td>
+      <td>在团</td>
+    </tr>
+    <tr class="purple">
+      <td>薰Kaori</td>
+      <td><a href="https://weibo.com/n/%E8%96%B0Kaori_MIRAKURU" target="_blank">微博</a></td>
+      <td>2025.03.16</td>
+      <td>在团</td>
+    </tr>
+    <tr class="white">
+      <td>雪酥Yukikoo</td>
+      <td><a href="https://weibo.com/n/%E9%9B%AA%E9%85%A5Yukikoo_MIRAKURU" target="_blank">微博</a></td>
+      <td>2025.03.16</td>
+      <td>在团</td>
+    </tr>
+    <tr class="pink">
+      <td>樱樱Sakura</td>
+      <td><a href="https://weibo.com/n/%E6%A8%B1%E6%A8%B1Sakura_MIRAKURU" target="_blank">微博</a></td>
+      <td>2025.03.16</td>
+      <td>在团</td>
+    </tr>
+    <tr class="blue">
+      <td>小释Koyoi</td>
+      <td><a href="https://weibo.com/u/7936958193" target="_blank">微博</a></td>
+      <td>2025.10.01</td>
+      <td>在团</td>
+    </tr>
+    <tr class="lightblue">
+      <td>霁川Shimizu</td>
+      <td><a href="https://weibo.com/n/%E9%9C%81%E5%B7%9DShimizu_MIRAKURU" target="_blank">微博</a></td>
+      <td>2025.03.16 — 2025.07.27</td>
+      <td>已毕业</td>
+    </tr>
+    <tr class="red">
+      <td>晓月Mizuki</td>
+      <td><a href="https://weibo.com/n/%E6%99%93%E6%9C%88Mizuki_%E6%81%8B%E8%AF%AD%E6%80%AA%E5%85%BD" target="_blank">微博</a></td>
+      <td>2025.03.16 — 2025.11.02</td>
+      <td>已毕业</td>
+    </tr>
+  </tbody>
+</table>
 
-- **<span style="color:yellow;">黄色</span>**: [舟舟Jiujiu](https://weibo.com/n/%E8%88%9F%E8%88%9Fjiujiu_MIRAKURU) 2025.03.16 ---
-- **<span style="color:green;">绿色</span>**: [依都Itsume](https://weibo.com/n/%E4%BE%9D%E9%83%BDItsume_MIRAKURU) 2025.03.16 ---
-- **<span style="color:purple;">紫色</span>**: [薰Kaori](https://weibo.com/n/%E8%96%B0Kaori_MIRAKURU) 2025.03.16 ---
-- **<span style="color:white; background-color:black;">白色</span>**: [雪酥Yukikoo](https://weibo.com/n/%E9%9B%AA%E9%85%A5Yukikoo_MIRAKURU) 2025.03.16 ---
-- **<span style="color:pink;">粉色</span>**: [樱樱Sakura](https://weibo.com/n/%E6%A8%B1%E6%A8%B1Sakura_MIRAKURU) 2025.03.16 --- 
-- **<span style="color:blue;">蓝色</span>**: [小释Koyoi](https://weibo.com/u/7936958193) 2025.10.01 ---
-- **<span style="color:lightblue;">水色</span>**: [霁川Shimizu](https://weibo.com/n/%E9%9C%81%E5%B7%9DShimizu_MIRAKURU) **已毕业** 2025.03.16 --- 2025.07.27
-- **<span style="color:red;">红色</span>**: [晓月Mizuki](https://weibo.com/n/%E6%99%93%E6%9C%88Mizuki_%E6%81%8B%E8%AF%AD%E6%80%AA%E5%85%BD) **已毕业** 2025.03.16 --- 2025.11.02
+## 舟推夹带私货了
+
+只更新舟或者全场的fo了, 别人的没那个精力了...
+
+<table>
+  <thead>
+    <tr>
+      <th>日期</th>
+      <th>场地</th>
+      <th>拼盘</th>
+      <th>摄像</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2025.10.29</td>
+      <td>7Hertz/Theboxx城市乐园</td>
+      <td>@JAM</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/5341251568/QbjoYqFSF?refer_flag=1001030103_" target="_blank">骨头汤馬仔會會長 </a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.10.02</td>
+      <td>上海Beach No.11 Park 十一号沙滩</td>
+      <td>魔境Fes</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/5857285449/Qb5T52z5I?refer_flag=1001030103_" target="_blank">_NeverGone_ </a></li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 
 ## TimeTree
+
+断更了, 因为拍全场的好像都不太更新了...
 
 ### 2025.03.16: Theboxx城市乐园
 - **拼盘**: [MTL白色情人节](https://weibo.com/7607627668/5143145360658230)
@@ -149,3 +261,168 @@ location: "Shanghi, China"
 ### 2025.04.28: MAOLivehouse上海
 - **拼盘**: [魔境 LIVE 上海 Vol. 29](https://weibo.com/7921113564/5150051500560492)
 - **全场摄像**: [暂无](#)
+
+
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 1000px;
+    background: linear-gradient(to bottom, #fff8e1, #fffde7);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    overflow: hidden;
+    margin-bottom: 30px;
+  }
+
+  thead {
+    background-color: #ffd54f;
+    color: #1e3a8a;
+    text-align: left;
+    font-size: 1.1em;
+  }
+
+  th, td {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  tbody tr:hover {
+    background-color: #fff9c4;
+  }
+
+  a {
+    color: #1565c0;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  td ul {
+    margin: 0;
+    padding-left: 20px;
+  }
+
+  td ul li {
+    list-style-type: disc;
+    margin: 5px 0;
+  }
+</style>
+
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 1000px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  thead {
+    background: linear-gradient(90deg, #ffd54f, #ffca28);
+    color: #1e3a8a;
+    font-size: 1.1em;
+  }
+
+  th, td {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    text-align: left;
+  }
+
+  tbody tr {
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  tbody tr:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+
+  a {
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  /* 成员对应颜色 */
+  .yellow { background-color: #fff9c4; color: #8b6b00; }
+  .green { background-color: #dcedc8; color: #33691e; }
+  .purple { background-color: #e1bee7; color: #4a148c; }
+  .white { background-color: #ffffff; color: #555555; } /* 白底灰字，增强对比度 */
+  .pink { background-color: #f8bbd0; color: #880e4f; }
+  .blue { background-color: #bbdefb; color: #0d47a1; }
+  .lightblue { background-color: #b3e5fc; color: #01579b; }
+  .red { background-color: #ffcdd2; color: #b71c1c; }
+</style>
+
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f7;
+  }
+
+  .playlist {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    margin: 30px 0;
+  }
+
+  .card {
+    background: linear-gradient(135deg, #ffffff, #fffde7);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+  }
+
+  .card h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.2em;
+    color: #1e3a8a;
+  }
+
+  .card a {
+    color: #1565c0;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .card a:hover {
+    text-decoration: underline;
+  }
+
+  .card .artist {
+    font-size: 0.95em;
+    color: #555;
+    margin-bottom: 10px;
+  }
+
+  .card .description {
+    font-size: 0.9em;
+    color: #333;
+    line-height: 1.4em;
+  }
+
+  .card .video-links a {
+    display: inline-block;
+    margin-right: 10px;
+    font-size: 0.85em;
+    color: #d84315;
+  }
+
+  .card .video-links a:hover {
+    text-decoration: underline;
+  }
+</style>
