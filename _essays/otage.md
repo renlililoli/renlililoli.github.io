@@ -27,7 +27,7 @@ location: "Shanghi, China"
 
 ### 天照
 
-### 关东技
+### [关东技](https://www.bilibili.com/video/BV1bJ411D7bw)
   - 雷蛇
   - 罗曼斯
 
