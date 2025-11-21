@@ -9,6 +9,8 @@ layout: compress
   <head>
     {% include head.html %}
     {% include head/custom.html %}
+    <!-- 引入 Mermaid -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   </head>
 
   <body>
@@ -29,23 +31,37 @@ layout: compress
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-      mermaid.initialize({ startOnLoad: false });
+        // 1. 初始化 Mermaid
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'default',  // 可改成 dark / forest / neutral
+            securityLevel: 'loose'
+        });
 
-      document.querySelectorAll('pre > code.language-mermaid').forEach((codeBlock) => {
-        const pre = codeBlock.closest('pre'); // 找到包裹的 <pre>
-        const container = document.createElement('div');
-        container.classList.add('mermaid');
-        container.textContent = codeBlock.textContent;
+        // 2. 遍历所有 Mermaid 代码块
+        document.querySelectorAll('pre > code.language-mermaid').forEach(codeBlock => {
+            const pre = codeBlock.closest('pre');
 
-        // 替换整个 <pre> 为 mermaid div
-        pre.parentNode.replaceChild(container, pre);
-      });
+            // 创建渲染容器
+            const container = document.createElement('div');
+            container.classList.add('mermaid');
+            container.textContent = codeBlock.innerText; // 保证 Mermaid 解析正确
 
-      mermaid.run();
+            // 替换 <pre> 为 <div>
+            pre.parentNode.replaceChild(container, pre);
+
+            // 3. 手动渲染
+            const uniqueId = 'mermaid-' + Math.random().toString(36).substr(2, 9);
+            try {
+                mermaid.mermaidAPI.render(uniqueId, container.textContent, svgCode => {
+                    container.innerHTML = svgCode;
+                });
+            } catch (err) {
+                console.error('Mermaid render error:', err, container.textContent);
+            }
+        });
     });
     </script>
-
-
 
   </body>
 </html>
