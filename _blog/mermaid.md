@@ -9,10 +9,10 @@ location: "Sanya, China"
 
 在用ai写文档的时候发现它会生成一些非常好看的图, 值得仔细研究一下.
 
-但是主页好像渲染不了, 必须在vscode里下载mermaid插件才行.
+但是主页好像渲染不了, 必须在vscode里下载mermaid插件才行. 这里贴一下[官方的教程](https://mermaid.js.org/), 下面是我整理的一些常用的语法.
 
 
-## 流程图
+## 普通节点图
 
 基本语法是
 
@@ -46,6 +46,9 @@ graph TD
 ```
 
 ## 流程图
+
+流程图可以用来画mpi通信等, 非常好用
+![mpi](/blog/pictures/mermaid/mpi.png)
 ```mermaid
 sequenceDiagram
     participant A as Alice
