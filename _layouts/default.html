@@ -30,25 +30,11 @@ layout: compress
     {% include scripts.html %}
 
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // 初始化 Mermaid
-        mermaid.initialize({ startOnLoad: false, theme: 'default', securityLevel: 'loose' });
-
-        // 找到所有可能的 Mermaid 代码块
-        document.querySelectorAll('pre > code.language-mermaid, pre > code.mermaid').forEach(codeBlock => {
-            const pre = codeBlock.closest('pre');
-            if (!pre) return;
-
-            const container = document.createElement('div');
-            container.className = 'mermaid';
-            container.textContent = codeBlock.textContent.trim(); // 保留纯文本
-
-            pre.parentNode.replaceChild(container, pre);
-        });
-
-        // 渲染所有替换后的 Mermaid 图
-        mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+    mermaid.initialize({
+      startOnLoad: true,
+      selector: '.language-mermaid'
     });
+
     </script>
 
 
