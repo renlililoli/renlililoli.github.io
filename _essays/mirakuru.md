@@ -14,36 +14,33 @@ location: "Shanghi, China"
 
 <div class="playlist">
 
-  <div class="card">
+  <div class="card bg-pink">
     <h3><a href="https://www.youtube.com/watch?v=CXquVye7vvs" target="_blank">カラフルパラレル (colorfully parallel)</a></h3>
     <div class="artist">UtaGe!</div>
     <div class="description">
-      相当好听的曲子, 也比较好玩. 来自于 YouTube 的短视频。
-      玩法主要是山切, 然后第一段副歌跳印度舞。唉 UtaGe! 金曲, 没有人类的一集。
+      相当好听的曲子, 也比较好玩。玩法主要是山切, 第一段副歌跳印度舞。金曲, 没有人类的一集。
     </div>
     <div class="video-links">
       <a href="https://www.youtube.com/shorts/BexZxd2ljck" target="_blank">短视频</a>
     </div>
   </div>
 
-  <div class="card">
+  <div class="card bg-white">
     <h3><a href="https://www.youtube.com/watch?v=F3P8vcZkIh4" target="_blank">とくべチュ、して (成为你的, 特别)</a></h3>
     <div class="artist">= LOVE</div>
     <div class="description">
-      主歌部分可以 call 名字，副歌前可以一起跳。
-      （符号系和女声优痴重合度挺高）
+      主歌部分可以 call 名字，副歌前可以一起跳。符号系和女声优痴重合度高。
     </div>
     <div class="video-links">
       <a href="https://www.bilibili.com/video/BV1wfNXzHEXT" target="_blank">Bilibili 视频</a>
     </div>
   </div>
 
-  <div class="card">
+  <div class="card bg-yellow">
     <h3>マジカルパレード (magical parade)</h3>
     <div class="artist">FES☆TIVE</div>
     <div class="description">
-      非常好马赛曲健身操。开头可以混沌 mix，然后前奏开马，接着二倍速。
-      马赛就完事了。可以波浪形跳跃，如果带光棒视觉效果很好。
+      非常好马赛曲健身操。前奏开马，二倍速混沌 mix。波浪形跳跃视觉效果佳。
     </div>
     <div class="video-links">
       <a href="https://www.youtube.com/watch?v=NkHAYvMEL3Q" target="_blank">视频1</a>
@@ -51,45 +48,43 @@ location: "Shanghi, China"
     </div>
   </div>
 
-  <div class="card">
+  <div class="card bg-green">
     <h3><a href="https://www.youtube.com/watch?v=JYAgWNLGnJE" target="_blank">INTERNET MAGICAL GIRL</a></h3>
     <div class="artist">NANIMONO</div>
     <div class="description">
-      魔转感觉和 NANIMONO 的视觉风格挺像。感觉没什么玩法, 全是拍视频的地藏。
+      魔转感觉和 NANIMONO 的视觉风格类似。全是拍视频的地藏，没有特别玩法。
     </div>
   </div>
 
-  <div class="card">
+  <div class="card bg-pink">
     <h3><a href="https://www.youtube.com/watch?v=hAWQ5gMYgYc" target="_blank">LOVEです。</a></h3>
     <div class="artist">JamesCollection</div>
     <div class="description">
-      很标准的偶像风曲目, 副歌很简单可以跟跳, 但除此之外玩法不多。
-      aiaiaiai aishiteru~
+      副歌简单可跟跳，其余玩法不多。aiaiaiai aishiteru~
     </div>
   </div>
 
-  <div class="card">
+  <div class="card bg-white">
     <h3>STRiNGS</h3>
     <div class="artist">The Orchestra Tokyo</div>
     <div class="description">
-      金曲（台下动作整齐像军训），最后一段结尾可以 2 step。过于金曲以至于不知道说什么。
+      台下动作整齐像军训，最后结尾可 2 step。金曲感极强。
     </div>
   </div>
 
-  <div class="card">
+  <div class="card bg-yellow">
     <h3><a href="https://www.bilibili.com/video/BV11K411G7Bg" target="_blank">口下手ナイトメール (night mail)</a></h3>
     <div class="artist">Anthurium</div>
     <div class="description">
-      神中神，目前魔转 cover 里我最喜欢的曲子。
-      前两段副歌可以跟振幅，结尾副歌可以打天驱。
+      神中神，目前魔转 cover 里最喜欢的曲子。前两段副歌可跟振幅，结尾副歌打天驱。
     </div>
   </div>
 
-  <div class="card">
+  <div class="card bg-green">
     <h3>いま踏み出せ夏</h3>
     <div class="artist">真っ白なキャンバス</div>
     <div class="description">
-      夏日金曲，非常适合夏天跳。第一次看到是 10.31 万圣节 live，但依然夏日感十足。
+      夏日金曲，非常适合夏天跳。10.31 万圣节 live 也充满夏日感。
     </div>
   </div>
 
@@ -357,72 +352,94 @@ location: "Shanghi, China"
   .blue { background-color: #bbdefb; color: #0d47a1; }
   .lightblue { background-color: #b3e5fc; color: #01579b; }
   .red { background-color: #ffcdd2; color: #b71c1c; }
-</style>
 
-<style>
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f5f5f7;
-  }
+/* 整个页面背景 */
+body {
+  background-image: linear-gradient(rgba(255,255,255,0.25), rgba(255,255,255,0.25)), 
+                    url('/essays/images/mirakuru/mirakuru_timeline.svg'); /* 背景图路径 */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
 
-  .playlist {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 20px;
-    margin: 30px 0;
-  }
+/* 页面内容容器，保证居中和内边距 */
+.playlist-container {
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 0 20px;
+}
 
-  .card {
-    background: linear-gradient(135deg, #ffffff, #fffde7);
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-    transition: transform 0.3s, box-shadow 0.3s;
-    display: flex;
-    flex-direction: column;
-  }
+/* 卡片布局 */
+.playlist {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+}
 
-  .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.18);
-  }
+/* 卡片样式 */
+.card {
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255,255,255,0.85); /* 半透明白色背景 */
+  backdrop-filter: blur(5px); /* 背景模糊，高级感 */
+}
 
-  .card h3 {
-    margin: 0 0 10px 0;
-    font-size: 1.2em;
-    color: #1e3a8a;
-  }
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+}
 
-  .card a {
-    color: #1565c0;
-    text-decoration: none;
-    font-weight: bold;
-  }
+.card h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.25em;
+  color: #d81b60; /* 深粉色标题 */
+}
 
-  .card a:hover {
-    text-decoration: underline;
-  }
+.card a {
+  text-decoration: none;
+  font-weight: bold;
+  color: #d81b60; /* 深粉色链接 */
+}
 
-  .card .artist {
-    font-size: 0.95em;
-    color: #555;
-    margin-bottom: 10px;
-  }
+.card a:hover {
+  text-decoration: underline;
+}
 
-  .card .description {
-    font-size: 0.9em;
-    color: #333;
-    line-height: 1.4em;
-  }
+.card .artist {
+  font-size: 0.95em;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #33691e; /* 绿色歌手名 */
+}
 
-  .card .video-links a {
-    display: inline-block;
-    margin-right: 10px;
-    font-size: 0.85em;
-    color: #d84315;
-  }
+.card .description {
+  font-size: 0.9em;
+  line-height: 1.4em;
+  color: #555;
+}
 
-  .card .video-links a:hover {
-    text-decoration: underline;
-  }
+.card .video-links a {
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 0.85em;
+  color: #fbc02d; /* 黄色视频链接 */
+}
+
+.card .video-links a:hover {
+  text-decoration: underline;
+}
+
+/* 可选卡片颜色分组（粉白黄绿渐变背景） */
+.bg-pink { background: linear-gradient(135deg, #ffe6f0, #ffd6e8); }
+.bg-white { background: rgba(255,255,255,0.85); }
+.bg-yellow { background: linear-gradient(135deg, #fff9c4, #fff59d); }
+.bg-green { background: linear-gradient(135deg, #dcedc8, #c5e1a5); }
 </style>
