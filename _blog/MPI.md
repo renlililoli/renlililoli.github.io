@@ -9,6 +9,11 @@ location: "Sanya, China"
 
 最近要写mpi代码, 于是学习一些基本的mpi
 
+## 学习资源
+
+- [mpi tutorial](https://mpitutorial.com/tutorials/) 这个是一些非常具体的例子, 来自于一个博客. 在初期理解上帮助很大. 除此之外, 作者也列出了很多参考书. 不过不幸的是参考书/教材很多都是拿fortran写的, 所以依托...
+- youtube上有很多好的视频.
+
 ## 基本通信概念与构建原理
 
 ### mpi是一种进程间通信协议
@@ -100,6 +105,148 @@ sequenceDiagram
 mpi除了最基本的同步send/recv，还提供了异步的操作，合适的使用可以隐藏延迟。
 
 除此外，还有一些通用的全局操作，包括bcast，all gather， all reduce等，实现了高性能的全局通信。
+
+## 动态进程管理
+
+动态进程管理的意思是允许主进程在运行过程中根据实时负载动态的创建新的进程
+
+```cpp
+int MPI_Comm_spawn(
+    const char *command,      // 子程序可执行文件名
+    char *argv[],             // 子程序参数（通常用 MPI_ARGV_NULL）
+    int maxprocs,             // 要启动的子进程数
+    MPI_Info info,            // 额外信息（可用 MPI_INFO_NULL）
+    int root,                 // 在父通信器中的根进程
+    MPI_Comm comm,            // 父进程的通信器（通常是 MPI_COMM_WORLD）
+    MPI_Comm *intercomm,      // 输出：父子进程间的 inter-communicator
+    int array_of_errcodes[]   // 每个子进程的返回码
+);
+```
+spawn操作是父进程通信器组协作进行的, 尽管可以指定root进程, 但是这一般是为了spmd编程下
+防止所有进程都重复创建进程. 所以spawn创建的子进程组对该父通信器都是可见的, 创建的新的
+`intercomm`非常的特殊, 它的发送接收端是不同的. 正常来说发送和接收端的rank空间是一致的, 但是
+`intercomm`这个通信其的两端rank空间分别是父和子. 用这个通信其发送信息默认发送给另一个进程组.
+
+如果希望创建多个进程组, 可以先做`split`, 然后用两个通信器分别spawn即可.只不过这两个子通信器互相不可见.
+
+一个小例子
+```cpp
+// parent.cpp
+#include <mpi.h>
+#include <iostream>
+#include <string>
+#include <thread>   // 用于模拟其他工作
+#include <chrono>   // 用于模拟延迟
+
+int main(int argc, char** argv) {
+
+    using message = std::string;
+
+    MPI_Init(&argc, &argv);
+
+    int size, rank;
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+    std::cout << "Parent process rank " << rank << " of " << size << " is running." << std::endl;
+
+    MPI_Comm child_comm;
+    int child_size = 2;
+    int error_codes[child_size];
+
+    // 创建子进程
+    MPI_Comm_spawn(
+        "./child.x",
+        MPI_ARGV_NULL, child_size, MPI_INFO_NULL, 0, MPI_COMM_WORLD,
+        &child_comm, error_codes);
+
+    if (rank == 0) {
+        message msg = "Hello from parent process! 0";
+        MPI_Send(msg.c_str(), msg.size() + 1, MPI_CHAR, 0, 0, child_comm);
+        std::cout << "Parent sent message to child: " << msg << std::endl;
+    }
+
+    if (rank == 0) {
+        // 创建仅0进程可见的子进程池
+
+        MPI_Comm child_comm_0;
+        int error_codes_0[1];
+        MPI_Comm_spawn(
+            "./child.x",
+            MPI_ARGV_NULL, 1, MPI_INFO_NULL, 0, MPI_COMM_SELF,
+            &child_comm_0, error_codes_0);
+        message msg0 = "Hello from parent process! 0 (self)";
+        MPI_Send(msg0.c_str(), msg0.size() + 1, MPI_CHAR, 0, 0, child_comm_0);
+        std::cout << "Parent sent message to child (self): " << msg0 << std::endl;
+    }
+
+    
+    MPI_Finalize();
+    return 0;
+}
+```
+
+```cpp
+// children.cpp
+#include <mpi.h>
+#include <iostream>
+#include <string>
+#include <thread>   // 用于模拟其他工作
+#include <chrono>   // 用于模拟延迟
+
+int main(int argc, char** argv) {
+
+    using message = std::string;
+
+    MPI_Init(&argc, &argv);
+
+    int size, rank;
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+    std::cout << "Child process rank " << rank << " of " << size << " is running." << std::endl;
+
+    MPI_Comm parent_comm;
+    MPI_Comm_get_parent(&parent_comm);
+
+    if (parent_comm == MPI_COMM_NULL) {
+        std::cerr << "No parent communicator. Exiting." << std::endl;
+        MPI_Finalize();
+        return -1;
+    }
+
+    if (rank == 0) {
+        const int buffer_size = 100;
+        char buffer[buffer_size];
+        MPI_Recv(buffer, buffer_size, MPI_CHAR, 0, 0, parent_comm, MPI_STATUS_IGNORE);
+        message msg(buffer);
+        std::cout << "Child received message from parent: " << msg << std::endl;
+    }
+    
+    MPI_Finalize();
+    return 0;
+}
+```
+
+```bash
+mpic++ -o parent.x parent.cpp
+mpic++ -o child.x children.cpp
+mpirun -np 3 ./parent.x
+```
+
+```
+Parent process rank 0 of 3 is running.
+Parent process rank 1 of 3 is running.
+Parent process rank 2 of 3 is running.
+Child process rank 1 of 2 is running.
+Child process rank 0 of 2 is running.
+Parent sent message to child: Hello from parent process! 0
+Child received message from parent: Hello from parent process! 0
+Parent sent message to child (self): Hello from parent process! 0 (self)
+Child process rank 0 of 1 is running.
+Child received message from parent: Hello from parent process! 0 (self)
+```
+
 
 ## 高级特性 (未整理, ai generated)
 
