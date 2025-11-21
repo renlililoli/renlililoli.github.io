@@ -161,7 +161,7 @@ location: "Shanghi, China"
 
 ## 舟推夹带私货了
 
-只更新舟或者全场的fo了, 别人的没那个精力了...
+只更新舟或者全场的fo了, 别人的没那个精力了... 缓慢更新中...
 
 <table>
   <thead>
@@ -174,17 +174,48 @@ location: "Shanghi, China"
   </thead>
   <tbody>
     <tr>
-      <td>2025.10.29</td>
-      <td>7Hertz/Theboxx城市乐园</td>
-      <td>@JAM</td>
+      <td>2025.10.25</td>
+      <td>ROJO文化艺术空间</td>
+      <td>IDOL L.A.V.A- FIGHT FOR YOUR DREAMS</td>
       <td>
         <ul>
-          <li><a href="https://weibo.com/5341251568/QbjoYqFSF?refer_flag=1001030103_" target="_blank">骨头汤馬仔會會長 </a></li>
+          <li><a href="https://weibo.com/7963695557/QaTjs0CHx?refer_flag=1001030103_" target="_blank">一只麻袋子_ </a></li>
         </ul>
       </td>
     </tr>
     <tr>
-      <td>2025.10.25</td>
+      <td>2025.10.19</td>
+      <td>未来剧场</td>
+      <td>IDOL WAVE偶像浪潮◆绮丽偶像日02 ◆晓月生日SP</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/2938642847/QaQdNuPuG?refer_flag=1001030103_" target="_blank">兔子_mission</a></li>
+          <li><a href="https://weibo.com/7963695557/Q9XRJ9Zts?refer_flag=1001030103_" target="_blank">一只麻袋子_</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.10.11</td>
+      <td>苏河湾万象天地</td>
+      <td>热爱次元 动漫运动主题草地音乐节</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/7963695557/Q8GX7Czfi?refer_flag=1001030103_" target="_blank">一只麻袋子_</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.10.04</td>
+      <td>育音堂音乐公园</td>
+      <td>天体望远镜🔭vol.10「音响生命体」</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/7963695557/Q8586681x?refer_flag=1001030103_" target="_blank">一只麻袋子_</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.10.03</td>
       <td>7Hertz/Theboxx城市乐园</td>
       <td>@JAM</td>
       <td>
@@ -200,6 +231,37 @@ location: "Shanghi, China"
       <td>
         <ul>
           <li><a href="https://weibo.com/5857285449/Qb5T52z5I?refer_flag=1001030103_" target="_blank">_NeverGone_ </a></li>
+          <li><a href="https://weibo.com/7963695557/Q7kBWecYi?refer_flag=1001030103_" target="_blank">一只麻袋子_</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.10.01</td>
+      <td>上海广场</td>
+      <td>IDOL WAVE 偶像浪潮 11◆YUU◆之之◆果冻生日SP</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/7963695557/Q7diGCETA?refer_flag=1001030103_" target="_blank">一只麻袋子_</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.09.14</td>
+      <td>上海广场</td>
+      <td>IDOL WAVE 偶像浪潮 07</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/2938642847/Q54GPw6LU?refer_flag=1001030103_" target="_blank">兔子_mission</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.08.16</td>
+      <td>CAVE ART VENUE</td>
+      <td>「走向金色的序曲」沐沐rabi生日特别篇</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/2938642847/Q99ZqFVBF?refer_flag=1001030103_" target="_blank">兔子_mission</a></li>
         </ul>
       </td>
     </tr>
@@ -209,7 +271,7 @@ location: "Shanghi, China"
 
 ## TimeTree
 
-断更了, 因为拍全场的好像都不太更新了...
+断更了, 因为拍全场的好像都不太更新了... 后续全场会放在前面的舟推夹带私货了里更新.
 
 <div class="records-container">
 
