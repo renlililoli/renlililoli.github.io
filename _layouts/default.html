@@ -28,19 +28,23 @@ layout: compress
     {% include scripts.html %}
 
     <script>
-    mermaid.initialize({
-      startOnLoad: false
-    });
+    document.addEventListener('DOMContentLoaded', () => {
+      mermaid.initialize({ startOnLoad: false });
 
-    document.querySelectorAll('pre > code.language-mermaid').forEach((codeBlock) => {
-      const container = document.createElement('div');
-      container.classList.add('mermaid');
-      container.textContent = codeBlock.textContent;
-      codeBlock.parentNode.replaceWith(container);
-    });
+      document.querySelectorAll('pre > code.language-mermaid').forEach((codeBlock) => {
+        const pre = codeBlock.closest('pre'); // 找到包裹的 <pre>
+        const container = document.createElement('div');
+        container.classList.add('mermaid');
+        container.textContent = codeBlock.textContent;
 
-    mermaid.run();
+        // 替换整个 <pre> 为 mermaid div
+        pre.parentNode.replaceChild(container, pre);
+      });
+
+      mermaid.run();
+    });
     </script>
+
 
 
   </body>
