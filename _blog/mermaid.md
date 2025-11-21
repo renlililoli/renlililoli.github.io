@@ -12,11 +12,12 @@ location: "Sanya, China"
 但是主页好像渲染不了, 必须在vscode里下载mermaid插件才行.
 
 ## render test
+{% raw %}
 <div class="mermaid">
 graph TD
     A --> B
 </div>
-
+{% endraw %}
 
 ## 流程图
 
