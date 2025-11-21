@@ -31,34 +31,17 @@ layout: compress
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // 1. 初始化 Mermaid
-        mermaid.initialize({
-            startOnLoad: false,
-            theme: 'default',  // 可改成 dark / forest / neutral
-            securityLevel: 'loose'
-        });
+        // 初始化 Mermaid（可选）
+        mermaid.initialize({ startOnLoad: false, theme: 'default', securityLevel: 'loose' });
 
-        // 2. 遍历所有 Mermaid 代码块
+        // 遍历所有 Mermaid 代码块，替换为 <div class="mermaid">
         document.querySelectorAll('pre > code.language-mermaid').forEach(codeBlock => {
             const pre = codeBlock.closest('pre');
-
-            // 创建渲染容器
             const container = document.createElement('div');
-            container.classList.add('mermaid');
-            container.textContent = codeBlock.innerText; // 保证 Mermaid 解析正确
+            container.className = 'mermaid';
+            container.textContent = codeBlock.innerText;  // 保证纯文本
 
-            // 替换 <pre> 为 <div>
             pre.parentNode.replaceChild(container, pre);
-
-            // 3. 手动渲染
-            const uniqueId = 'mermaid-' + Math.random().toString(36).substr(2, 9);
-            try {
-                mermaid.mermaidAPI.render(uniqueId, container.textContent, svgCode => {
-                    container.innerHTML = svgCode;
-                });
-            } catch (err) {
-                console.error('Mermaid render error:', err, container.textContent);
-            }
         });
     });
     </script>
