@@ -27,10 +27,21 @@ layout: compress
 
     {% include scripts.html %}
 
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
     <script>
-      mermaid.initialize({ startOnLoad: true });
+    mermaid.initialize({
+      startOnLoad: false
+    });
+
+    document.querySelectorAll('pre > code.language-mermaid').forEach((codeBlock) => {
+      const container = document.createElement('div');
+      container.classList.add('mermaid');
+      container.textContent = codeBlock.textContent;
+      codeBlock.parentNode.replaceWith(container);
+    });
+
+    mermaid.run();
     </script>
+
 
   </body>
 </html>

@@ -11,13 +11,6 @@ location: "Sanya, China"
 
 但是主页好像渲染不了, 必须在vscode里下载mermaid插件才行.
 
-## render test
-{% raw %}
-<div class="mermaid">
-graph TD
-    A --> B
-</div>
-{% endraw %}
 
 ## 流程图
 
@@ -28,7 +21,7 @@ obj[descriptor] --> |arrow descriptor| obj[description]
 ```
 其中mermaid提供了不同的样式
 
-{% raw %}
+
 ```mermaid
 graph TD
     A[方框] -.-> B(圆角)
@@ -39,7 +32,7 @@ graph TD
     F --x G{{数据}}
     G --> H[(数据库)]
 ```
-{% endraw %}
+
 
 ```mermaid
 graph TD
