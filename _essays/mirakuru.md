@@ -8,7 +8,76 @@ location: "Shanghi, China"
 ---
 
 
-## 收集一些资源
+给常看的团收集一些资源, 包括本人推的fo和一些cover曲目
+
+## 所属: [绮丽偶像日](https://weibo.com/7983156796?refer_flag=1001030103_)
+
+### 初披露: 2025.03.16 Theboxx城市乐园
+
+## Member
+
+<table>
+  <thead>
+    <tr>
+      <th>成员</th>
+      <th>微博</th>
+      <th>日期</th>
+      <th>状态</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="yellow">
+      <td>舟舟Jiujiu</td>
+      <td><a href="https://weibo.com/n/%E8%88%9F%E8%88%9Fjiujiu_MIRAKURU" target="_blank">微博</a></td>
+      <td>2025.03.16</td>
+      <td>在团</td>
+    </tr>
+    <tr class="green">
+      <td>依都Itsume</td>
+      <td><a href="https://weibo.com/n/%E4%BE%9D%E9%83%BDItsume_MIRAKURU" target="_blank">微博</a></td>
+      <td>2025.03.16</td>
+      <td>在团</td>
+    </tr>
+    <tr class="purple">
+      <td>薰Kaori</td>
+      <td><a href="https://weibo.com/n/%E8%96%B0Kaori_MIRAKURU" target="_blank">微博</a></td>
+      <td>2025.03.16</td>
+      <td>在团</td>
+    </tr>
+    <tr class="white">
+      <td>雪酥Yukikoo</td>
+      <td><a href="https://weibo.com/n/%E9%9B%AA%E9%85%A5Yukikoo_MIRAKURU" target="_blank">微博</a></td>
+      <td>2025.03.16</td>
+      <td>在团</td>
+    </tr>
+    <tr class="pink">
+      <td>樱樱Sakura</td>
+      <td><a href="https://weibo.com/n/%E6%A8%B1%E6%A8%B1Sakura_MIRAKURU" target="_blank">微博</a></td>
+      <td>2025.03.16</td>
+      <td>在团</td>
+    </tr>
+    <tr class="blue">
+      <td>小释Koyoi</td>
+      <td><a href="https://weibo.com/u/7936958193" target="_blank">微博</a></td>
+      <td>2025.10.01</td>
+      <td>在团</td>
+    </tr>
+    <tr class="lightblue">
+      <td>霁川Shimizu</td>
+      <td><a href="https://weibo.com/n/%E9%9C%81%E5%B7%9DShimizu_MIRAKURU" target="_blank">微博</a></td>
+      <td>2025.03.16 — 2025.07.27</td>
+      <td>已毕业</td>
+    </tr>
+    <tr class="red">
+      <td>晓月Mizuki</td>
+      <td><a href="https://weibo.com/n/%E6%99%93%E6%9C%88Mizuki_%E6%81%8B%E8%AF%AD%E6%80%AA%E5%85%BD" target="_blank">微博</a></td>
+      <td>2025.03.16 — 2025.11.02</td>
+      <td>已毕业</td>
+    </tr>
+  </tbody>
+</table>
+
+---
 
 ### cover 曲目
 
@@ -92,72 +161,7 @@ location: "Shanghi, China"
 
 ---
 
-## 所属: [绮丽偶像日](https://weibo.com/7983156796?refer_flag=1001030103_)
 
-### 初披露: 2025.03.16 Theboxx城市乐园
-
-## Member
-
-<table>
-  <thead>
-    <tr>
-      <th>成员</th>
-      <th>微博</th>
-      <th>日期</th>
-      <th>状态</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="yellow">
-      <td>舟舟Jiujiu</td>
-      <td><a href="https://weibo.com/n/%E8%88%9F%E8%88%9Fjiujiu_MIRAKURU" target="_blank">微博</a></td>
-      <td>2025.03.16</td>
-      <td>在团</td>
-    </tr>
-    <tr class="green">
-      <td>依都Itsume</td>
-      <td><a href="https://weibo.com/n/%E4%BE%9D%E9%83%BDItsume_MIRAKURU" target="_blank">微博</a></td>
-      <td>2025.03.16</td>
-      <td>在团</td>
-    </tr>
-    <tr class="purple">
-      <td>薰Kaori</td>
-      <td><a href="https://weibo.com/n/%E8%96%B0Kaori_MIRAKURU" target="_blank">微博</a></td>
-      <td>2025.03.16</td>
-      <td>在团</td>
-    </tr>
-    <tr class="white">
-      <td>雪酥Yukikoo</td>
-      <td><a href="https://weibo.com/n/%E9%9B%AA%E9%85%A5Yukikoo_MIRAKURU" target="_blank">微博</a></td>
-      <td>2025.03.16</td>
-      <td>在团</td>
-    </tr>
-    <tr class="pink">
-      <td>樱樱Sakura</td>
-      <td><a href="https://weibo.com/n/%E6%A8%B1%E6%A8%B1Sakura_MIRAKURU" target="_blank">微博</a></td>
-      <td>2025.03.16</td>
-      <td>在团</td>
-    </tr>
-    <tr class="blue">
-      <td>小释Koyoi</td>
-      <td><a href="https://weibo.com/u/7936958193" target="_blank">微博</a></td>
-      <td>2025.10.01</td>
-      <td>在团</td>
-    </tr>
-    <tr class="lightblue">
-      <td>霁川Shimizu</td>
-      <td><a href="https://weibo.com/n/%E9%9C%81%E5%B7%9DShimizu_MIRAKURU" target="_blank">微博</a></td>
-      <td>2025.03.16 — 2025.07.27</td>
-      <td>已毕业</td>
-    </tr>
-    <tr class="red">
-      <td>晓月Mizuki</td>
-      <td><a href="https://weibo.com/n/%E6%99%93%E6%9C%88Mizuki_%E6%81%8B%E8%AF%AD%E6%80%AA%E5%85%BD" target="_blank">微博</a></td>
-      <td>2025.03.16 — 2025.11.02</td>
-      <td>已毕业</td>
-    </tr>
-  </tbody>
-</table>
 
 ## 舟推夹带私货了
 
@@ -173,6 +177,16 @@ location: "Shanghi, China"
     </tr>
   </thead>
   <tbody>
+  <tr>
+      <td>2025.11.22</td>
+      <td>CAVE ART VENUE</td>
+      <td>天体望远镜 vol.12</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/6328915672/Qf1CBr3sQ" target="_blank">Green_orz</a></li>
+        </ul>
+      </td>
+    </tr>
     <tr>
       <td>2025.10.25</td>
       <td>ROJO文化艺术空间</td>
