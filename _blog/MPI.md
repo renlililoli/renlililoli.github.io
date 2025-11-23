@@ -259,6 +259,24 @@ Child received message from parent: Hello from parent process! 0 (self)
 - 可以创建行、列等子通信器，在子网格内进行集体操作
 - 进程通过坐标而非rank来定位，通信更直观
 
+重要的函数有:
+
+```cpp
+int MPI_Dims_create(int nnodes, int ndims, int *dims);
+int MPI_Cart_create(MPI_Comm comm_old, int ndims, const int dims[],
+    const int periods[], int reorder, MPI_Comm *comm_cart);
+int MPI_Cart_coords(MPI_Comm comm, int rank, int maxdims, int coords[]);
+int MPI_Cart_rank(MPI_Comm comm, const int coords[], int *rank);
+
+// 计算在指定方向上移动disp步后的源和目标进程rank, rank_source表示从哪里接收数据,
+// rank_dest表示发送到哪里
+int MPI_Cart_shift(MPI_Comm comm, int direction, int disp,
+    int *rank_source, int *rank_dest);
+
+// 除此之外还可以创建子通信器
+int MPI_Cart_sub(MPI_Comm comm, const int remain_dims[], MPI_Comm *comm_sub);
+```
+
 ### 图拓扑：
 
 - 定义任意的进程连接关系，适用于不规则通信模式
@@ -269,66 +287,300 @@ Child received message from parent: Hello from parent process! 0 (self)
 
 一个好玩的例子是二维粒子随机游走
 
+```cpp
+// randomwalk2d.h
+#ifndef RANDOMWALK2D_H
+#define RANDOMWALK2D_H
 
-## 高级特性 (未整理, ai generated)
+#include <vector>
+
+namespace RandomWalk2D {
+
+enum Direction {
+    LEFT = 0,
+    RIGHT = 1,
+    DOWN = 2,
+    UP = 3
+};
+
+template<int D>
+class Point {
+private:
+    int coords[D];
+public:
+    Point() {
+        for (int i = 0; i < D; ++i) coords[i] = 0;
+    }
+    Point(int* initial_coords) {
+        for (int i = 0; i < D; ++i) coords[i] = initial_coords[i];
+    }
+
+    int& operator[](int index) { return coords[index]; }
+    const int& operator[](int index) const { return coords[index]; }
+};
+
+} // namespace RandomWalk2D
+
+#endif // RANDOMWALK2D_H
+```
+
+```cpp
+// randomwalk2d.cpp
+// randomwalk2d.cpp
+#include <mpi.h>
+#include <iostream>
+#include <vector>
+#include <cstdlib>
+#include <ctime>
+#include "randomwalk2d.h"
+
+using namespace RandomWalk2D;
+
+int main(int argc, char** argv) {
+    MPI_Init(&argc, &argv);
+
+    using Point2D = Point<2>;
+    using vecP = std::vector<Point2D>;
+
+    int rank, size;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+    // 随机游走参数
+    int max_steps = 1000;
+    int num_particles = 10;
+    if (argc > 1) max_steps = std::atoi(argv[1]);
+
+    // 创建 2D 笛卡尔拓扑
+    int dims[2] = {0,0};
+    MPI_Dims_create(size, 2, dims);
+    int periods[2] = {1, 1}; // wrap-around
+    MPI_Comm cart_comm;
+    MPI_Cart_create(MPI_COMM_WORLD, 2, dims, periods, 1, &cart_comm);
+
+    int coords[2];
+    MPI_Cart_coords(cart_comm, rank, 2, coords);
+
+    int neighbors[4]; // LEFT, RIGHT, DOWN, UP
+    MPI_Cart_shift(cart_comm, 0, 1, &neighbors[LEFT], &neighbors[RIGHT]);
+    MPI_Cart_shift(cart_comm, 1, 1, &neighbors[DOWN], &neighbors[UP]);
+
+    // 局部子网格大小 (假设全局 Nx x Ny = 20x20)
+    const int Nx = 20, Ny = 20;
+    int local_nx = Nx / dims[0];
+    int local_ny = Ny / dims[1];
+
+    // std::cout << "Rank " << rank << " coords (" << coords[0] << "," << coords[1] 
+    //           << ") neighbors L:" << neighbors[LEFT] << " R:" << neighbors[RIGHT]
+    //           << " D:" << neighbors[DOWN] << " U:" << neighbors[UP] << std::endl;
+    // std::cout << "Rank " << rank << " local grid size: " << local_nx << " x " << local_ny << std::endl;
+
+    // 初始化粒子
+    vecP my_particles;
+    std::srand(static_cast<unsigned int>(std::time(0)) + rank);
+    for (int i = 0; i < num_particles; ++i) {
+        int x = std::rand() % local_nx;
+        int y = std::rand() % local_ny;
+        int init[2] = {x, y};
+        my_particles.emplace_back(init);
+    }
+
+    // 随机游走主循环
+    for (int step = 0; step < max_steps; ++step) {
+        vecP send_buffers[4]; // LEFT, RIGHT, DOWN, UP
+        vecP new_particles;
+
+        // 更新粒子位置
+        for (auto &p : my_particles) {
+            int dir = std::rand() % 4;
+            switch(dir){
+                case LEFT:  p[0] -= 1; break;
+                case RIGHT: p[0] += 1; break;
+                case DOWN:  p[1] -= 1; break;
+                case UP:    p[1] += 1; break;
+            }
+
+            if (p[0] < 0) { p[0] += local_nx; send_buffers[LEFT].push_back(p); }
+            else if (p[0] >= local_nx) { p[0] -= local_nx; send_buffers[RIGHT].push_back(p); }
+            else if (p[1] < 0) { p[1] += local_ny; send_buffers[DOWN].push_back(p); }
+            else if (p[1] >= local_ny) { p[1] -= local_ny; send_buffers[UP].push_back(p); }
+            else new_particles.push_back(p);
+        }
+        my_particles.swap(new_particles);
 
 
+        // 交换粒子数量
+        int counts_send[4] = {
+            static_cast<int>(send_buffers[LEFT].size()),
+            static_cast<int>(send_buffers[RIGHT].size()),
+            static_cast<int>(send_buffers[DOWN].size()),
+            static_cast<int>(send_buffers[UP].size())
+        };
+        int counts_recv[4];
 
-核心价值
+        MPI_Request reqs[8];
+        int k = 0;
+        MPI_Isend(&counts_send[LEFT], 1, MPI_INT, neighbors[LEFT], 0, cart_comm, &reqs[k++]);
+        MPI_Isend(&counts_send[RIGHT],1, MPI_INT, neighbors[RIGHT],0, cart_comm, &reqs[k++]);
+        MPI_Isend(&counts_send[DOWN], 1, MPI_INT, neighbors[DOWN],0, cart_comm, &reqs[k++]);
+        MPI_Isend(&counts_send[UP],   1, MPI_INT, neighbors[UP],  0, cart_comm, &reqs[k++]);
+        MPI_Irecv(&counts_recv[LEFT],  1, MPI_INT, neighbors[LEFT], 0, cart_comm, &reqs[k++]);
+        MPI_Irecv(&counts_recv[RIGHT], 1, MPI_INT, neighbors[RIGHT],0, cart_comm, &reqs[k++]);
+        MPI_Irecv(&counts_recv[DOWN],  1, MPI_INT, neighbors[DOWN], 0, cart_comm, &reqs[k++]);
+        MPI_Irecv(&counts_recv[UP],    1, MPI_INT, neighbors[UP],   0, cart_comm, &reqs[k++]);
+        MPI_Waitall(8, reqs, MPI_STATUSES_IGNORE);
 
-· 通信局部性：利用空间局部性优化通信模式
-· 邻居发现：自动管理复杂的连接关系
-· 代码可读性：用几何概念而非抽象rank来表达通信
+        // 接收缓冲区
+        vecP recv_buffers[4];
+        for(int d=0; d<4; ++d)
+            recv_buffers[d].resize(counts_recv[d]);
 
-MPI单边通信
+        // 发送/接收粒子
+        k = 0;
+        MPI_Isend(send_buffers[LEFT].data(),  counts_send[LEFT]*sizeof(Point2D), MPI_BYTE, neighbors[LEFT], 1, cart_comm, &reqs[k++]);
+        MPI_Isend(send_buffers[RIGHT].data(), counts_send[RIGHT]*sizeof(Point2D),MPI_BYTE, neighbors[RIGHT],1, cart_comm, &reqs[k++]);
+        MPI_Isend(send_buffers[DOWN].data(),  counts_send[DOWN]*sizeof(Point2D), MPI_BYTE, neighbors[DOWN],1, cart_comm, &reqs[k++]);
+        MPI_Isend(send_buffers[UP].data(),    counts_send[UP]*sizeof(Point2D),   MPI_BYTE, neighbors[UP],  1, cart_comm, &reqs[k++]);
+        MPI_Irecv(recv_buffers[LEFT].data(),  counts_recv[LEFT]*sizeof(Point2D),  MPI_BYTE, neighbors[LEFT], 1, cart_comm, &reqs[k++]);
+        MPI_Irecv(recv_buffers[RIGHT].data(), counts_recv[RIGHT]*sizeof(Point2D), MPI_BYTE, neighbors[RIGHT],1, cart_comm, &reqs[k++]);
+        MPI_Irecv(recv_buffers[DOWN].data(),  counts_recv[DOWN]*sizeof(Point2D),  MPI_BYTE, neighbors[DOWN], 1, cart_comm, &reqs[k++]);
+        MPI_Irecv(recv_buffers[UP].data(),    counts_recv[UP]*sizeof(Point2D),    MPI_BYTE, neighbors[UP],   1, cart_comm, &reqs[k++]);
+        MPI_Waitall(8, reqs, MPI_STATUSES_IGNORE);
 
-核心概念
+        // 合并收到的粒子
+        for(int d=0; d<4; ++d)
+            my_particles.insert(my_particles.end(), recv_buffers[d].begin(), recv_buffers[d].end());
+    }
 
-单边通信允许进程直接访问其他进程的内存空间，类似于共享内存编程模型，但运行在分布式内存系统上。
+    // 输出每个 rank 粒子数
+    std::cout << "Rank " << rank << " final particle count: " << my_particles.size() << std::endl;
 
-主要行为
+    MPI_Finalize();
+    return 0;
+}
+```
 
-三种基本操作：
+## 端口连接
 
-· Put操作：将本地数据写入远程进程的内存
-· Get操作：从远程进程的内存读取数据到本地
-· Accumulate操作：对远程内存执行原子操作（如累加）
+mpi支持启动程序后动态连接到已经运行的mpi程序上.
 
-同步模式：
+```cpp
+#include <mpi.h>
+#include <iostream>
 
-· Fence同步：所有进程在窗口操作前后同步，类似全局栅栏
-· 主动目标同步：数据拥有者主动暴露内存，访问者按需访问
-· 被动目标同步：使用锁机制保护远程内存访问
+int main() {
+    MPI_Init(NULL, NULL);
 
-窗口对象：
+    char port_name[MPI_MAX_PORT_NAME];
 
-· 定义可供远程访问的内存区域
-· 指定起始地址、大小和对齐要求
-· 管理访问权限和一致性
+    // 打开端口
+    MPI_Open_port(MPI_INFO_NULL, port_name);
+    std::cout << "Server port: " << port_name << std::endl;
 
-核心价值
+    MPI_Comm inter_comm;
+    // 等待客户端连接
+    MPI_Comm_accept(port_name, MPI_INFO_NULL, 0, MPI_COMM_WORLD, &inter_comm);
 
-· 编程灵活性：解耦数据通信与进程同步
-· 性能优化：支持通信与计算重叠
-· 算法简化：某些算法用单边通信表达更自然
+    int msg = 123;
+    MPI_Send(&msg, 1, MPI_INT, 0, 0, inter_comm); // 发送一个简单消息
 
+    MPI_Close_port(port_name);
+    MPI_Finalize();
+    return 0;
+}
+```
 
-进程连接：
+```cpp
+#include <mpi.h>
+#include <iostream>
 
-· 独立启动的MPI进程可以通过端口互相连接
-· 一个进程打开端口并发布地址
-· 其他进程连接该端口形成新的通信器
-· 支持服务端-客户端模式的并行应用
+int main() {
+    MPI_Init(NULL, NULL);
 
-交互通信器：
+    char port_name[MPI_MAX_PORT_NAME];
+    std::cout << "Enter server port name: ";
+    std::cin >> port_name;
 
-· 管理不同进程组之间的通信
-· 提供进程rank在不同组间的映射
-· 支持合并通信器形成统一进程组
+    MPI_Comm inter_comm;
+    // 连接服务端
+    MPI_Comm_connect(port_name, MPI_INFO_NULL, 0, MPI_COMM_WORLD, &inter_comm);
 
-核心价值
+    int msg;
+    MPI_Recv(&msg, 1, MPI_INT, 0, 0, inter_comm, MPI_STATUS_IGNORE);
+    std::cout << "Client received: " << msg << std::endl;
 
-· 运行时灵活性：根据负载动态调整进程数量
-· 容错支持：替换故障进程或增加计算资源
-· 工作流集成：连接不同并行程序形成计算流水线
-· 资源优化：按需分配计算资源，提高利用率
+    MPI_Finalize();
+    return 0;
+}
+```
+
+```bash
+mpirun -np 1 ./server.x
+# Server port: tag#0$connentry#6C6F67696E4E6F6465000200B231C0A802010000000000000000$
+
+# 在另一个终端运行客户端
+mpirun -np 1 ./client.x
+# Enter server port name: tag#0$connentry#6C6F67696E4E6F6465000200B231C0A802010000000000000000$
+# Client received: 123
+```
+
+## 单边通信
+
+单边通信允许一个进程直接读写另一个进程的内存，而不需要目标进程的显式参与。这种方式可以减少同步开销，提高通信效率。
+
+```cpp
+#include <mpi.h>
+#include <iostream>
+
+int main(int argc, char** argv) {
+    MPI_Init(&argc, &argv);
+
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+    int target_data = 0;
+    MPI_Win win;
+
+    // 创建窗口
+    MPI_Win_create(&target_data, sizeof(int), sizeof(int), MPI_INFO_NULL,
+                   MPI_COMM_WORLD, &win);
+
+    MPI_Win_fence(0, win); // 同步窗口
+
+    if(rank == 0){
+        int value = 42;
+        // Put操作：把value写到rank 1的target_data
+        MPI_Put(&value, 1, MPI_INT, 1, 0, 1, MPI_INT, win);
+    }
+
+    MPI_Win_fence(0, win); // 完成同步
+
+    if(rank == 1){
+        std::cout << "Rank 1 received: " << target_data << std::endl;
+    }
+
+    MPI_Win_free(&win);
+    MPI_Finalize();
+    return 0;
+}
+```
+
+一个常见的疑惑是为什么进程0也要创建窗口, 这是因为mpi的单边通信要求所有进程都要创建窗口. 否则进程0实际上不知道进程1的窗口是否存在. 也就是创建窗口本质上也是一次全局同步操作.
+
+1. MPI 单边通信要求集体调用
+
+- MPI_Win_create 是 通信器内的集体调用，通信器内的每个进程都必须参与。
+
+- 这保证了每个进程都有一个本地窗口对象句柄，MPI 内部可以形成全局一致的 RMA 语义。
+
+2. 为什么进程 0 也必须创建窗口
+
+- 即使进程 0 只是发送（Put）数据，也需要参与窗口创建。
+
+- 原因：进程 0 并不知道目标进程的窗口是否已经创建，如果它自己不参与，MPI 无法保证远程访问的合法性和一致性。
+
+- 所以窗口创建本质上也具有一次 **全局同步** 的语义，确保所有进程都对窗口的存在和布局达成一致。
+
+3. 优化做法
+
+- 如果发送端不需要被访问，可以创建 大小为 0 的窗口，满足集体调用要求，同时不暴露内存。
