@@ -177,7 +177,7 @@ location: "Shanghi, China"
     </tr>
   </thead>
   <tbody>
-  <tr>
+    <tr>
       <td>2025.11.23</td>
       <td>谷多星小剧场GDXLIVE</td>
       <td>LINK0571 18 ◆ 谷多星</td>
@@ -186,8 +186,8 @@ location: "Shanghi, China"
           <li><a href="https://weibo.com/6147270974/QfdtutMLB" target="_blank">西城之宫</a></li>
         </ul>
       </td>
-  </tr>
-  <tr>
+    </tr>
+    <tr>
       <td>2025.11.22</td>
       <td>CAVE ART VENUE</td>
       <td>天体望远镜 vol.12</td>
