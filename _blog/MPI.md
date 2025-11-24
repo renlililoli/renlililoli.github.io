@@ -129,6 +129,8 @@ spawn操作是父进程通信器组协作进行的, 尽管可以指定root进程
 
 如果希望创建多个进程组, 可以先做`split`, 然后用两个通信器分别spawn即可.只不过这两个子通信器互相不可见.
 
+要注意的是split操作时collective operation, 根据mpi协议:Collective operation must be called by all processes in the communicator, in the same order, same number of times. 因此通信器中的所有进程都必须调用split操作才是安全的.
+
 一个小例子
 ```cpp
 // parent.cpp
