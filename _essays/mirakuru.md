@@ -184,6 +184,7 @@ location: "Shanghi, China"
       <td>
         <ul>
           <li><a href="https://weibo.com/6147270974/QfdtutMLB" target="_blank">西城之宫</a></li>
+          <li><a href="https://weibo.com/1674053074/QfwuLciZt" target="_blank">子愚咕噜咕噜</a></li>
         </ul>
       </td>
     </tr>
@@ -194,6 +195,56 @@ location: "Shanghi, China"
       <td>
         <ul>
           <li><a href="https://weibo.com/6328915672/Qf1CBr3sQ" target="_blank">Green_orz</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.11.16</td>
+      <td>上海广场</td>
+      <td>MIRAKURU FES 3.0</td>
+      <td>
+        <ul>
+          <li><a href="" target="_blank"></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.11.15</td>
+      <td>上海广场</td>
+      <td>绮丽偶像日K.F.C. mini 121 - Asuka生诞祭「遇雪定理」</td>
+      <td>
+        <ul>
+          <li><a href="" target="_blank"></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.11.14</td>
+      <td>世界树</td>
+      <td>生:Freedom 3.0</td>
+      <td>
+        <ul>
+          <li><a href="" target="_blank"></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.10.31</td>
+      <td>上海广场</td>
+      <td>万圣节</td>
+      <td>
+        <ul>
+          <li><a href="" target="_blank"></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.10.26</td>
+      <td>上海广场</td>
+      <td></td>
+      <td>
+        <ul>
+          <li><a href="" target="_blank"></a></li>
         </ul>
       </td>
     </tr>
@@ -213,8 +264,28 @@ location: "Shanghi, China"
       <td>IDOL WAVE偶像浪潮◆绮丽偶像日02 ◆晓月生日SP</td>
       <td>
         <ul>
-          <li><a href="https://weibo.com/2938642847/QaQdNuPuG?refer_flag=1001030103_" target="_blank">兔子_mission</a></li>
-          <li><a href="https://weibo.com/7963695557/Q9XRJ9Zts?refer_flag=1001030103_" target="_blank">一只麻袋子_</a></li>
+          <li><a href="https://weibo.com/2938642847/QaQdNuPuG" target="_blank">兔子_mission</a></li>
+          <li><a href="https://weibo.com/7963695557/Q9XRJ9Zts" target="_blank">一只麻袋子_</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.10.18</td>
+      <td>上海广场</td>
+      <td></td>
+      <td>
+        <ul>
+          <li><a href="" target="_blank"></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.10.17</td>
+      <td>上海广场</td>
+      <td></td>
+      <td>
+        <ul>
+          <li><a href="" target="_blank"></a></li>
         </ul>
       </td>
     </tr>
@@ -270,12 +341,22 @@ location: "Shanghi, China"
       </td>
     </tr>
     <tr>
+      <td>2025.09.27</td>
+      <td>上海广场</td>
+      <td></td>
+      <td>
+        <ul>
+          <li><a href="" target="_blank"></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td>2025.09.14</td>
       <td>上海广场</td>
       <td>IDOL WAVE 偶像浪潮 07</td>
       <td>
         <ul>
-          <li><a href="https://weibo.com/2938642847/Q54GPw6LU?refer_flag=1001030103_" target="_blank">兔子_mission</a></li>
+          <li><a href="https://weibo.com/2938642847/Q54GPw6LU" target="_blank">兔子_mission</a></li>
         </ul>
       </td>
     </tr>
@@ -290,12 +371,42 @@ location: "Shanghi, China"
       </td>
     </tr>
     <tr>
+      <td>2025.09.07</td>
+      <td>环球港</td>
+      <td></td>
+      <td>
+        <ul>
+          <li><a href="" target="_blank"></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.09.06</td>
+      <td>世界树</td>
+      <td></td>
+      <td>
+        <ul>
+          <li><a href="" target="_blank"></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td>2025.09.05</td>
       <td>世界树</td>
       <td>YGG IDOL Fes -乌冬毕业sp- IN YGG</td>
       <td>
         <ul>
           <li><a href="https://weibo.com/7963695557/Q3gfTt7Jn" target="_blank">一只麻袋子_</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.08.30</td>
+      <td>育音堂音乐公园</td>
+      <td></td>
+      <td>
+        <ul>
+          <li><a href="" target="_blank"></a></li>
         </ul>
       </td>
     </tr>
@@ -310,12 +421,32 @@ location: "Shanghi, China"
       </td>
     </tr>
     <tr>
+      <td>2025.08.17</td>
+      <td>Theboxx</td>
+      <td>star2U</td>
+      <td>
+        <ul>
+          <li><a href="" target="_blank"></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td>2025.08.16</td>
       <td>CAVE ART VENUE</td>
       <td>「走向金色的序曲」沐沐rabi生日特别篇</td>
       <td>
         <ul>
-          <li><a href="https://weibo.com/2938642847/Q99ZqFVBF?refer_flag=1001030103_" target="_blank">兔子_mission</a></li>
+          <li><a href="https://weibo.com/2938642847/Q99ZqFVBF" target="_blank">兔子_mission</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.08.15</td>
+      <td>聚一场(上海广场)</td>
+      <td></td>
+      <td>
+        <ul>
+          <li><a href="" target="_blank"></a></li>
         </ul>
       </td>
     </tr>
@@ -344,7 +475,7 @@ location: "Shanghi, China"
     </tr>
     <tr>
       <td>2025.08.03</td>
-      <td>?</td>
+      <td>世界树</td>
       <td>软糖派对Vol.9 in上海 世因生日sp & 林天生日sp</td>
       <td>
         <ul>
@@ -360,6 +491,7 @@ location: "Shanghi, China"
         <ul>
           <li><a href="https://weibo.com/1189141423/PEiCjuKXu" target="_blank">普罗喵修斯S</a></li>
           <li><a href="https://weibo.com/7963695557/PDQJsjAg9" target="_blank">一只麻袋子_</a></li>
+          <li><a href="https://weibo.com/2060532085/PE8ZN7fUA" target="_blank">IceCreamMelody</a></li>
         </ul>
       </td>
     </tr>
@@ -370,6 +502,26 @@ location: "Shanghi, China"
       <td>
         <ul>
           <li><a href="https://weibo.com/2938642847/Q2mWB2rgy" target="_blank">兔子_mission</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.07.26</td>
+      <td>世界树</td>
+      <td>绮丽偶像日*StarPluck Idol Festival</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/2938642847/Q2mWB2rgy" target="_blank">兔子_mission</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.07.20</td>
+      <td>正大广场</td>
+      <td>sif</td>
+      <td>
+        <ul>
+          <li><a href="" target="_blank"></a></li>
         </ul>
       </td>
     </tr>
@@ -392,6 +544,46 @@ location: "Shanghi, China"
         <ul>
           <li><a href="https://weibo.com/6356533803/PCaFZtdX8" target="_blank">懂猫语两脚兽</a></li>
           <li><a href="https://weibo.com/7963695557/PBN6U4NcY" target="_blank">一只麻袋子_</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.07.11</td>
+      <td>一百4楼</td>
+      <td>绮丽偶像日K.F.C. mini 105</td>
+      <td>
+        <ul>
+          <li><a href=""></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.07.05</td>
+      <td>世界树</td>
+      <td>Mirakuru fes 2 kaori生诞</td>
+      <td>
+        <ul>
+          <li><a href=""></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.06.29</td>
+      <td>上海rojo</td>
+      <td>humanless学园的不定期社团活动vol6</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/5681691748/Pzf6gt1df">Black_Wordsworth</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.06.28</td>
+      <td>瓦肆ear</td>
+      <td>fantasy world idol live vol.77 </td>
+      <td>
+        <ul>
+          <li><a href=""></a></li>
         </ul>
       </td>
     </tr>
@@ -478,6 +670,16 @@ location: "Shanghi, China"
       </td>
     </tr>
     <tr>
+      <td>2025.05.31</td>
+      <td>上海维景</td>
+      <td>魔境</td>
+      <td>
+        <ul>
+          <li><a href=""></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td>2025.05.25</td>
       <td>世界树</td>
       <td>软糖派对Vol.8 in上海 Yami生日sp</td>
@@ -513,6 +715,26 @@ location: "Shanghi, China"
       </td>
     </tr>
     <tr>
+      <td>2025.05.20</td>
+      <td>未来剧场</td>
+      <td>520纯白誓约</td>
+      <td>
+        <ul>
+          <li><a href=""></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.05.18</td>
+      <td>世界树</td>
+      <td>True world Vol 51</td>
+      <td>
+        <ul>
+          <li><a href=""></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td>2025.05.17</td>
       <td>大世界中庭</td>
       <td>IDOL WAVE 偶像浪潮02 乐乐生日</td>
@@ -522,14 +744,211 @@ location: "Shanghi, China"
         </ul>
       </td>
     </tr>
+    <tr>
+      <td>2025.05.10</td>
+      <td>世界树</td>
+      <td>IDOL WAVE 偶像浪潮01 奕君SP</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/2938642847/Prh2QopMM" target="_blank">兔子_mission</a></li>
+          <li><a href="https://weibo.com/2938642847/PstUl2Gfk" target="_blank">兔子_mission</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.05.05</td>
+      <td></td>
+      <td></td>
+      <td>
+        <ul>
+          <li><a href=""></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.05.04</td>
+      <td>世界树</td>
+      <td>TrueWorld Vol.49</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/7963695557/PqTJg0QvF">一只麻袋子_</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.05.03</td>
+      <td></td>
+      <td></td>
+      <td>
+        <ul>
+          <li><a href=""></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.05.02</td>
+      <td></td>
+      <td></td>
+      <td>
+        <ul>
+          <li><a href=""></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.05.01</td>
+      <td></td>
+      <td></td>
+      <td>
+        <ul>
+          <li><a href=""></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.04.27</td>
+      <td></td>
+      <td></td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/2060532085/PqsjFhCgo">IceCreamMelody</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.04.26</td>
+      <td></td>
+      <td></td>
+      <td>
+        <ul>
+          <li><a href=""></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.04.20</td>
+      <td>次乐园SPACE</td>
+      <td>HUMANLESS学园不定期社团活动[打call]</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/5953114480/Pol1JighM">改装成电压表的电流表</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.04.19</td>
+      <td></td>
+      <td></td>
+      <td>
+        <ul>
+          <li><a href=""></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.04.13</td>
+      <td></td>
+      <td></td>
+      <td>
+        <ul>
+          <li><a href=""></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.04.12</td>
+      <td></td>
+      <td></td>
+      <td>
+        <ul>
+          <li><a href=""></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.04.05</td>
+      <td>北京·WeShowLive</td>
+      <td>魔境LIVE 北京vol.6</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/2938642847/Pndcod24k" target="_blank">兔子_mission</a></li>
+          <li><a href="https://weibo.com/5516199505/PmaWOyAKK" target="_blank">笙歌iie </a></li>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.04.04</td>
+      <td>北京·WeShowLive</td>
+      <td>魔境LIVE 北京vol.5</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/2938642847/PmtHIhioI" target="_blank">兔子_mission</a></li>
+          <li><a href="https://weibo.com/5516199505/Pm9NX6Hrp" target="_blank">笙歌iie </a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.04.01</td>
+      <td>世界树</td>
+      <td>🤡愚人节活动🤡</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/2938642847/PlESf6qEz" target="_blank">兔子_mission</a></li>
+          <li><a href="https://weibo.com/7963695557/Plp5t5cU3" target="_blank">一只麻袋子_</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.03.30</td>
+      <td>世界树</td>
+      <td>Anastasia FES 1.0–🦋</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/2938642847/PlDVtcyBc" target="_blank">兔子_mission</a></li>
+          <li><a href="https://weibo.com/2938642847/PlBhrb98H" target="_blank">兔子_mission</a></li>
+          <li><a href="https://weibo.com/7963695557/Pl5injaNx" target="_blank">一只麻袋子_</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.03.29</td>
+      <td>世界树</td>
+      <td>Anastasia FES 1.0–🦋</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/2938642847/Pl7EE65su" target="_blank">兔子_mission</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.03.23</td>
+      <td>次乐园SPACE</td>
+      <td>次乐元 fes 4.0</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/2938642847/PkL3O88wO" target="_blank">兔子_mission</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.03.16</td>
+      <td>Theboxx</td>
+      <td>Mtl上海 Vol.40 白色情人节专场</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/6356533803/PjCNvqPPr" target="_blank">懂猫语两脚兽</a></li>
+          <li><a href="https://weibo.com/2938642847/PjwMizoPP" target="_blank">兔子_mission</a></li>
+          <li><a href="https://weibo.com/7963695557/PiWDOa4Uw" target="_blank">一只麻袋子_</a></li>
+          <li><a href="https://weibo.com/1621603047/PiSUPFJXD" target="_blank">Kin小文</a></li>
+        </ul>
+      </td>
+    </tr>
   </tbody>
 </table>
 
 
-## TimeTree
+<!-- ## Special Video
 
-断更了, 因为拍全场的好像都不太更新了... 后续全场会放在前面的舟推夹带私货了里更新.
-
+一些感觉有趣的视频, 我想收藏一下
 <div class="records-container">
 
   <div class="record-card bg-pink">
@@ -658,7 +1077,7 @@ location: "Shanghi, China"
     </div>
   </div>
 
-</div>
+</div> -->
 
 
 <style>
