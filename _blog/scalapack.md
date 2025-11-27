@@ -222,17 +222,73 @@ proc(i) = floor(i / n) mod p
 
 为了描述一个分布式矩阵, ScaLAPACK使用了一个称为Array Descriptor的结构. 这个描述符包含了矩阵的全局信息, 以及它在进程网格中的分布方式. 一个典型的Array Descriptor包含以下字段:
 
-| 序号 | Symbolic Name | Scope    | Definition                                                                                                                                                                        |
-| -- | ------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1  | DTYPE_A       | (global) | Descriptor type **DTYPE_A=1** for dense matrices.                                                                                                                                 |
-| 2  | CTXT_A        | (global) | BLACS context handle, indicating the BLACS process grid over which the global matrix A is distributed. The context itself is global, but the handle (the integer value) may vary. |
-| 3  | M_A           | (global) | Number of rows in the global array A.                                                                                                                                             |
-| 4  | N_A           | (global) | Number of columns in the global array A.                                                                                                                                          |
-| 5  | MB_A          | (global) | Blocking factor used to distribute the rows of the array.                                                                                                                         |
-| 6  | NB_A          | (global) | Blocking factor used to distribute the columns of the array.                                                                                                                      |
-| 7  | RSRC_A        | (global) | Process row over which the first row of the array A is distributed.                                                                                                               |
-| 8  | CSRC_A        | (global) | Process column over which the first column of the array A is distributed.                                                                                                         |
-| 9  | LLD_A         | (local)  | Leading dimension of the local array. **LLD_A ≥ MAX(1, LOCr(M_A))**.                                                                                                              |
+<table border="1" cellspacing="0" cellpadding="4">
+  <thead>
+    <tr>
+      <th>序号</th>
+      <th>Symbolic Name</th>
+      <th>Scope</th>
+      <th>Definition</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>DTYPE_A</td>
+      <td>(global)</td>
+      <td>Descriptor type <strong>DTYPE_A=1</strong> for dense matrices.</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>CTXT_A</td>
+      <td>(global)</td>
+      <td>BLACS context handle, indicating the BLACS process grid over which the global matrix A is distributed. The context itself is global, but the handle (the integer value) may vary.</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>M_A</td>
+      <td>(global)</td>
+      <td>Number of rows in the global array A.</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>N_A</td>
+      <td>(global)</td>
+      <td>Number of columns in the global array A.</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>MB_A</td>
+      <td>(global)</td>
+      <td>Blocking factor used to distribute the rows of the array.</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>NB_A</td>
+      <td>(global)</td>
+      <td>Blocking factor used to distribute the columns of the array.</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>RSRC_A</td>
+      <td>(global)</td>
+      <td>Process row over which the first row of the array A is distributed.</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>CSRC_A</td>
+      <td>(global)</td>
+      <td>Process column over which the first column of the array A is distributed.</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>LLD_A</td>
+      <td>(local)</td>
+      <td>Leading dimension of the local array. <strong>LLD_A ≥ MAX(1, LOCr(M_A))</strong>.</td>
+    </tr>
+  </tbody>
+</table>
+
 
 > 这里LLD_A是本地存储的leading dimension, LOCr(M_A)表示本地进程上矩阵A的行数. 两者的不一致是某些情况下为了内存对齐或者性能优化而引入的.
 
