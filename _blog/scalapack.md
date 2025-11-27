@@ -233,6 +233,11 @@ proc(i) = floor(i / n) mod p
 | 7  | RSRC_A        | (global) | Process row over which the first row of the array A is distributed.                                                                                                               |
 | 8  | CSRC_A        | (global) | Process column over which the first column of the array A is distributed.                                                                                                         |
 | 9  | LLD_A         | (local)  | Leading dimension of the local array. **LLD_A ≥ MAX(1, LOCr(M_A))**.                                                                                                              |
+
+> 这里LLD_A是本地存储的leading dimension, LOCr(M_A)表示本地进程上矩阵A的行数. 两者的不一致是某些情况下为了内存对齐或者性能优化而引入的.
+
+> 除此之外, init descriptor也不涉及通信.
+
 ```cpp
 // function prototype
 // ScaLAPACK descriptor init
