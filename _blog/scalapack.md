@@ -95,8 +95,9 @@ Rank 1 in BLACS grid at position (0,1)
 Rank 0 in BLACS grid at position (0,0)
 ```
 
-对于 `Cblacs_gridmap` , 这个函数将会把抽象网格映射到实际的rank上. 用户需要提供一个一维数组 `map`, 其长度为 `nprow * npcol`, 用来指定每个网格位置对应的rank. 具体来说, `map[i*ldumap + j]` 表示网格位置 (i, j) 上的rank.
-然后调用 `Cblacs_gridmap` 来创建进程网格. 注意, CBLACS 内部会访问 map[i*ldumap + j], 其中 ldumap 是 map 数组的 leading dimension, 所以要小心.
+对于 `Cblacs_gridmap` , 这个函数将会把抽象网格映射到实际的rank上. 用户需要提供一个一维数组 `map`, 其长度为 `nprow * npcol`, 用来指定每个网格位置对应的rank. 具体来说, `map[i+ j*ldumap ]` 表示网格位置 (i, j) 上的rank.
+然后调用 `Cblacs_gridmap` 来创建进程网格. 注意, CBLACS 内部会访问 map[i + j*ldumap], 其中 ldumap 是 map 数组的 leading dimension, 所以要小心的是, 这里的 map 数组是按列优先存储的, leading dimension 是行数而不是列数.
+> ScaLAPACK中所有的矩阵都是按列优先存储的, 即leading dimension是行数.
 ```cpp
 // gridmap example
 int main(int argc, char** argv)
@@ -157,7 +158,160 @@ Rank 2 -> (row=0, col=2)
 Rank 0 -> (row=0, col=0)
 ```
 
+这里还有一个让人困惑的地方就是`Cblacs_get` 的第一个参数 `ictxt`. 当 `ictxt = -1` 时, 它表示获取一个新的context. 但是当 `ictxt != -1` 时, 它表示获取已经存在的context中的某个属性(由第二个参数指定). 具体来说, 第二个参数 `what` 可以取以下值:
+- `what = 0`: 获取 context 的标识符 (handle)
+- `what = 1`: 获取 context 中的进程总数
+- `what = 2`: 获取 context 中的当前进程的 rank
+
+当然可以，我帮你整理成清晰、层次分明的 Markdown 版本：
+
+---
+
+### BLACS Context 与自定义 MPI_Comm 的关系
+
+#### 1. BLACS 不接受用户自定义的 MPI_Comm
+
+* `Cblacs_gridinit`、`Cblacs_gridmap` 都只能 **在 BLACS 内部创建自己的通信器**。
+* 它 **永远不会直接使用**你 `MPI_Comm_split` 生成的 `newcomm`。
+* 因此，你无法“强行替换” BLACS 的通信器。
+
+#### 2. 使用 `gridmap` 限制进程组
+
+* 假设你想在一个 4×4 的 BLACS 网格里 **只让部分 rank 参与**。
+* 你可以用 `Cblacs_gridmap` 指定一个数组，列出这些 rank 在 `MPI_COMM_WORLD` 中的编号。
+* BLACS 内部会用这些 ranks **新建自己的 context（通信器）**。
+* **条件**：这些 ranks 必须可以被索引，不能太散乱，否则 BLACS 的映射逻辑会出问题。
+
+#### 3. BLACS Context 的本质
+
+* BLACS 的 context 本质上是一个 **子通信器 + 网格拓扑 + rank 映射表**。
+* 你可以控制“只用部分进程”，但底层通信器仍然是 **BLACS 自己创建的**，不是外部 split 出来的 `newcomm`。
+
+---
+
+### BLACS Context 与通信器的关系
+
+#### 1. 总是基于 `MPI_COMM_WORLD` 创建
+
+* 无论你只使用部分进程，BLACS 会在内部从 `MPI_COMM_WORLD` **派生新的通信器**。
+* 这个通信器是 **全局可见的**，所有调用 `Cblacs_gridinit` 或 `Cblacs_gridmap` 的进程都必须在 `MPI_COMM_WORLD` 中。
+
+#### 2. 局部进程参与网格
+
+* 通过 `Cblacs_gridmap` 或 `Cblacs_gridinit` 可以让 **只有部分进程“活跃”**，形成局部网格。
+* BLACS 会自动把没有参与的进程排除掉（在 context 中的 rank 会被标记为 -1 或类似标记）。
+
+#### 3. 底层通信器仍然由 BLACS 创建
+
+* 外部的 `MPI_Comm_split` 或自定义通信器 **不能直接代入** BLACS。
+* BLACS 只认它自己创建的 context 内通信器。
+* 你可以通过 **rank 映射** 实现“只让局部进程参与计算”的效果。
+
+---
+
+
 ### 块循环分布与Array Descriptor
 
 参考: [ScaLAPACK Users' Guide](https://netlib.org/scalapack/slug/node77.html)
 
+在ScaLAPACK中, 矩阵是以块循环分布(block-cyclic distribution)的方式存储在进程网格中的. 这种分布方式有助于负载均衡和减少通信开销. 对于某个特定的维度, 假设块大小为 `n`, 进程数为 `p`, 矩阵对应的维度为 `N`, 那么`i`元素对应的进程号为:
+```
+proc(i) = floor(i / n) mod p
+```
+每个维度都同理.
+
+为了描述一个分布式矩阵, ScaLAPACK使用了一个称为Array Descriptor的结构. 这个描述符包含了矩阵的全局信息, 以及它在进程网格中的分布方式. 一个典型的Array Descriptor包含以下字段:
+
+| 序号 | Symbolic Name | Scope    | Definition                                                                                                                                                                        |
+| -- | ------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1  | DTYPE_A       | (global) | Descriptor type **DTYPE_A=1** for dense matrices.                                                                                                                                 |
+| 2  | CTXT_A        | (global) | BLACS context handle, indicating the BLACS process grid over which the global matrix A is distributed. The context itself is global, but the handle (the integer value) may vary. |
+| 3  | M_A           | (global) | Number of rows in the global array A.                                                                                                                                             |
+| 4  | N_A           | (global) | Number of columns in the global array A.                                                                                                                                          |
+| 5  | MB_A          | (global) | Blocking factor used to distribute the rows of the array.                                                                                                                         |
+| 6  | NB_A          | (global) | Blocking factor used to distribute the columns of the array.                                                                                                                      |
+| 7  | RSRC_A        | (global) | Process row over which the first row of the array A is distributed.                                                                                                               |
+| 8  | CSRC_A        | (global) | Process column over which the first column of the array A is distributed.                                                                                                         |
+| 9  | LLD_A         | (local)  | Leading dimension of the local array. **LLD_A ≥ MAX(1, LOCr(M_A))**.                                                                                                              |
+```cpp
+// function prototype
+// ScaLAPACK descriptor init
+void descinit_(int *desc, const int *m, const int *n, const int *mb, const int *nb,
+            const int *irsrc, const int *icsrc, const int *ictxt,
+            const int *lld, int *info);
+
+// Helper to compute local matrix size
+int numroc_(const int *n, const int *nb, const int *iproc,
+        const int *isrcproc, const int *nprocs);
+```
+
+```cpp
+// init desc
+int main(int argc, char** argv)
+{
+    MPI_Init(&argc, &argv);
+
+    int ictxt, nprow = 2, npcol = 2;
+    int myrow, mycol, myrank;
+
+    MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
+
+    // 创建 BLACS context
+    Cblacs_get(-1, 0, &ictxt);
+    Cblacs_gridinit(&ictxt, "Row", nprow, npcol);
+    Cblacs_gridinfo(ictxt, &nprow, &npcol, &myrow, &mycol);
+
+    if (myrow < 0) {
+        // not part of the grid
+        MPI_Finalize();
+        return 0;
+    }
+
+
+    // Global matrix information
+    int M = 16, N = 8;
+    int MB = 2, NB = 2;
+
+    int RSRC = 0; // Row source process
+    int CSRC = 0; // Column source process
+
+    // 计算本地矩阵行列数
+    int mloc = numroc_(&M, &MB, &myrow, &RSRC, &nprow);
+    int nloc = numroc_(&N, &NB, &mycol, &CSRC, &npcol);
+
+
+    // 本地存储 LLD 必须 ≥ max(1, mloc)
+    int lld = std::max(1, mloc);
+
+    // 创建 descriptor
+    int descA[9];
+    int info;
+    descinit_(descA, &M, &N, &MB, &NB,
+              &RSRC, &CSRC,
+              &ictxt, &lld, &info);
+
+    if (info != 0) {
+        std::cerr << "descinit failed on rank " << myrank
+                  << " with info = " << info << std::endl;
+    }
+
+    // 输出 descriptor 信息
+    std::cout << "Rank " << myrank
+              << " (row=" << myrow << ", col=" << mycol << ")"
+              << "  local matrix = " << mloc << " x " << nloc
+              << "  LLD=" << lld
+              << std::endl;
+
+    Cblacs_gridexit(ictxt);
+    MPI_Finalize();
+    return 0;
+}
+```
+
+```bash
+mpirun -np 4 ./desc.x
+Rank 1 (row=0, col=1)  local matrix = 8 x 4  LLD=8
+Rank 3 (row=1, col=1)  local matrix = 8 x 4  LLD=8
+Rank 0 (row=0, col=0)  local matrix = 8 x 4  LLD=8
+Rank 2 (row=1, col=0)  local matrix = 8 x 4  LLD=8
+```
