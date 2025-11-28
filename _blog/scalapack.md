@@ -98,6 +98,7 @@ Rank 0 in BLACS grid at position (0,0)
 对于 `Cblacs_gridmap` , 这个函数将会把抽象网格映射到实际的rank上. 用户需要提供一个一维数组 `map`, 其长度为 `nprow * npcol`, 用来指定每个网格位置对应的rank. 具体来说, `map[i+ j*ldumap ]` 表示网格位置 (i, j) 上的rank.
 然后调用 `Cblacs_gridmap` 来创建进程网格. 注意, CBLACS 内部会访问 map[i + j*ldumap], 其中 ldumap 是 map 数组的 leading dimension, 所以要小心的是, 这里的 map 数组是按列优先存储的, leading dimension 是行数而不是列数.
 > ScaLAPACK中所有的矩阵都是按列优先存储的, 即leading dimension是行数.
+
 ```cpp
 // gridmap example
 int main(int argc, char** argv)
@@ -395,8 +396,118 @@ static inline int loc2glb(
 ```
 由这个小函数我们就能正确的给局部的矩阵初始化正确的值, 和从局部的结果中提取需要的元素.
 
-
-
 ## PBLAS
 
 PBLAS 是 Parallel BLAS, 即分布式的BLAS库, 它实现了所有分布式的BLAS运算. 它的基本命名规则和LAPACK基本相同, 除了在对应routine前加了P.
+
+下面是一个调用`pdgemm_`的例子
+
+```cpp
+// function prototype
+// PDGEMM(TRANSA, TRANSB, M, N, K,
+//    ALPHA, A, IA, JA, DESCA,
+//           B, IB, JB, DESCB,
+//    BETA,  C, IC, JC, DESCC)
+void pdgemm_(char*, char*, int*, int*, int*,
+                double*, double*, int*, int*, int*,
+                         double*, int*, int*, int*,
+                double*, double*, int*, int*, int*);
+```
+
+
+```cpp
+#include <mpi.h>
+#include <iostream>
+#include <vector>
+#include "interface.h"
+
+int main(int argc, char** argv)
+{
+    MPI_Init(&argc, &argv);
+
+    int myrank, nprocs;
+    MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
+    MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
+
+    // ---- BLACS 初始化 ----
+    int ictxt, nprow = 2, npcol = 2;  // 2x2 进程网格
+    Cblacs_get(-1, 0, &ictxt);
+    Cblacs_gridinit(&ictxt, "Row", nprow, npcol);
+
+    int myrow, mycol;
+    Cblacs_gridinfo(ictxt, &nprow, &npcol, &myrow, &mycol);
+
+    // ---- 全局矩阵尺寸 ----
+    int M = 4, N = 4, K = 4;
+    int MB = 2, NB = 2; // block size
+
+    // ---- 每个进程的局部矩阵大小 ----
+    int zero = 0, one = 1;
+    int mA = numroc_(&M, &MB, &myrow, &zero, &nprow);
+    int kA = numroc_(&K, &NB, &mycol, &zero, &npcol);
+
+    int kB = numroc_(&K, &MB, &myrow, &zero, &nprow);
+    int nB = numroc_(&N, &NB, &mycol, &zero, &npcol);
+
+    int mC = numroc_(&M, &MB, &myrow, &zero, &nprow);
+    int nC = numroc_(&N, &NB, &mycol, &zero, &npcol);
+
+    // ---- 分配本地矩阵 ----
+    double *A = (double*)malloc(mA * kA * sizeof(double));
+    double *B = (double*)malloc(kB * nB * sizeof(double));
+    double *C = (double*)malloc(mC * nC * sizeof(double));
+
+    // 初始化 A, B, C
+    for (int i = 0; i < mA*kA; ++i) A[i] = 1.0;
+    for (int i = 0; i < kB*nB; ++i) B[i] = 1.0;
+    for (int i = 0; i < mC*nC; ++i) C[i] = 0.0;
+
+    // ---- 初始化 ScaLAPACK 描述符 ----
+    int descA[9], descB[9], descC[9], info;
+    int rsrc = 0, csrc = 0;  // block cyclic source process
+
+    descinit_(descA, &M, &K, &MB, &NB, &rsrc, &csrc, &ictxt, &mA, &info);
+    descinit_(descB, &K, &N, &MB, &NB, &rsrc, &csrc, &ictxt, &kB, &info);
+    descinit_(descC, &M, &N, &MB, &NB, &rsrc, &csrc, &ictxt, &mC, &info);
+
+    // ---- 调用 pdgemm ----
+    double alpha = 1.0, beta = 0.0;
+    char trans = 'N';
+
+    // pdgemm_(&trans, &trans,
+    //         &M, &N, &K,
+    //         &alpha,
+    //         A, &zero, &zero, descA,
+    //         B, &zero, &zero, descB,
+    //         &beta,
+    //         C, &zero, &zero, descC);
+    pdgemm_(&trans, &trans,
+            &M, &N, &K,
+            &alpha,
+            A, &one, &one, descA,
+            B, &one, &one, descB,
+            &beta,
+            C, &one, &one, descC);
+
+    // ---- 打印局部矩阵 ----
+    MPI_Barrier(MPI_COMM_WORLD);
+    printf("Rank %d (%d,%d) local C (%d x %d):\n",
+           myrank, myrow, mycol, mC, nC);
+    for (int i = 0; i < mC; ++i) {
+        for (int j = 0; j < nC; ++j)
+            printf(" %g", C[i + j*mC]);
+        printf("\n");
+    }
+    printf("\n");
+
+    free(A);
+    free(B);
+    free(C);
+
+    Cblacs_gridexit(ictxt);
+    return 0;
+}
+```
+
+要注意的是这里传入的IA,JA...是全局矩阵的起始坐标, 而不是本地矩阵. 即`pdgemm_`处理的
+块对于A来说是`IA:IA+M-1, JA:JA+K-1`. 这是一个全局调用.
