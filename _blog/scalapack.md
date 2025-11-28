@@ -538,3 +538,129 @@ int main(int argc, char** argv)
 ## 实践: 求解线性方程组
 
 由于我个人的科研中要使用ScaLAPACK求解一个线性方程组, 于是这里实现一个代码.
+
+```cpp
+
+#include <mpi.h>
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include "interface.h"
+
+int main(int argc, char** argv)
+{
+    MPI_Init(&argc, &argv);
+
+    int myrank, nprocs;
+    MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
+    MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
+
+    std::string filename = "output_rank_" + std::to_string(myrank) + ".txt";
+    std::ofstream fout(filename);
+
+    // ---- BLACS 初始化 ----
+    int ictxt, nprow = 2, npcol = 2;  // 2x2 进程网格
+    Cblacs_get(-1, 0, &ictxt);
+    Cblacs_gridinit(&ictxt, "Row", nprow, npcol);
+
+    int myrow, mycol;
+    Cblacs_gridinfo(ictxt, &nprow, &npcol, &myrow, &mycol);
+
+    // ---- A 全局矩阵尺寸 ----
+    int N = 1024;
+    int NB = 64, MB = 64; // block size
+
+    // ---- 每个进程的局部矩阵大小 ----
+    int zero = 0, one = 1;
+    int nlocal = numroc_(&N, &NB, &mycol, &zero, &npcol);
+    int mlocal = numroc_(&N, &MB, &myrow, &zero, &nprow);
+    int lldA = std::max(1, mlocal);
+    int lldB = lldA;
+
+    fout << "Rank " << myrank << " (row " << myrow << ", col " << mycol << ") has local matrix size "
+              << mlocal << " x " << nlocal << std::endl;
+
+    // ---- 分配局部矩阵 ----
+    std::vector<double> A(mlocal * nlocal, 0.0);
+    std::vector<double> B(mlocal, 1.0);  // b 全局向量 = 1
+
+    fout << "Rank " << myrank << " allocated local matrices." << std::endl;
+
+    // ---- 填充局部矩阵 A（5 点 Laplacian 示例） ----
+    for (int j = 0; j < nlocal; ++j) {
+        for (int i = 0; i < mlocal; ++i) {
+            int iglobal = indxl2g(i, MB, myrow, zero, nprow);
+            int jglobal = indxl2g(j, NB, mycol, zero, npcol);
+            if (iglobal == jglobal) {
+                A[i + j * lldA] = 4.0;
+            } else if (std::abs(iglobal - jglobal) == 1) {
+                A[i + j * lldA] = -1.0;
+            } else if (std::abs(iglobal - jglobal) == N) {
+                A[i + j * lldA] = -1.0;
+            }
+        }
+    }
+
+    // fout << "(" << myrow << "," << mycol << ") local A matrix sample:" << std::endl;
+    // for (int i = 0; i < mlocal; ++i) {
+    //     for (int j = 0; j < nlocal; ++j) {
+    //         fout << A[i + j * lldA] << " ";
+    //     }
+    //     fout << std::endl;
+    // }
+
+    fout << "Rank " << myrank << " filled local matrix A." << std::endl;
+
+    // ---- ScaLAPACK 矩阵描述符 ----
+    int descA[9], descB[9], info;
+    int rsrc = 0, csrc = 0;  // block cyclic source process
+
+    descinit_(descA, &N, &N, &MB, &NB, &rsrc, &csrc, &ictxt, &lldA, &info);
+    descinit_(descB, &N, &one, &MB, &NB, &rsrc, &csrc, &ictxt, &lldB, &info);
+
+    fout << "Rank " << myrank << " initialized descriptors." << std::endl;
+    fout << "descA: ";
+    for (int i = 0; i < 9; ++i) fout << descA[i] << " ";
+    fout << std::endl;
+    fout << "descB: ";
+    for (int i = 0; i < 9; ++i) fout << descB[i] << " ";
+    fout << std::endl;
+
+    // ---- IPIV 数组 ----
+    int* IPIV = new int[mlocal + MB]; // IPIV 大小至少为本地行数 + block size
+
+    fout << "Rank " << myrank << " allocated IPIV." << std::endl;
+
+    // ---- 全局索引起点 ----
+    int IA = 1, JA = 1, IB = 1, JB = 1;
+
+    MPI_Barrier(MPI_COMM_WORLD);
+
+    // ---- 调用 pdgesv ----
+    pdgesv_(&N, &one,
+            A.data(), &IA, &JA, descA,
+            IPIV,
+            B.data(), &IB, &JB, descB,
+            &info);
+
+    fout << "resulting local B vector:" << std::endl;
+    for (int i = 0; i < mlocal; ++i) {
+        fout << B[i] << " ";
+    }
+    fout << std::endl;
+
+    if (info == 0) {
+        if (myrank == 0) fout << "Solve succeeded!" << std::endl;
+    } else if (info > 0) {
+        if (myrank == 0) fout << "Matrix is singular at pivot " << info << std::endl;
+    } else {
+        if (myrank == 0) fout << "Illegal argument " << -info << std::endl;
+    }
+
+    delete[] IPIV;
+    Cblacs_gridexit(ictxt);
+    return 0;
+}
+```
+
+> 注意这里面有一个巨大的坑, 就是`IPIV`需要的内存空间多于mlocal, 至少为mlocal+mb... 否则就可能会内存越界....
