@@ -380,9 +380,10 @@ Rank 2 (row=1, col=0)  local matrix = 8 x 4  LLD=8
 
 由于矩阵是块循环分布在processor grid上的, 所以我们需要知道局部的行列号对应的全局行列号.
 这里有一个简单的小函数.
+
 ```cpp
 // function prototype
-static inline int loc2glb(
+static inline int indxl2g(
   const int i_loc, const int rsrc, const int myrow, const int nprow, const int MB
 ) {
 
@@ -395,6 +396,28 @@ static inline int loc2glb(
 }
 ```
 由这个小函数我们就能正确的给局部的矩阵初始化正确的值, 和从局部的结果中提取需要的元素.
+ScaLAPACK中内置了一些类似的函数, 如下
+
+```cpp
+
+// global index to processor index
+int indxg2p_(int* iglob, int* nb, int* isrcproc, int* nprocs);
+
+// global index to local index
+int indxg2l_(int* iglob, int* nb, int* iproc, int* isrcproc, int* nprocs);
+
+// global index to local index and processor
+void infog1l_(
+    const int *gindx, const int *nb, const int *nprocs,
+    const int *myroc, const int *isrcproc,
+    int *lindx, int *rocsrc);
+
+// row and col version of infog2l_
+void infog2l_(
+    const int *grindx, const int *gcindx, const int *desc,
+    const int *nprow, const int *npcol, const int *myrow, const int *mycol,
+    int *lrindx, int *lcindx, int *rsrc, int *csrc);
+```
 
 ## PBLAS
 
@@ -511,3 +534,7 @@ int main(int argc, char** argv)
 
 要注意的是这里传入的IA,JA...是全局矩阵的起始坐标, 而不是本地矩阵. 即`pdgemm_`处理的
 块对于A来说是`IA:IA+M-1, JA:JA+K-1`. 这是一个全局调用.
+
+## 实践: 求解线性方程组
+
+由于我个人的科研中要使用ScaLAPACK求解一个线性方程组, 于是这里实现一个代码.
