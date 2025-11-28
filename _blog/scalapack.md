@@ -376,3 +376,27 @@ Rank 3 (row=1, col=1)  local matrix = 8 x 4  LLD=8
 Rank 0 (row=0, col=0)  local matrix = 8 x 4  LLD=8
 Rank 2 (row=1, col=0)  local matrix = 8 x 4  LLD=8
 ```
+
+由于矩阵是块循环分布在processor grid上的, 所以我们需要知道局部的行列号对应的全局行列号.
+这里有一个简单的小函数.
+```cpp
+// function prototype
+static inline int loc2glb(
+  const int i_loc, const int rsrc, const int myrow, const int nprow, const int MB
+) {
+
+  int brow = i_loc / MB;          // 是第几个 block-row（局部）
+  int off  = i_loc % MB;          // 在 block 里的偏移
+
+  int global_i =
+      (brow * nprow + (myrow - src + nprow) % nprow) * MB + off;
+  return global_i
+}
+```
+由这个小函数我们就能正确的给局部的矩阵初始化正确的值, 和从局部的结果中提取需要的元素.
+
+
+
+## PBLAS
+
+PBLAS 是 Parallel BLAS, 即分布式的BLAS库, 它实现了所有分布式的BLAS运算. 它的基本命名规则和LAPACK基本相同, 除了在对应routine前加了P.

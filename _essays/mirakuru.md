@@ -177,6 +177,26 @@ location: "Shanghi, China"
     </tr>
   </thead>
   <tbody>
+  <tr>
+      <td>2025.11.29</td>
+      <td>上海广场</td>
+      <td>绮丽偶像日K.F.C. mini 126</td>
+      <td>
+        <ul>
+          <li><a href="" target="_blank"></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.11.28</td>
+      <td>第一绮丽次元街区</td>
+      <td>绮丽偶像日K.F.C. mini 124</td>
+      <td>
+        <ul>
+          <li><a href="" target="_blank"></a></li>
+        </ul>
+      </td>
+    </tr>
     <tr>
       <td>2025.11.23</td>
       <td>谷多星小剧场GDXLIVE</td>
