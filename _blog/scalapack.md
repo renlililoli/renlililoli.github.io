@@ -159,14 +159,189 @@ Rank 2 -> (row=0, col=2)
 Rank 0 -> (row=0, col=0)
 ```
 
-这里还有一个让人困惑的地方就是`Cblacs_get` 的第一个参数 `ictxt`. 当 `ictxt = -1` 时, 它表示获取一个新的context. 但是当 `ictxt != -1` 时, 它表示获取已经存在的context中的某个属性(由第二个参数指定). 具体来说, 第二个参数 `what` 可以取以下值:
+这里还有一个让人困惑的地方就是`Cblacs_get` 的第一个参数 `ictxt`. 当 `ictxt = -1` 时, 它表示获取系统默认的ctxt. 但是当 `ictxt != -1` 时, 它表示获取已经存在的context中的某个属性(由第二个参数指定). 具体来说, 第二个参数 `what` 可以取以下值:
 - `what = 0`: 获取 context 的标识符 (handle)
 - `what = 1`: 获取 context 中的进程总数
 - `what = 2`: 获取 context 中的当前进程的 rank
 
-当然可以，我帮你整理成清晰、层次分明的 Markdown 版本：
-
 ---
+
+> 我已经完全搞不清楚 BLACS context 的机制了, 太几把恶心了, 反正放两个例子得了, 平时算法用不到这些东西.
+
+一个重要的例子
+```cpp
+int main(int argc, char** argv) {
+    MPI_Init(&argc, &argv);
+
+    int rank, size;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+    int ctxt, nprow, npcol, myrow, mycol;
+    Cblacs_get(-1, 0, &ctxt);
+    int map[4] = {0, 1, 2, 3};
+    int map1[4] = {0, 2, 1, 3};
+    int map3[2] = {0, 1};
+    int map4[2] = {2, 3};
+    
+    Cblacs_gridmap(&ctxt, map, 2, 2, 2);
+    Cblacs_gridinfo(ctxt, &nprow, &npcol, &myrow, &mycol);
+    std::cout << "Grid info - nprow: " << nprow << ", npcol: " << npcol
+              << ", coord: (" << myrow << ", " << mycol << "), ctxt: " << ctxt << ", rank: " << rank << std::endl;
+
+    Cblacs_gridmap(&ctxt, map1, 2, 2, 2);
+
+
+    Cblacs_gridinfo(ctxt, &nprow, &npcol, &myrow, &mycol);
+    std::cout << "Grid info - nprow: " << nprow << ", npcol: " << npcol
+              << ", coord: (" << myrow << ", " << mycol << "), ctxt: " << ctxt << ", rank: " << rank << std::endl;
+    
+    Cblacs_get(-1, 0, &ctxt);
+    if (rank < 2) {
+        Cblacs_gridmap(&ctxt, map3, 1, 2, 1);
+    } else {
+        Cblacs_gridmap(&ctxt, map4, 1, 2, 1);
+    }
+
+    Cblacs_gridinfo(ctxt, &nprow, &npcol, &myrow, &mycol);
+    std::cout << "Grid info - nprow: " << nprow << ", npcol: " << npcol
+              << ", coord: (" << myrow << ", " << mycol << "), ctxt: " << ctxt << ", rank: " << rank << std::endl;
+
+
+    Cblacs_exit(0);
+
+
+    return 0;
+}
+```
+
+```bash
+mpirun -np 4 ./cblacs.x
+Grid info - nprow: 2, npcol: 2, coord: (0, 0), ctxt: 0, rank: 0
+Grid info - nprow: 2, npcol: 2, coord: (1, 0), ctxt: 0, rank: 1
+Grid info - nprow: 2, npcol: 2, coord: (1, 1), ctxt: 0, rank: 3
+Grid info - nprow: 2, npcol: 2, coord: (0, 1), ctxt: 0, rank: 2
+Grid info - nprow: 2, npcol: 2, coord: (0, 1), ctxt: 1, rank: 1
+Grid info - nprow: 2, npcol: 2, coord: (0, 0), ctxt: 1, rank: 0
+Grid info - nprow: 2, npcol: 2, coord: (1, 0), ctxt: 1, rank: 2
+Grid info - nprow: 2, npcol: 2, coord: (1, 1), ctxt: 1, rank: 3
+Grid info - nprow: 2, npcol: 1, coord: (1, 0), ctxt: 2, rank: 1
+Grid info - nprow: 2, npcol: 1, coord: (0, 0), ctxt: 2, rank: 2
+Grid info - nprow: 2, npcol: 1, coord: (1, 0), ctxt: 2, rank: 3
+Grid info - nprow: 2, npcol: 1, coord: (0, 0), ctxt: 2, rank: 0
+```
+
+另一个重要的例子
+```cpp
+int main(int argc, char** argv) {
+    MPI_Init(&argc, &argv);
+
+    int rank, size;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+    int ctxt, nprow, npcol, myrow, mycol;
+    Cblacs_get(-1, 0, &ctxt);
+    int map[4] = {0, 1, 2, 3};
+    int map1[4] = {0, 2, 1, 3};
+    int map3[2] = {0, 1};
+    int map4[2] = {2, 3};
+    int map5[2] = {3, 2};
+    
+    Cblacs_gridmap(&ctxt, map, 2, 2, 2);
+    Cblacs_gridinfo(ctxt, &nprow, &npcol, &myrow, &mycol);
+    std::cout << "Grid info - nprow: " << nprow << ", npcol: " << npcol
+              << ", coord: (" << myrow << ", " << mycol << "), ctxt: " << ctxt << ", rank: " << rank << std::endl;
+
+    MPI_Barrier(MPI_COMM_WORLD);
+    Cblacs_gridmap(&ctxt, map1, 2, 2, 2);
+    
+
+
+    Cblacs_gridinfo(ctxt, &nprow, &npcol, &myrow, &mycol);
+    std::cout << "Grid info - nprow: " << nprow << ", npcol: " << npcol
+              << ", coord: (" << myrow << ", " << mycol << "), ctxt: " << ctxt << ", rank: " << rank << std::endl;
+    MPI_Barrier(MPI_COMM_WORLD);
+    
+    
+    std::cout << "New ctxt: " << ctxt << std::endl;
+    MPI_Barrier(MPI_COMM_WORLD);
+    // Cblacs_get(-1, 0, &ctxt);
+    // if (rank < 2) {
+        Cblacs_get(2, 0, &ctxt);
+        Cblacs_gridmap(&ctxt, map3, 1, 2, 1);
+    Cblacs_gridinfo(ctxt, &nprow, &npcol, &myrow, &mycol);
+    std::cout << "Grid info - nprow: " << nprow << ", npcol: " << npcol
+              << ", coord: (" << myrow << ", " << mycol << "), ctxt: " << ctxt << ", rank: " << rank << std::endl;
+    MPI_Barrier(MPI_COMM_WORLD);
+    // } else {
+        Cblacs_get(3, 0, &ctxt);
+        Cblacs_gridmap(&ctxt, map4, 1, 2, 1);
+    // }
+
+    Cblacs_gridinfo(ctxt, &nprow, &npcol, &myrow, &mycol);
+    std::cout << "Grid info - nprow: " << nprow << ", npcol: " << npcol
+              << ", coord: (" << myrow << ", " << mycol << "), ctxt: " << ctxt << ", rank: " << rank << std::endl;
+    MPI_Barrier(MPI_COMM_WORLD);
+    // } else {
+        Cblacs_get(3, 0, &ctxt);
+        Cblacs_gridmap(&ctxt, map5, 1, 2, 1);
+    // }
+
+    Cblacs_gridinfo(ctxt, &nprow, &npcol, &myrow, &mycol);
+    std::cout << "Grid info - nprow: " << nprow << ", npcol: " << npcol
+              << ", coord: (" << myrow << ", " << mycol << "), ctxt: " << ctxt << ", rank: " << rank << std::endl;
+    MPI_Barrier(MPI_COMM_WORLD);
+    // } else {
+        Cblacs_get(3, 0, &ctxt);
+        Cblacs_gridmap(&ctxt, map, 2, 2, 2);
+    // }
+
+    Cblacs_gridinfo(ctxt, &nprow, &npcol, &myrow, &mycol);
+    std::cout << "Grid info - nprow: " << nprow << ", npcol: " << npcol
+              << ", coord: (" << myrow << ", " << mycol << "), ctxt: " << ctxt << ", rank: " << rank << std::endl;
+
+
+    Cblacs_exit(0);
+
+
+    return 0;
+}
+```
+
+```bash
+mpirun -np 4 ./cblacs.x
+Grid info - nprow: 2, npcol: 2, coord: (1, 0), ctxt: 0, rank: 1
+Grid info - nprow: 2, npcol: 2, coord: (0, 0), ctxt: 0, rank: 0
+Grid info - nprow: 2, npcol: 2, coord: (1, 1), ctxt: 0, rank: 3
+Grid info - nprow: 2, npcol: 2, coord: (0, 1), ctxt: 0, rank: 2
+Grid info - nprow: 2, npcol: 2, coord: (0, 0), ctxt: 1, rank: 0
+New ctxt: 1
+Grid info - nprow: 2, npcol: 2, coord: (1, 0), ctxt: 1, rank: 2
+New ctxt: 1
+Grid info - nprow: -1, npcol: -1, coord: (-1, -1), ctxt: -1, rank: 2
+Grid info - nprow: 2, npcol: 2, coord: (0, 1), ctxt: 1, rank: 1
+New ctxt: 1
+Grid info - nprow: 2, npcol: 2, coord: (1, 1), ctxt: 1, rank: 3
+New ctxt: 1
+Grid info - nprow: -1, npcol: -1, coord: (-1, -1), ctxt: -1, rank: 3
+Grid info - nprow: 2, npcol: 1, coord: (1, 0), ctxt: 2, rank: 1
+Grid info - nprow: 2, npcol: 1, coord: (0, 0), ctxt: 2, rank: 0
+Grid info - nprow: -1, npcol: -1, coord: (-1, -1), ctxt: -1, rank: 0
+Grid info - nprow: -1, npcol: -1, coord: (-1, -1), ctxt: -1, rank: 1
+Grid info - nprow: 2, npcol: 1, coord: (1, 0), ctxt: 2, rank: 3
+Grid info - nprow: 2, npcol: 1, coord: (0, 0), ctxt: 2, rank: 2
+Grid info - nprow: -1, npcol: -1, coord: (-1, -1), ctxt: -1, rank: 0
+Grid info - nprow: -1, npcol: -1, coord: (-1, -1), ctxt: -1, rank: 1
+Grid info - nprow: 2, npcol: 1, coord: (0, 0), ctxt: 3, rank: 3
+Grid info - nprow: 2, npcol: 1, coord: (1, 0), ctxt: 3, rank: 2
+Grid info - nprow: 2, npcol: 2, coord: (0, 1), ctxt: 4, rank: 2
+Grid info - nprow: 2, npcol: 2, coord: (1, 1), ctxt: 4, rank: 3
+Grid info - nprow: 2, npcol: 2, coord: (0, 0), ctxt: 3, rank: 0
+Grid info - nprow: 2, npcol: 2, coord: (1, 0), ctxt: 3, rank: 1
+```
+
+第二个例子说明了同一个grid在不同的进程中ctxt是不一样的. 
 
 ### BLACS Context 与自定义 MPI_Comm 的关系
 
@@ -187,26 +362,6 @@ Rank 0 -> (row=0, col=0)
 
 * BLACS 的 context 本质上是一个 **子通信器 + 网格拓扑 + rank 映射表**。
 * 你可以控制“只用部分进程”，但底层通信器仍然是 **BLACS 自己创建的**，不是外部 split 出来的 `newcomm`。
-
----
-
-### BLACS Context 与通信器的关系
-
-#### 1. 总是基于 `MPI_COMM_WORLD` 创建
-
-* 无论你只使用部分进程，BLACS 会在内部从 `MPI_COMM_WORLD` **派生新的通信器**。
-* 这个通信器是 **全局可见的**，所有调用 `Cblacs_gridinit` 或 `Cblacs_gridmap` 的进程都必须在 `MPI_COMM_WORLD` 中。
-
-#### 2. 局部进程参与网格
-
-* 通过 `Cblacs_gridmap` 或 `Cblacs_gridinit` 可以让 **只有部分进程“活跃”**，形成局部网格。
-* BLACS 会自动把没有参与的进程排除掉（在 context 中的 rank 会被标记为 -1 或类似标记）。
-
-#### 3. 底层通信器仍然由 BLACS 创建
-
-* 外部的 `MPI_Comm_split` 或自定义通信器 **不能直接代入** BLACS。
-* BLACS 只认它自己创建的 context 内通信器。
-* 你可以通过 **rank 映射** 实现“只让局部进程参与计算”的效果。
 
 ---
 
