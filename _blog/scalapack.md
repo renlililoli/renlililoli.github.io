@@ -567,6 +567,35 @@ int main(int argc, char** argv) {
 }
 ```
 
+```bash
+mpirun -np 4 ./cblacs.x
+Before split: rank 2 in color 0
+Before split: rank 0 in color 0
+Before split: rank 3 in color 1
+Before split: rank 1 in color 1
+After MPI_Comm_split: rank 0 in color 0
+Global ctxt: 0
+After MPI_Comm_split: rank 1 in color 0
+After MPI_Comm_split: rank 0 in color 1
+After MPI_Comm_split: rank 1 in color 1
+In child comm: rank 3 in grid (0, 1) of size (1, 2)
+ctxt_child: 0
+In child comm: rank 1 in grid (0, 0) of size (1, 2)
+ctxt_child: 0
+In child comm: rank 0 in grid (0, 0) of size (1, 2)
+ctxt_child: 0
+In child comm: rank 2 in grid (0, 1) of size (1, 2)
+ctxt_child: 0
+In global comm: rank 2 in grid (1, 0) of size (2, 2)
+ctxt: 1
+In global comm: rank 1 in grid (0, 1) of size (2, 2)
+ctxt: 1
+In global comm: rank 3 in grid (1, 1) of size (2, 2)
+ctxt: 1
+In global comm: rank 0 in grid (0, 0) of size (2, 2)
+ctxt: 1
+```
+
 ---
 
 
