@@ -506,6 +506,66 @@ BLACS 会：
 > Cblacs_gridinit 才真正创建真正的 BLACS 上下文。
 > 模板和实际上下文存储在不同表中，所以获取模板和创建上下文必须分开调用。**
 
+这里再给一个关于模板的例子, 方便理解, 这个例子里我们创建了新的上下文模板.
+
+```cpp
+
+int main(int argc, char** argv) {
+    MPI_Init(&argc, &argv);
+
+    int rank, size;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+    // Cblacs_get(-1, 0, &ctxt);
+    
+    int color = rank % 2;
+    MPI_Comm child_comm;
+    std::cout << "Before split: rank " << rank << " in color " << color << std::endl;
+    MPI_Barrier(MPI_COMM_WORLD);
+    MPI_Comm_split(MPI_COMM_WORLD, color, rank, &child_comm);
+
+    
+    MPI_Comm_rank(child_comm, &rank);
+    MPI_Comm_size(child_comm, &size);
+
+    std::cout << "After MPI_Comm_split: rank " << rank << " in color " << color << std::endl;
+
+    int ctxt, ctxt_child;
+    Cblacs_get(-1, 0, &ctxt);
+    
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    if (rank == 0) {
+        std::cout << "Global ctxt: " << ctxt << std::endl;
+    }
+
+    ctxt_child = Csys2blacs_handle(child_comm);
+
+    // std::cout << "child comm: " << child_comm << ", ctxt_child: " << ctxt_child << std::endl;
+    int new_proto;
+    Cblacs_get(ctxt_child, 0, &new_proto);
+    // if (rank == 0) {
+    //     std::cout << "Child ctxt: " << ctxt_child << ", new_proto: " << new_proto << std::endl;
+    // }
+
+    Cblacs_gridinit(&ctxt_child, "Row", 1, 2);
+    int nprow, npcol, myrow, mycol;
+    Cblacs_gridinfo(ctxt_child, &nprow, &npcol, &myrow, &mycol);
+    std::cout << "In child comm: rank " << rank << " in grid (" << myrow << ", " << mycol << ") of size (" << nprow << ", " << npcol << ")" << std::endl;
+    std::cout << "ctxt_child: " << ctxt_child << std::endl;
+
+    Cblacs_gridinit(&ctxt, "Row", 2, 2);
+    Cblacs_gridinfo(ctxt, &nprow, &npcol, &myrow, &mycol);
+    std::cout << "In global comm: rank " << rank << " in grid (" << myrow << ", " << mycol << ") of size (" << nprow << ", " << npcol << ")" << std::endl;
+    std::cout << "ctxt: " << ctxt << std::endl;
+
+    // Cblacs_exit(0);
+    MPI_Finalize();
+
+
+    return 0;
+}
+```
 
 ---
 
