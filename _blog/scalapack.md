@@ -596,6 +596,8 @@ In global comm: rank 0 in grid (0, 0) of size (2, 2)
 ctxt: 1
 ```
 
+> 似乎不管怎么样, 所有可用进程都要同时调用map或者init
+
 ---
 
 
