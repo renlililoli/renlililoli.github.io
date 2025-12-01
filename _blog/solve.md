@@ -95,3 +95,44 @@ Minimum Degree Ordering (MDO)算法是一种用于减少稀疏矩阵填充的重
 
 相同颜色的节点可以同时消元, 因为它们之间没有边相连, 所以不会引入新的非零元素.
 
+## 对角占优
+
+### 圆盘定理
+
+设A为n阶复矩阵, 则A的每个特征值都位于$\cup_{i=1}^{n} D(a_{ii}, R_i)$中, 其中 $D(a_{ii}, R_i) = \{ z \in \mathbb{C} : |z - a_{ii}| \le R_i \}$ , $R_i = \sum_{j \neq i} |a_{ij}|$ .
+
+**proof:**
+
+设 $\lambda$ 为A的一个特征值, 则存在非零向量 $x = (x_1, x_2, \ldots, x_n)^T$ 使得 $Ax = \lambda x$ . 设 $|x_k| = \max_{1 \le i \le n} |x_i|$ , 则有
+
+$$\sum_{j=1}^{n} a_{kj} x_j = \lambda x_k$$
+
+则有
+
+$$|\lambda - a_{kk}| |x_k| = |\sum_{j \neq k} a_{kj} x_j| \le \sum_{j \neq k} |a_{kj}| |x_j| \le R_k |x_k|.
+$$
+
+### Corollary 1
+
+假设A不可约且有一个特征值 $\lambda$ 满足 $|\lambda - a_{ii}| = R_i$ , 则 $\lambda$ 位于所有圆盘的公共边界上, 且对应的特征向量 $x$ 满足 $|x_1| = |x_2| = \ldots = |x_n|$.
+
+**proof:**
+
+设 $|x_k| = \max_{1 \le i \le n} |x_i|$ , 则由圆盘定理可知
+$$|\lambda - a_{kk}| |x_k| = |\sum_{j \neq k} a_{kj} x_j| \le \sum_{j \neq k} |a_{kj}| |x_j| \le R_k |x_k|.$$
+因为 $|\lambda - a_{kk}| = R_k$ , 则有
+$$|\sum_{j \neq k} a_{kj} x_j| = \sum_{j \neq k} |a_{kj}| |x_j| = R_k |x_k|.$$
+
+因此, 对于所有 $j$ 满足 $a_{kj} \neq 0$ , 有 $|x_j| = |x_k|$ . 由于A不可约, 则对于任意 $i$ , 存在一条从k到i的路径, 因此 $|x_i| = |x_k|$ , 即 $|x_1| = |x_2| = \ldots = |x_n|$ .
+
+### Corollary 2
+
+设A为严格对角占优矩阵或对角占优且不可约矩阵, 则A非奇异.
+
+**proof:**
+
+$0$ 不在任何一个圆盘内, 因此A非奇异.
+
+
+## 投影法
+
