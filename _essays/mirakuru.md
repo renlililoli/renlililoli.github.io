@@ -83,7 +83,7 @@ location: "Shanghi, China"
 
 <div class="playlist">
 
-  <!-- <div class="card bg-green">
+  <div class="card bg-green">
     <h3><a href="https://www.youtube.com/watch?v=p3RTsCxldzw" target="_blank">おんりーびーと! (only beat)</a></h3>
     <div class="artist">のんふぃく!</div>
     <div class="description">
@@ -92,7 +92,7 @@ location: "Shanghi, China"
     <div class="video-links">
       <a href="https://www.tiktok.com/@uimasa/video/7576811704550444308" target="_blank">短视频</a>
     </div>
-  </div> -->
+  </div>
 
   <div class="card bg-pink">
     <h3><a href="https://www.youtube.com/watch?v=CXquVye7vvs" target="_blank">カラフルパラレル (colorfully parallel)</a></h3>
@@ -189,6 +189,16 @@ location: "Shanghi, China"
   </thead>
   <tbody>
   <tr>
+      <td>2025.12.06</td>
+      <td>CAVE ART VENUE</td>
+      <td>less is more 4.0</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/6328915672/Qh8wUqNf2" target="_blank">Green_orz</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td>2025.11.29</td>
       <td>上海广场</td>
       <td>绮丽偶像日K.F.C. mini 126</td>
