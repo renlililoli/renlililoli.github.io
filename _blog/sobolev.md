@@ -2,7 +2,7 @@
 title: "Sobolev imbedding and interpolation inequalities."
 collection: blog
 type: "blog"
-date: 2025-11-30
+date: 2025-12-13
 excerpt: 'An overview of Sobolev imbedding and interpolation inequalities and their applications.'
 location: "Shanghai, China"
 ---
@@ -22,12 +22,36 @@ location: "Shanghai, China"
 
 ![imbedding4](/blog/pictures/sobolev/imbedding4.png)
 
-每个情况的证明都使用了不同的技巧.
-
-首先是除了部分边界情况以及需要区域有lipshitz条件的第二个part, 其余证明利用了区域的cone condition, 然后使用cone上的积分平均值来控制函数值. 积分平均值来自于potential估计.
+除了部分边界情况以及需要区域有lipshitz条件的第二个part, 其余证明利用了区域的cone condition, 然后使用cone上的积分平均值来控制函数值. 积分平均值来自于potential估计.
 
 核心的不等式为
 
 ![potential1](/blog/pictures/sobolev/potential1.png)
 
 ![potential2](/blog/pictures/sobolev/potential2.png)
+
+这个不等式来源为带积分余项的泰勒展开, 将函数值用导数展开后在cone上积分. 最终得到的结果类似于
+
+$$
+|u(x)| \le K \sum_{|\alpha| \le m-1} r^{|\alpha|-n} \chi_r * |D^\alpha u| (x) + K \sum_{|\alpha| = m}\chi_r \omega_{m} * |D^\alpha u| (x).
+$$
+
+对于$mp>n$, $p>1$的情况
+
+$$
+\chi_r * |D^\alpha u| (x) \le \|D^\alpha u\|_{p} r^{n/p'}.
+$$
+
+$$
+\chi_r \omega_{m} * |D^\alpha u| (x) \le \|D^\alpha u\|_{p} \left(\int_{B(0,r)} x^{(m-n)p'} dx\right)^{1/p'}
+$$
+
+而$p=1$, $m=n$, $\omega_m = 1$, 不等式恰好是自然成立的.
+
+对于k维超曲面的trace估计, 则是直接将上面的不等式的p次方在超曲面上几份即可, 然后用Holder的插值不等式进行估计即可.
+
+对于$mp<n$的情况, 则需要计算
+
+$$
+
+$$
