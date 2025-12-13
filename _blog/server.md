@@ -4,7 +4,7 @@ collection: blog
 type: "blog"
 date: 2025-11-01
 excerpt: '记录服务器机房的一周工作'
-location: "Shanghi, China"
+location: "Shanghai, China"
 ---
 
 ## 服务器机房一周记

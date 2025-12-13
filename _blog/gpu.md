@@ -5,7 +5,7 @@ type: "blog"
 permalink: /gpu-human-docs/
 date: 2025-07-21
 excerpt: 'A collection of GPU-related human documentation.'
-location: "Shanghi, China"
+location: "Shanghai, China"
 ---
 
 ## GPU Human Documentation

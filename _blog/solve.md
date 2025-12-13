@@ -4,7 +4,7 @@ collection: blog
 type: "blog"
 date: 2025-11-30
 excerpt: 'How to use iterative methods to solve sparse linear systems efficiently.'
-location: "Shanghi, China"
+location: "Shanghai, China"
 ---
 
 这学期选了变分迭代法, 马上要期末了, 这里总结一下重要的内容. 

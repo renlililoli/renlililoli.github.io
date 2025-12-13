@@ -8,6 +8,36 @@
     </tr>
   </thead>
   <tbody>
+  <tr>
+      <td>2025.12.06</td>
+      <td>CAVE ART VENUE</td>
+      <td>less is more 4.0</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/6328915672/Qh8wUqNf2" target="_blank">Green_orz</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.11.29</td>
+      <td>上海广场</td>
+      <td>绮丽偶像日K.F.C. mini 126</td>
+      <td>
+        <ul>
+          <li><a href="" target="_blank"></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.11.28</td>
+      <td>第一绮丽次元街区</td>
+      <td>绮丽偶像日K.F.C. mini 124</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/6328915672/QfY4u1Oql" target="_blank">Green_orz</a></li>
+        </ul>
+      </td>
+    </tr>
     <tr>
       <td>2025.11.23</td>
       <td>谷多星小剧场GDXLIVE</td>
@@ -775,3 +805,4 @@
     </tr>
   </tbody>
 </table>
+

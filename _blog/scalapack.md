@@ -4,7 +4,7 @@ collection: blog
 type: "blog"
 date: 2025-11-26
 excerpt: 'How to use ScaLAPACK for parallel linear algebra computations on distributed-memory systems.'
-location: "Shanghi, China"
+location: "Shanghai, China"
 ---
 
 由于最近要写一些分布式线性代数的代码, 所以要学一下ScaLAPACK. 这玩意难用的要死, 源码是fortran的, 极度逆天. 所以写一个笔记记录一下学习过程.

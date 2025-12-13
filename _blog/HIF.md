@@ -4,7 +4,7 @@ collection: blog
 type: "blog"
 date: 2025-11-06
 excerpt: '层次插值分解'
-location: "Shanghi, China"
+location: "Shanghai, China"
 ---
 
 学一下层次插值分解(Hierarchical Interpolative Factorization, HIF).
