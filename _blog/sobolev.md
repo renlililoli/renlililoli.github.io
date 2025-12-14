@@ -180,3 +180,19 @@ $$
 
 ![interpolation6](/blog/pictures/sobolev/inter6.png)
 
+最后一个结果使用了Young不等式, 然后再用前面的插值.
+
+## 紧嵌入
+
+这里只放2个反例
+
+![compact1](/blog/pictures/sobolev/compact1.png)
+
+![compact2](/blog/pictures/sobolev/compact2.png)
+
+![compact3](/blog/pictures/sobolev/compact3.png)
+
+![compact4](/blog/pictures/sobolev/compact4.png)
+
+![compact5](/blog/pictures/sobolev/compact5.png)
+
