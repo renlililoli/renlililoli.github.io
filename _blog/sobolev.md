@@ -123,3 +123,60 @@ $$
 要证明的不等式就会成立. 而只要$p\le q < \infty$, 就总能找到合适的$p_1, p_2$使得上面的等式成立. 而$q=\infty$的情况则不成立. $p=q$的情况对应于$p_2 = \infty$, 对应也成立.
 
 只剩下$p=1, mp<n$, 此时可以直接进行证明, 它的证明思路与索伯列夫不等式类似, 通过向量值holder不等式进行估计.
+
+$p=1, n-mp < k \le n$, 则要证明 $W^{m,1} \to L^{\frac{k}{n-m}}(H)$. 但是 $W^{m,1} \to W^{m-1, p}$, $1\le p \le \frac{n}{n-1}$.
+
+但是此时有 $k \ge n-m+1 > n - (m-1)p$, if $p>1$. 因此可以使用之前的结论, 有它可以嵌入 $L^{q}(H)$, $1 \le q \le \frac{kp}{n-(m-1)p} = \frac{k}{n-m}$.
+
+最后的情况就是 $p=1, k=n-m$. 要证明 $W^{m,1} \to L^{1}(H)$. 用方块覆盖, 每个方块的前m维数用局部估计, 余下的维数积分恰好是k维的积分, 这样就可以得到结果.
+
+
+剩余的就是嵌入到Holder空间的情况. 它的证明用到的技巧是Morrey不等式. 注意这时需要区域满足强lipschitz条件, 如区域是两个拼起来的方形, 中间不连接, 那么是不能嵌入这样的空间的.
+
+![morrey](/blog/pictures/sobolev/morrey.png)
+
+
+到目前为止, 有几个重要的不能进行嵌入的边界情况
+
+$$
+mp = n, p> 1,\quad  W^{m,p} \to L^\infty
+$$
+
+$$
+mp > n > (m-1)p, p> 1, \quad W^{m,p} \to C^{0, \alpha}, \alpha > m - \frac{n}{p}
+$$
+
+$$
+n = (m-1)p, p>1, \quad W^{m,p} \to C^{0,1}
+$$
+
+$$
+mp < n, p > 1, \quad W^{m,p} \to L^{q},\quad  q > p^* = \frac{kp}{n-mp}
+$$
+
+前两个反例用单项式即可, 后两个用双对数函数.
+
+还有一个有趣的例子, 即用半范数控制范数, 即
+
+![semi1](/blog/pictures/sobolev/sobolev.png)
+
+它只在临界情形成立. 因为回忆其它情形都是用到了插值.
+
+## 插值定理
+
+这里的插值定理是, 是否能用最高阶半范数和Lp范数来控制中间阶的半范数. 具体的定理如下:
+
+![interpolation1](/blog/pictures/sobolev/inter1.png)
+
+证明思路来自于从1维出发, 然后高维用方向导数推广, 最后用归纳法推广到任意阶导数.
+
+![interpolation2](/blog/pictures/sobolev/inter2.png)
+
+![interpolation3](/blog/pictures/sobolev/inter3.png)
+
+![interpolation4](/blog/pictures/sobolev/inter4.png)
+
+![interpolation5](/blog/pictures/sobolev/inter5.png)
+
+![interpolation6](/blog/pictures/sobolev/inter6.png)
+
