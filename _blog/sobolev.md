@@ -80,8 +80,12 @@ $$
 也就是只需要证明$q=p$和$q=p^*$的边界情况. 核心的估计为对于$v \in L^p$, 有
 
 $$
-\|\chi_r \omega_m * v\|_{p,H} \le K \|v\|_{p}, \quad \|\chi_r \omega_m * v\|_{p^*,H} \le K \|v\|_{p}.
+\|\chi_r \omega_m * v\|_{p,H} \le K r^{m - \frac{n-k}{p}}\|v\|_{p}, \quad \|\chi_r \omega_m * v\|_{p^*,H} \le K \|v\|_{p}.
 $$
+
+这两个不等式中的系数可以直接算出来. 第一个中, 左侧贡献 $m-k/p$, 右侧贡献 $n/p$, 所以出现一个 $m - \frac{n-k}{p}$.
+
+第二个中, 左侧贡献 $m - \frac{k}{p^*} = \frac{n}{p}$
 
 它们分别是直接进行估计和使用 Marcinkiewicz插值定理得到的. 这个插值定理非常强大的地方在于, 它允许我们只需要证明两个端点的弱型不等式, 就可以得到开区间的强型不等式. 如果弱不等式在某个区间上成立, 那么中间的强不等式也成立.
 
@@ -135,6 +139,13 @@ $p=1, n-mp < k \le n$, 则要证明 $W^{m,1} \to L^{\frac{k}{n-m}}(H)$. 但是 $
 
 ![morrey](/blog/pictures/sobolev/morrey.png)
 
+同样的, 指标也可以通过量纲计算. 比如 $mp > n >(m-1)p$, 那么有
+
+$$
+0 < \alpha = m - \frac{n}{p} < 1.
+$$
+
+$\alpha$ 就是对应的Holder空间的指数. 当 $p>1$, $n=(m-1)p$ 时, $\alpha = 1$, 则恰好不能嵌入到Lipschitz空间中. $p=1$ 时是可以的.
 
 到目前为止, 有几个重要的不能进行嵌入的边界情况
 
