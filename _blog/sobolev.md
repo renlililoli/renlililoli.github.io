@@ -9,6 +9,20 @@ location: "Shanghai, China"
 
 索伯这块内容确实又繁琐又多, 所以这里妄图梳理一个快速查询的笔记.
 
+## 一些重要的不等式
+
+### Holder
+
+![holder](/blog/pictures/sobolev/holder.png)
+
+### Young
+
+![young](/blog/pictures/sobolev/young.png)
+
+### Minkowski
+
+![minkowski](/blog/pictures/sobolev/minkowski.png)
+
 ## Marcinkiewicz插值定理
 
 这是一个非常强大的插值定理, 允许我们通过弱型不等式来得到强型不等式. 这里放出定理的陈述和证明. 便于后续使用.
