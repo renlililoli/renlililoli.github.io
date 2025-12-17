@@ -323,3 +323,41 @@ $$
 ### PCG FGMRES
 
 比较简单, 主要是要搞明白CG预条件后新矩阵在什么意义下是对称的.
+
+### Self-Preconditioned MR
+
+为了求解矩阵的稀疏近似逆, 即
+
+$$
+\|\|I - AM\|_F = 0.
+$$
+
+通常采用迭代法. 以下讨论极小化残差的迭代. 每次选择下降方向时, 通常有两种方式, 一种是采用残差本身, 另一种是采用梯度方向
+
+$$
+M_{k+1} = M_k + \alpha_k R_k, R_k = I - A M_k.\\
+\text{or}\\
+M_{k+1} = M_k + \alpha_k G_k, G_k = - c\nabla \|R_k\|_F^2 = A^T R_k
+$$
+
+其中$\alpha_k$ 是通过一维搜索得到的, 也可以看作F范数对应内积下的投影.
+
+$$
+\alpha_k = \frac{(R_k, AD_k)}{(A D_k, A D_k)}, D_k = R_k \text{ or } G_k.
+$$
+
+除此之外还有自预条件的想法, 即用$M_k$ 来预条件 $R_k$ 或者 $G_k$.
+
+比如对 $R_k$ , 有
+
+$$
+Z_k = M_k R_k, \alpha_k = \frac{(R_k, A Z_k)}{(A Z_k, A Z_k)}.\\
+M_{k+1} = M_k + \alpha_k Z_k.\\
+R_{k+1} = R_k - \alpha_k A Z_k = R_k - \alpha_k A M_k R_k.
+$$
+
+$$
+R_{k+1} = R_k - \alpha_k (I - R_k) R_k = (1 - \alpha_k) R_k - \alpha_k R_k^2 \Rightarrow \|R_{k+1}\|_F \le \|R_k^2\|_F \le \|R_k\|_F^2. 
+$$
+
+有全局的二次收敛性.

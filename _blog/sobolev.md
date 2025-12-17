@@ -29,6 +29,52 @@ location: "Shanghai, China"
 
 ![marcinkiewicz8](/blog/pictures/sobolev/m8.png)
 
+## geometry of domain
+
+这里主要放一些区域的几何条件, 便于后续使用.
+
+### segment condition
+
+$\forall x \in \partial \Omega, \exists$ 一个向量 $y_x$, 使得对于 $\forall z \in \overline{\Omega} \cap B(x, r_x), \forall t \in (0,1)$, 有 $z + t y_x \in \Omega$.
+
+就是说, 对于边界上的每个点, 都存在一个方向, 使得它附近的点沿着这个方向移动一小段距离后形成的的线段都在区域内.
+
+由于$\partial \Omega$有局部有限的可列覆盖, 所以可以取一列局部有限的开集 $\{U_i\}$ 覆盖 $\partial \Omega$, 然后每个$U_i$对应一个向量 $y_i$.
+
+### weak cone condition
+
+弱锥条件是说, 对于区域中的每个点, 它出发的射线与单位球的交集测度一致大于某个正数 $\delta > 0$.
+
+### cone condition
+
+锥条件是说, 对于区域中的每个点, 都存在一个锥, 它的顶点在该点, 并且整个锥都包含在区域内. 这个锥必须同构于某个固定的$(\rho, \kappa)$锥.
+
+
+### uniform cone condition
+
+一致锥条件有些类似于segment condition. 从一列局部有限的开集 $\{U_i\}$ 覆盖 $\partial \Omega$, 然后每个$U_i$对应一个锥 $C_i$, 这些锥的参数 $(\rho, \kappa)$ 是相同的, 它们满足以下条件
+- $U$_j$ 的半径有上界
+- $U_j$ 的并包含 $\partial \Omega$ 的某个 $\delta>0$ 邻域
+- 对于 $\forall x \in \partial \Omega \cap U_j$, 有 $x + C_j \subset \Omega$.
+- 任何超过R个 $U_j$ 都没有交集.
+
+> 容易看出, 一致锥条件蕴含锥条件, 锥条件蕴含弱锥条件.
+
+### strong local lipschitz condition
+
+强局部Lipschitz条件是说, 对于区域中的每个边界点, 都存在一个局部坐标系, 使得在该坐标系下, 区域的边界可以表示为某个Lipschitz函数的图像. 具体的, 同样选局部有限开覆盖 $\{U_i\}$, 对于每个$U_i$ 对应一个M-Lipschitz函数, 使得
+- 超过R个 $U_j$ 都没有交集.
+- 如果两个点 $x,y \in \Omega_\delta$ 且 $|x-y| < \delta$, 则它们属于同一个 $U_j$.
+- $\Omega \cap U_j$ 是对应的Lipschitz函数的上方区域.
+
+### uniform $C^m$ condition
+
+选局部有限开覆盖 $\{U_i\}$, 对于每个$U_i$ 对应一个 $C^m$ 函数 $\Phi_i$ 是从 $U_i$ 到单位球的坐标映射, 使得
+- 超过R个 $U_j$ 都没有交集.
+- 1/2单位球覆盖 $\partial \Omega$ 的某个 $\delta>0$ 邻域.
+- $\Phi_i(\Omega \cap U_i)$ 是单位球的上方区域.
+- 所有阶数小于等于m的导数都一致有界.
+
 ## Sobolev imbedding
 
 首先, 空间的嵌入定理, 主要按照函数空间的奇性来划分. 由于是积分范数, 所以n维空间的积分可以提供$x^{n/p}$, 而求导数会损失$x^m$的奇性,
@@ -207,3 +253,23 @@ $$
 
 ![compact5](/blog/pictures/sobolev/compact5.png)
 
+这两个反例本质上是说, 找一列不相交的开球和紧支撑在上面的光滑函数, 然后将函数进行平移和放缩.
+
+比如临界情形
+
+$$
+q = p^* = \frac{kp}{n-mp}, \quad \lambda = m - \frac{n}{p}
+$$
+
+对应的嵌入都不是紧的. 取一列不相交的开球 $B_i$ 对应的光滑函数 $\varphi_i = r_i^{m-\frac{n}{p}}\varphi(\frac{x-a_i}{r_i})$, 则
+$\varphi_i$ 在 $W^{m,p}$ 中有界. 但是在 $L^{p^*}(H)$ 中它们的范数都是常数, 所以不可能有收敛的子列.
+
+本质上紧嵌入和普通嵌入的定理几乎没有区别, 只是各个嵌入的区间变成了开区间.
+
+## 逼近
+
+逼近是说, 如果用光滑函数逼近$W^{1,p}$中的函数, 那么它不可能有很好的更高阶导数的控制. 具体的定理如下:
+
+![approximation1](/blog/pictures/sobolev/approx.png)
+
+证明思路是对积分余项的泰勒展开, 然后用磨光子进行卷积逼近.
