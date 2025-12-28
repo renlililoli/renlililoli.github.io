@@ -29,38 +29,38 @@ location: "Shanghi, China"
     <tr class="yellow">
       <td>舟舟Jiujiu</td>
       <td><a href="https://weibo.com/n/%E8%88%9F%E8%88%9Fjiujiu_MIRAKURU" target="_blank">微博</a></td>
-      <td>2025.03.16</td>
+      <td>2025.03.16 —</td>
       <td>在团</td>
     </tr>
     <tr class="green">
       <td>依都Itsume</td>
       <td><a href="https://weibo.com/n/%E4%BE%9D%E9%83%BDItsume_MIRAKURU" target="_blank">微博</a></td>
-      <td>2025.03.16</td>
-      <td>在团</td>
-    </tr>
-    <tr class="purple">
-      <td>薰Kaori</td>
-      <td><a href="https://weibo.com/n/%E8%96%B0Kaori_MIRAKURU" target="_blank">微博</a></td>
-      <td>2025.03.16</td>
-      <td>在团</td>
-    </tr>
-    <tr class="white">
-      <td>雪酥Yukikoo</td>
-      <td><a href="https://weibo.com/n/%E9%9B%AA%E9%85%A5Yukikoo_MIRAKURU" target="_blank">微博</a></td>
-      <td>2025.03.16</td>
+      <td>2025.03.16 —</td>
       <td>在团</td>
     </tr>
     <tr class="pink">
       <td>樱樱Sakura</td>
       <td><a href="https://weibo.com/n/%E6%A8%B1%E6%A8%B1Sakura_MIRAKURU" target="_blank">微博</a></td>
-      <td>2025.03.16</td>
+      <td>2025.03.16 —</td>
       <td>在团</td>
     </tr>
     <tr class="blue">
       <td>小释Koyoi</td>
       <td><a href="https://weibo.com/u/7936958193" target="_blank">微博</a></td>
-      <td>2025.10.01</td>
+      <td>2025.10.01 —</td>
       <td>在团</td>
+    </tr>
+    <tr class="purple">
+      <td>薰Kaori</td>
+      <td><a href="https://weibo.com/n/%E8%96%B0Kaori_MIRAKURU" target="_blank">微博</a></td>
+      <td>2025.03.16 — 2026.01.18</td>
+      <td>已毕业</td>
+    </tr>
+    <tr class="white">
+      <td>雪酥Yukikoo</td>
+      <td><a href="https://weibo.com/n/%E9%9B%AA%E9%85%A5Yukikoo_MIRAKURU" target="_blank">微博</a></td>
+      <td>2025.03.16 — 2026.01.18</td>
+      <td>已毕业</td>
     </tr>
     <tr class="lightblue">
       <td>霁川Shimizu</td>
@@ -82,6 +82,17 @@ location: "Shanghi, China"
 ### cover 曲目
 
 <div class="playlist">
+
+  <div class="card bg-yellow">
+    <h3><a href="https://www.bilibili.com/video/BV11cYgzMEnA" target="_blank">ラブソングに襲われる (情歌来袭)</a></h3>
+    <div class="artist">= LOVE</div>
+    <div class="description">
+      太甜了的歌, 以至于不知道怎么玩, 不过可能等现在两个人毕业之后就不会再上了...
+    </div>
+    <div class="video-links">
+      <a href="https://space.bilibili.com/356439903/lists/6615082" target="_blank">Bilibili 19单合集</a>
+    </div>
+  </div>
 
   <div class="card bg-green">
     <h3><a href="https://www.youtube.com/watch?v=p3RTsCxldzw" target="_blank">おんりーびーと! (only beat)</a></h3>
@@ -235,6 +246,16 @@ location: "Shanghi, China"
       <td>
         <ul>
           <li><a href="https://weibo.com/7963695557/QjkZSeLJL" target="_blank">一只麻袋子_</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.12.14<!-- 缺席 --></td>
+      <td></td>
+      <td></td>
+      <td>
+        <ul>
+          <li><a href="" target="_blank"></a></li>
         </ul>
       </td>
     </tr>
