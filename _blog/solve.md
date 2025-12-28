@@ -26,6 +26,10 @@ $A_{ii} > 0, \forall i$.
 
 设A是一个非负不可约矩阵, 则A有一个正的特征值 $\rho(A)$ 和一个正的特征向量 $x > 0$. 对应的特征子空间是1维的.
 
+**proof:**
+
+任取一个正向量, $x_0 > 0$ , 拿power method收敛出来的极限向量 $x = \lim_{k \to \infty} \frac{A^k x_0}{\|A^k x_0\|}$ , 则 $Ax = \rho(A) x$. 其他细节省略.
+
 ### Lemma 3
 
 $O\le A \le B$ , 则 $\rho(A) \le \rho(B)$ .

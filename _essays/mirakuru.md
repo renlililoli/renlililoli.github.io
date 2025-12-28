@@ -188,7 +188,67 @@ location: "Shanghi, China"
     </tr>
   </thead>
   <tbody>
-  <tr>
+    <tr>
+      <td>2025.12.28</td>
+      <td>合肥791</td>
+      <td>SMO Idol Live Vol.2</td>
+      <td>
+        <ul>
+          <li><a href="" target="_blank"></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.12.27</td>
+      <td>合肥791</td>
+      <td>SMO Idol Live Vol.1</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/7487185147/QkofTtA52" target="_blank">刹那神空</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.12.25</td>
+      <td>第一绮丽次元街区</td>
+      <td>绮丽偶像日mini Vol.128-圣诞</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/7963695557/Qk6Kv1osh" target="_blank">一只麻袋子_</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.12.21</td>
+      <td>第一绮丽次元街区</td>
+      <td>绮丽偶像日mini Vol.127</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/7963695557/QjsZ8i8eC" target="_blank">一只麻袋子_</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.12.20</td>
+      <td>日不落</td>
+      <td>YGG IDOL Fes</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/7963695557/QjkZSeLJL" target="_blank">一只麻袋子_</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.12.07</td>
+      <td>theboxx</td>
+      <td>Star2U-TAT</td>
+      <td>
+        <ul>
+          <li><a href="" target="_blank"></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td>2025.12.06</td>
       <td>CAVE ART VENUE</td>
       <td>less is more 4.0</td>
