@@ -1344,17 +1344,17 @@ location: "Shanghi, China"
   .red { background-color: #ffcdd2; color: #b71c1c; }
 
 /* 整个页面背景 */
-body {
+/* body {
   background-image: linear-gradient(rgba(255,255,255,0.25), rgba(255,255,255,0.25)), 
                     url('/essays/images/mirakuru/mirakuru_timeline.svg'); /* 背景图路径 */
-  background-size: cover;
+/*  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-}
+} */
 
 /* 页面内容容器，保证居中和内边距 */
 .playlist-container {
