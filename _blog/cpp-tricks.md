@@ -20,6 +20,38 @@ template 有几种参数类型, 分别是
 - 非类型参数, 用于表示值参数, 例如 `int N`
 - `concept` , 用于表示类型约束, C++20 引入
 
+### 模板匹配机制
+
+模板匹配的过程类似于函数重载解析, 编译器会根据传入的模板参数类型和数量来选择最合适的模板实例化. 具体规则包括:
+- 精确匹配优先于模糊匹配
+- 特化模板优先于通用模板
+
+注意的是所有模板声明的参数数量必须相同, 比如只允许
+```cpp
+template<typename T, typename U>
+class MyClass {};
+
+template<typename T>
+class MyClass<T, int> {}; // 合法, 特化版本
+
+template<typename T>
+class MyClass<T> {}; // 非法, 参数数量不匹配
+```
+
+`template<...>`只是一个模板参数声明, 表明哪些是可变的, 而具体匹配是发生在后面的函数或者类定义上.
+
+```cpp
+
+template<typename A, typename B>
+class wrapper {};
+
+template<typename T, typename U>
+class test {};
+
+template<typename T, typename A, typename B>
+class test<wrapper<A, B>, T> {}; // 合法, 参数数量匹配
+```
+
 ### 可变参数模板
 
 可变参数模板允许我们定义接受任意数量参数的模板. 语法是使用 `...` 来表示参数包. 例如:
@@ -39,6 +71,8 @@ struct Sum {
 
 Sum<1, 2, 3, 4, 5>::value; // 15 compile time computed
 ```
+
+一个pack在匹配上被视作一个整体.
 
 ### SFINAE
 
