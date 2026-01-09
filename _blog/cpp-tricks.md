@@ -52,6 +52,50 @@ template<typename T, typename A, typename B>
 class test<wrapper<A, B>, T> {}; // 合法, 参数数量匹配
 ```
 
+### 模板惰性实例化
+
+#### 1️⃣ 模板实例化时机
+
+类模板本身不会立即生成代码，只是编译器知道有一个模板定义。
+
+成员函数模板（或者类模板的成员函数）也不会立即生成代码。
+
+只有当你真正调用这个函数，编译器才会实例化模板：
+
+也就是把模板参数替换成实际类型，然后生成对应的函数代码
+
+理解起来也是容易的, 因为我们知道成员函数是可以单独定义的, 比如`mystruct::func()` , 这个函数的定义可以在类外部, 所以编译器不可能在类定义时就生成所有成员函数的代码.  
+
+#### 例子
+
+```cpp
+template<typename T>
+struct MyAllocator {
+    T* allocate(size_t n) { ... }
+    void deallocate(T* p, size_t n) { ... }
+
+    // 构造对象
+    template<typename U, typename... Args>
+    void construct(U* p, Args&&... args) {
+        ::new (static_cast<void*>(p)) U(std::forward<Args>(args)...);
+    }
+};
+```
+
+一部分模板参数在类模板定义时就确定了, 另一部分模板参数在成员函数调用时才确定. 它允许这样的调用:
+
+```cpp
+MyAllocator<int> alloc;
+alignas(int) char buffer[sizeof(int)];
+
+// 构造 int
+alloc.construct(reinterpret_cast<int*>(buffer), 42);
+
+// 构造 int 的派生类
+struct MyInt : int { MyInt(int x): int(x){} };
+alloc.construct(reinterpret_cast<MyInt*>(buffer), 123);
+```
+
 ### 可变参数模板
 
 可变参数模板允许我们定义接受任意数量参数的模板. 语法是使用 `...` 来表示参数包. 例如:
