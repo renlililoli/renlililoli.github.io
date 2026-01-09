@@ -252,3 +252,61 @@ Vec<int> intVec; // 等同于 std::vector<int>
 ### 总结
 
 以上所有的一切都是编译期特性.
+
+## 左值右值
+
+C++ 引入了左值 (lvalue) 和右值 (rvalue) 的概念, 用于区分不同类型的表达式. 了解它们对于理解引用折叠和完美转发非常重要.
+
+- 左值 (lvalue): 表示有持久存储地址的对象, 可以出现在赋值语句的左侧. 例如变量名, 数组元素等.
+- 右值 (rvalue): 表示临时对象或字面值, 通常不能出现在赋值语句的左侧. 例如字面值, 临时对象等.
+- xvalue (expiring value): 一种特殊的右值, 表示即将被销毁的对象, 通常与移动语义相关.
+
+鉴别就是能否取地址 & , 能取地址的是左值, 不能取地址的是右值.
+
+
+两个重要的函数:
+- forward<T>(u): 根据 T 的类型特性完美转发 u, 保留其左值或右值属性.
+- move(u): 将 u 转换为右值引用, 表示 u 的资源可以被移动.
+
+由于引用折叠规则, 当我们使用模板参数 T 来声明引用时, 需要特别注意:
+- `T& &` 会折叠为 `T&`
+- `T& &&` 会折叠为 `T&`
+- `T&& &` 会折叠为 `T&`
+- `T&& &&` 会折叠为 `T&&`
+
+经历过一次传参, 右值引用就变成了左值. 所以对性能敏感的代码, 一般会使用 `std::forward<T>(arg)` 来完美转发参数, 避免产生拷贝.
+
+对于move来说, 它总是将参数转换为右值引用, 以便触发移动语义. 被移动后的对象通常处于一种有效但未定义的状态, 只能被赋值或销毁.
+
+```cpp
+
+void f(int& x)  { std::cout << "lvalue\n"; }
+void f(int&& x) { std::cout << "rvalue\n"; }
+
+template<typename T>
+void wrapper(T&& arg) {
+    f(std::forward<T>(arg)); // 完美转发
+}
+
+template<typename T>
+void wrapper_no_forward(T&& arg) {
+    f(arg); // 未使用std::forward，始终作为左值处理
+}
+
+int main() {
+    int a = 10;
+    wrapper(a);          // 传递左值
+    wrapper(20);        // 传递右值
+    wrapper_no_forward(a); // 传递左值
+    wrapper_no_forward(20); // 传递右值
+    return 0;
+}
+
+```
+
+```bash
+lvalue
+rvalue
+lvalue
+lvalue
+```
