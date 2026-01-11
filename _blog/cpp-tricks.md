@@ -69,7 +69,59 @@ class test<wrapper<A, B>, T> {}; // 合法, 参数数量匹配
 | 需要偏特化   | ❌    | ✔   |
 | 标准允许偏特化 | ❌    | ✔   |
 
+对于类模板而言：
 
+只有**主模板（primary template）**在声明 / 定义时写成 template<...> class Name，类名后面不写 <…>；
+
+所有偏特化和全特化在声明 / 定义时，都必须在类名后显式写出 <…> 实参形式。
+
+类模板特化实例化时, 参数数量必须和主模板一致.
+
+```cpp
+#include <iostream>
+#include <utility>
+#include <vector>
+#include <array>
+
+template <typename T1, typename T2>
+class test {};
+
+template <typename T1>
+class test<T1, int> {
+    public:
+    test() {
+        std::cout << "Specialized template instantiated with int as second type." << std::endl;
+    }
+};
+
+template <template <typename> class T1, typename T2, typename T3>
+class test<T1<T2>, T3> {
+    public:
+    test() {
+        std::cout << "Generic template instantiated with a template class as first type." << std::endl;
+    }
+};
+
+template <typename T1, typename T2>
+class test<std::array<T1, 5>, T2> {
+    public:
+    test() {
+        std::cout << "Specialized template instantiated with std::array of size 5 as first type." << std::endl;
+    }
+};
+
+int main() {
+    test<int, double> defaultInstance; // This will use the primary template
+    test<double, int> specializedInstance; // This will trigger the specialized template
+    test<std::vector<int>, double> genericInstance; // This will use the generic template
+    // test<std::vector, int, int> anotherGenericInstance; // 类模板 "test" 的参数太多
+    test<std::array<float, 5>, char> arraySpecializedInstance; // This will trigger the array specialization
+    test<float, float> anotherDefaultInstance; // This will use the primary template, will not trigger test<std::array<T1, 5>, T2>
+    // test<int>; // wrong number of template arguments
+
+    return 0;
+}
+```
 
 ### 模板惰性实例化
 
