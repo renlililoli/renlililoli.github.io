@@ -87,6 +87,38 @@ location: "Shanghi, China"
 
 ---
 
+### 原创 曲目
+
+<div class="playlist">
+
+  <div class="card bg-purple">
+    <h3><a href="" target="_blank">Miracle Magic</a></h3>
+    <div class="artist">MIRAKURU 魔法转生少女</div>
+    <div class="description">
+      非常好的出道曲. 最爱的王道摇滚.
+    </div>
+    <div class="video-links">
+      <a href=""></a>
+      <a href="" target="_blank"></a>
+    </div>
+  </div>
+
+  <div class="card bg-yellow">
+    <h3><a href="https://www.bilibili.com/video/BV148rZBVEqy" target="_blank">みるみる，花たち(瞧，花儿们呀)</a></h3>
+    <div class="artist">MIRAKURU 魔法转生少女</div>
+    <div class="description">
+      作为第二首原创, 风格和出道曲差别较大, 更加偏向于可爱风.
+    </div>
+    <div class="video-links">
+      <a href="https://www.bilibili.com/video/BV148rZBVEqy" target="_blank">Bilibili 视频</a>
+      <a href="https://weibo.com/tv/show/1034:5255414040952917" target="_blank">微博视频</a>
+    </div>
+  </div>
+
+</div>
+
+---
+
 ### cover 曲目
 
 <div class="playlist">
@@ -208,6 +240,60 @@ location: "Shanghi, China"
   </thead>
   <tbody>
   <tr>
+      <td>2026.01.18</td>
+      <td>又又中心聚五场</td>
+      <td>Mirakuru Fes 4.0(Kaori, Yukikoo 毕业)</td>
+      <td>
+        <ul>
+          <li><a href="" target="_blank"></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2026.01.17</td>
+      <td>CAVE ART VENUE</td>
+      <td></td>
+      <td>
+        <ul>
+          <li><a href="" target="_blank"></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2026.01.11</td>
+      <td>摩登天空</td>
+      <td>HUMANLESS学园第十四届社团活动</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/2938642847/QmJs9zQ2h" target="_blank">兔子_mission(sp)</a></li>
+          <li><a href="https://weibo.com/2938642847/QnCEUbovM" target="_blank">兔子_mission(本番)</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2026.01.10</td>
+      <td>世界树</td>
+      <td></td>
+      <td>
+        <ul>
+          <li><a href="" target="_blank"></a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2026.01.09</td>
+      <td>世界树</td>
+      <td>Hoshikuzu Fes Vol.6</td>
+      <td>
+        <ul>
+          <li><a href="https://weibo.com/7963695557/QmrquBu87" target="_blank">一只麻袋子_(本番)</a></li>
+          <li><a href="https://weibo.com/7963695557/Qmnovc59L" target="_blank">一只麻袋子_(sp)</a></li>
+          <li><a href="https://weibo.com/1408538294/QmuycFHZk" target="_blank">当我不存在JK</a></li>
+          <li><a href="https://weibo.com/6320541908/Qmnk7n2Iy" target="_blank">哇喔0V0(图)</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td>2026.01.02</td>
       <td>又又中心聚五场</td>
       <td></td>
@@ -230,10 +316,10 @@ location: "Shanghi, China"
     <tr>
       <td>2025.12.31</td>
       <td>南翔</td>
-      <td></td>
+      <td>视角姬跨年</td>
       <td>
         <ul>
-          <li><a href="" target="_blank"></a></li>
+          <li><a href="https://weibo.com/6328915672/Ql1tFe7bT" target="_blank">0_255_0Z</a></li>
         </ul>
       </td>
     </tr>
@@ -244,6 +330,7 @@ location: "Shanghi, China"
       <td>
         <ul>
           <li><a href="" target="_blank"></a></li>
+          <li><a href="https://weibo.com/6320541908/Ql3GewljX" target="_blank">哇喔0V0(图)</a></li>
         </ul>
       </td>
     </tr>
@@ -253,7 +340,7 @@ location: "Shanghi, China"
       <td>SMO Idol Live Vol.2</td>
       <td>
         <ul>
-          <li><a href="" target="_blank"></a></li>
+          <li><a href="https://weibo.com/7487185147/QkxXbyVSF" target="_blank">刹那神空</a></li>
         </ul>
       </td>
     </tr>
@@ -344,6 +431,7 @@ location: "Shanghi, China"
       <td>
         <ul>
           <li><a href="https://weibo.com/6328915672/QfY4u1Oql" target="_blank">Green_orz</a></li>
+          <li><a href="https://www.bilibili.com/video/BV1uoSzBHEeE" target="_blank">抱着奶粉罐的熊</a></li>
         </ul>
       </td>
     </tr>
@@ -374,7 +462,7 @@ location: "Shanghi, China"
       <td>MIRAKURU FES 3.0</td>
       <td>
         <ul>
-          <li><a href="" target="_blank"></a></li>
+          <li><a href="https://www.bilibili.com/video/BV1jbynBFELk" target="_blank">官摄</a></li>
         </ul>
       </td>
     </tr>
@@ -436,6 +524,7 @@ location: "Shanghi, China"
         <ul>
           <li><a href="https://weibo.com/2938642847/QaQdNuPuG" target="_blank">兔子_mission</a></li>
           <li><a href="https://weibo.com/7963695557/Q9XRJ9Zts" target="_blank">一只麻袋子_</a></li>
+          <li><a href="https://www.bilibili.com/video/BV1disHzeEkC" target="_blank">官摄</a></li>
         </ul>
       </td>
     </tr>
@@ -723,7 +812,7 @@ location: "Shanghi, China"
       <td>绮丽偶像日K.F.C. mini 105</td>
       <td>
         <ul>
-          <li><a href=""></a></li>
+          <li><a href="https://www.bilibili.com/video/BV1ccuGzCEc4">抱着奶粉罐的熊</a></li>
         </ul>
       </td>
     </tr>
@@ -764,6 +853,7 @@ location: "Shanghi, China"
       <td>
         <ul>
           <li><a href="https://weibo.com/7963695557/PyAUfF8zA" target="_blank">一只麻袋子_</a></li>
+          <li><a href="https://www.bilibili.com/video/BV1xVg9zzEiE">抱着奶粉罐的熊</a></li>
         </ul>
       </td>
     </tr>
@@ -1027,11 +1117,11 @@ location: "Shanghi, China"
     </tr>
     <tr>
       <td>2025.04.12</td>
-      <td></td>
-      <td></td>
+      <td>世界树</td>
+      <td>YGG IDOL Fes</td>
       <td>
         <ul>
-          <li><a href=""></a></li>
+          <li><a href="https://www.bilibili.com/video/BV1LjdkYtEGX">抱着奶粉罐的熊</a></li>
         </ul>
       </td>
     </tr>
@@ -1096,6 +1186,16 @@ location: "Shanghi, China"
       <td>
         <ul>
           <li><a href="https://weibo.com/2938642847/PkL3O88wO" target="_blank">兔子_mission</a></li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>2025.03.22</td>
+      <td></td>
+      <td>魔境 Vol.25</td>
+      <td>
+        <ul>
+          <li><a href="https://www.bilibili.com/video/BV1YsozYEEXN" target="_blank">抱着奶粉罐的熊</a></li>
         </ul>
       </td>
     </tr>
@@ -1432,6 +1532,7 @@ location: "Shanghi, China"
 .bg-white { background: rgba(255,255,255,0.85); }
 .bg-yellow { background: linear-gradient(135deg, #fff9c4, #fff59d); }
 .bg-green { background: linear-gradient(135deg, #dcedc8, #c5e1a5); }
+.bg-purple { background: linear-gradient(135deg, #e1bee7, #ce93d8); }
 
 
 .records-container {
