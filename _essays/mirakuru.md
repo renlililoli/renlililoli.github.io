@@ -123,6 +123,18 @@ location: "Shanghi, China"
 
 <div class="playlist">
 
+  <div class="card bg-white">
+    <h3><a href="https://music.163.com/dj?id=3073245510&uct2=U2FsdGVkX1+WVlq4ahyyZCNEq262JGygQisXzpPAQzg=" target="_blank">シンデレラマインド
+ (cinderella mind)</a></h3>
+    <div class="artist">Jams Collection</div>
+    <div class="description">
+      第一次听时2026.01.18雪薰毕业.
+    </div>
+    <div class="video-links">
+      <a href="https://www.bilibili.com/video/BV17tFCeCEbn" target="_blank">Bilibili 视频</a>
+    </div>
+  </div>
+
   <div class="card bg-yellow">
     <h3><a href="https://www.bilibili.com/video/BV11cYgzMEnA" target="_blank">ラブソングに襲われる (情歌来袭)</a></h3>
     <div class="artist">= LOVE</div>
@@ -189,7 +201,7 @@ location: "Shanghi, China"
 
   <div class="card bg-pink">
     <h3><a href="https://www.youtube.com/watch?v=hAWQ5gMYgYc" target="_blank">LOVEです。</a></h3>
-    <div class="artist">JamesCollection</div>
+    <div class="artist">Jams Collection</div>
     <div class="description">
       副歌简单可跟跳，其余玩法不多。aiaiaiai aishiteru~
     </div>
