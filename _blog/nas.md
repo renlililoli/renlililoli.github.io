@@ -12,7 +12,7 @@ location: "Shanghai, China"
 ---
 
 ## 硬件配置:
-- 主机: 华为 OrangePi Aipro, 4 核, 8GB 内存
+- 主机: 华为 OrangePi Aipro, 4 核, 16GB 内存
 - 硬盘: 16T x 1.
 
 --- 
