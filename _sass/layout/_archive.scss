@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ARCHIVE
+   ARCHIVE - Cute card-style layout
    ========================================================================== */
 
 .archive {
@@ -15,24 +15,26 @@
   }
 
   a {
-    text-decoration: underline;
+    text-decoration: none;
 
     &:hover {
-      text-decoration: underline;
+      text-decoration: none;
 
       img {
-        box-shadow: 0 0 10px rgba(#000, 0.25);
+        box-shadow: var(--card-shadow-hover);
       }
     }
   }
 }
 
 .archive__subtitle {
-  margin: 1.414em 0 0;
-  padding-bottom: 0.5em;
+  margin: 1.414em 0 0.75em;
+  padding: 0.5em 1em 0.5em 0;
   font-size: $type-size-5;
   color: var(--global-text-color-light);
-  border-bottom: 1px solid var(--global-border-color);
+  border-bottom: 2px solid var(--global-border-color);
+  border-radius: 4px;
+  display: inline-block;
 
   + .list__item .archive__item-title {
     margin-top: 0.5em;
@@ -42,6 +44,8 @@
 .archive__item-title {
   margin-bottom: 0.25em;
   font-family: $sans-serif-narrow;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 
   a + a {
     opacity: 0.5;
@@ -58,8 +62,10 @@
 }
 
 .archive__item-excerpt {
-  margin-top: 0;
+  margin-top: 0.35em;
   font-size: $type-size-6;
+  color: var(--global-text-color-light);
+  line-height: 1.5;
 
   & + p {
     text-indent: 0;
@@ -69,27 +75,52 @@
 .archive__item-teaser {
   border-radius: $border-radius;
   overflow: hidden;
+  transition: $global-transition;
   img {
     width: 100%;
+    transition: $global-transition;
+  }
+}
+
+/* Card-style list items */
+.archive__item {
+  transition: $global-transition;
+
+  .archive__item-teaser {
+    box-shadow: var(--card-shadow);
   }
 }
 
 .archive__item:hover {
   .archive__item-teaser {
-    box-shadow: 0 0 10px rgba(#000, 0.25);
+    box-shadow: var(--card-shadow-hover);
   }
 
-  .archive__item-title {
-    text-decoration: underline;
+  .archive__item-title a {
+    color: var(--global-link-color);
   }
 }
 
 
 /*
-   List view
+   List view - Card layout
    ========================================================================== */
 
 .list__item {
+  margin-bottom: 1.5em;
+  padding: 1.25em 1.5em;
+  background: var(--card-bg);
+  border-radius: $border-radius;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--global-border-color);
+  transition: $global-transition;
+
+  &:hover {
+    box-shadow: var(--card-shadow-hover);
+    border-color: rgba(244, 143, 177, 0.4);
+    transform: translateY(-2px);
+  }
+
   @include breakpoint($medium) {
     padding-right: $right-sidebar-width-narrow;
   }
@@ -103,7 +134,12 @@
   }
 
   .page__meta {
-    margin: 0 0 4px;
+    margin: 0.5em 0 4px;
+    font-size: 0.85em;
+  }
+
+  .archive__item-title {
+    margin-bottom: 0.35em;
   }
 }
 
@@ -114,13 +150,24 @@
 
 .grid__item {
   margin-bottom: 2em;
+  padding: 1em;
+  background: var(--card-bg);
+  border-radius: $border-radius;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--global-border-color);
+  transition: $global-transition;
+
+  &:hover {
+    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-4px);
+  }
 
   .page__meta {
     margin: 0 0 4px;
   }
 
   .archive__item-title {
-    margin-top: 0.5em;
+    margin-top: 0.75em;
     font-size: $type-size-5;
   }
 
@@ -132,16 +179,18 @@
     @include gallery(5 of 10);
     .archive__item-teaser {
       max-height: 200px;
+      border-radius: 8px;
     }
   }
 
   @include breakpoint($medium) {
-    margin-left: 0; /* reset before mixin does its thing*/
-    margin-right: 0; /* reset before mixin does its thing*/
+    margin-left: 0;
+    margin-right: 0;
     @include gallery(2.5 of 10);
 
     .archive__item-teaser {
       max-height: 120px;
+      border-radius: 8px;
     }
 
     .archive__item-excerpt {
@@ -159,20 +208,32 @@
 .feature__wrapper {
   @include clearfix();
   margin-bottom: 2em;
-  border-bottom: 1px solid var(--global-border-color);
+  padding: 1.5em 0;
 }
 
 .feature__item {
   margin-bottom: 2em;
   font-size: 1.25rem;
+  padding: 1.5em;
+  background: var(--card-bg);
+  border-radius: $border-radius;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--global-border-color);
+  transition: $global-transition;
+
+  &:hover {
+    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-4px);
+  }
 
   @include breakpoint($small) {
-    margin-bottom: 0;
+    margin-bottom: 1.5em;
     @include gallery(4 of 12);
 
     .feature__item-teaser {
       max-height: 200px;
       overflow: hidden;
+      border-radius: 8px;
     }
   }
 

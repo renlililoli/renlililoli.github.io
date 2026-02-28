@@ -13,13 +13,13 @@ $doc-font-size              : 16;
 $paragraph-indent           : false; // true, false (default)
 $indent-var                 : 1.3em;
 
-/* System typefaces */
+/* System typefaces - Quicksand & Nunito for cute modern feel */
 $serif                      : Georgia, Times, serif;
-$sans-serif                 : -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", Arial, sans-serif;
-$monospace                  : Monaco, Consolas, "Lucida Console", monospace;
+$sans-serif                 : "Quicksand", "Nunito", -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", Arial, sans-serif;
+$monospace                  : "JetBrains Mono", Monaco, Consolas, "Lucida Console", monospace;
 
 /* Sans serif typefaces */
-$sans-serif-narrow          : $sans-serif;
+$sans-serif-narrow          : "Nunito", $sans-serif;
 $helvetica                  : Helvetica, "Helvetica Neue", Arial, sans-serif;
 
 /* Serif typefaces */

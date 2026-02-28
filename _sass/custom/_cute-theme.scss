@@ -1,0 +1,45 @@
+/* ==========================================================================
+   CUTE PASTEL THEME - Additional styling
+   ========================================================================== */
+
+/* Homepage / splash content */
+.splash {
+  .page__content {
+    h2 {
+      padding-left: 0;
+      border-left: none;
+      margin-top: 1.5em;
+      padding-bottom: 0.4em;
+      border-bottom: 2px solid rgba(244, 143, 177, 0.3);
+      color: var(--global-text-color);
+    }
+    ul {
+      padding-left: 1.5em;
+      li {
+        margin-bottom: 0.4em;
+        &::marker {
+          color: #f48fb1;
+        }
+      }
+    }
+  }
+}
+
+/* Archive page title styling */
+.archive .page__title {
+  margin-bottom: 0.5em;
+}
+
+/* Nav active state - softer */
+.nav__list .active {
+  background: linear-gradient(135deg, #f48fb1, #ce93d8);
+}
+
+/* TOC styling for pastel */
+.toc {
+  background: var(--card-bg);
+  border: 1px solid var(--global-border-color);
+  .nav__title {
+    background: linear-gradient(135deg, #f48fb1, #ce93d8);
+  }
+}

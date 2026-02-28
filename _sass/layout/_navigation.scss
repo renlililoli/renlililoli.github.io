@@ -196,10 +196,16 @@
     padding: 0 0.5rem;
     border: 0;
     outline: none;
-    background-color: var(--global-base-color);
+    background: linear-gradient(135deg, #f48fb1, #ce93d8);
     color: #fff;
     cursor: pointer;
     z-index: 100;
+    border-radius: 8px;
+    transition: $global-transition;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(244, 143, 177, 0.4);
+    }
   }
 
   .visible-links {
@@ -242,20 +248,21 @@
         position: absolute;
         left: 0;
         bottom: 0;
-        height: 4px;
-        background: var(--global-border-color);
+        height: 3px;
+        background: linear-gradient(90deg, #f48fb1, #90caf9);
         width: 100%;
+        border-radius: 2px;
         -webkit-transition: $global-transition;
         transition: $global-transition;
         -webkit-transform: scaleX(0);
             -ms-transform: scaleX(0);
-                transform: scaleX(0); /* hide*/
+                transform: scaleX(0);
       }
 
       &:hover:before {
         -webkit-transform: scaleX(1);
             -ms-transform: scaleX(1);
-                transform: scaleX(1); /* reveal*/
+                transform: scaleX(1);
       }
     }
   }

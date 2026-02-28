@@ -11,6 +11,10 @@ body {
   /* Set via _themes.scss */
   color: var(--global-text-color);
   background-color: var(--global-bg-color);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 249, 230, 0.9), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 50%, rgba(227, 242, 253, 0.4), transparent),
+    radial-gradient(ellipse 50% 30% at 0% 80%, rgba(255, 228, 236, 0.3), transparent);
 
   margin: 0;
   padding: $masthead-height 0 0;
@@ -97,10 +101,11 @@ abbr[data-original-title] {
 
 blockquote {
   margin: 2em 1em 2em 0;
-  padding-left: 1em;
-  padding-right: 1em;
+  padding: 1em 1.25em;
   font-style: italic;
-  border-left: 0.25em solid var(--global-border-color);
+  border-left: 4px solid rgba(244, 143, 177, 0.6);
+  background: rgba(255, 249, 230, 0.5);
+  border-radius: 0 $border-radius $border-radius 0;
 
   cite {
     font-style: italic;
