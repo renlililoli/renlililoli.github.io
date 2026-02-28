@@ -47,4 +47,12 @@ graph TD
 
 由于这个主机太垃圾, 配置好再重启直接挂了... 再也开不了机.
 
-此贴完结.
+Update: 感觉是电源的问题，现在又恢复了笑死
+
+
+## zotero 配置webdav同步
+
+zotero这个论文管理软件的官方是有自带的云盘的但是套餐巨贵， 所以恰好自己有nas，并且zotero支持webdav存储协议， 于是自己配置了一下
+
+[official document](https://docs.nextcloud.com/server/28/user_manual/en/files/access_webdav.html)
+
