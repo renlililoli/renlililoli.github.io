@@ -1,0 +1,240 @@
+/* MIRAKURU 魔法转生少女 - 专属可爱现代排版 */
+
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap');
+
+/* 页面容器 - 魔法少女氛围 (此 CSS 仅 miraukuru 页面加载) */
+#main .page__content {
+  font-family: 'Zen Maru Gothic', 'M PLUS Rounded 1c', 'Quicksand', sans-serif;
+  max-width: 920px;
+  line-height: 1.75;
+  color: #4a4a4a;
+  font-size: 1.02em;
+}
+
+/* 页面背景 - 柔和粉绿黄紫魔法感 */
+#main {
+  background-image: 
+    radial-gradient(ellipse 100% 80% at 50% 0%, rgba(255, 228, 236, 0.45) 0%, transparent 50%),
+    radial-gradient(circle at 15% 85%, rgba(232, 245, 233, 0.35) 0%, transparent 45%),
+    radial-gradient(circle at 85% 15%, rgba(255, 249, 230, 0.4) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(243, 229, 245, 0.15) 0%, transparent 60%);
+  padding-bottom: 2em;
+}
+
+/* 开场介绍 */
+#main .page__content > p:first-of-type {
+  font-size: 1.05em;
+  color: #6b5b6b;
+  padding: 1em 1.2em;
+  background: linear-gradient(135deg, rgba(255, 242, 245, 0.9), rgba(255, 248, 240, 0.9));
+  border-radius: 16px;
+  border-left: 4px solid #f8bbd0;
+  margin-bottom: 2em;
+}
+
+/* 标题样式 */
+#main .page__content h2 {
+  font-family: 'M PLUS Rounded 1c', 'Zen Maru Gothic', sans-serif;
+  font-weight: 700;
+  color: #c2185b;
+  margin: 2em 0 0.8em;
+  padding-bottom: 0.4em;
+  border-bottom: 3px solid transparent;
+  border-image: linear-gradient(90deg, #f8bbd0, #ce93d8, #b3e5fc) 1;
+  font-size: 1.4em;
+  letter-spacing: 0.05em;
+}
+
+#main .page__content h3 {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-weight: 500;
+  color: #ad1457;
+  margin: 1.8em 0 0.6em;
+  font-size: 1.15em;
+}
+
+/* 分隔线 */
+#main .page__content hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(248, 187, 208, 0.6), transparent);
+  margin: 2.5em 0;
+}
+
+/* 链接样式 */
+#main .page__content a {
+  color: #e91e63;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border-bottom: 1px dotted rgba(233, 30, 99, 0.4);
+}
+
+#main .page__content a:hover {
+  color: #c2185b;
+  border-bottom-style: solid;
+}
+
+/* 表格 - 成员表 */
+#main .page__content table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  max-width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(248, 187, 208, 0.25), 0 1px 3px rgba(0,0,0,0.05);
+  overflow: hidden;
+  margin: 1.5em 0 2em;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+
+#main .page__content thead {
+  background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+  color: #880e4f;
+  font-weight: 700;
+  font-size: 0.95em;
+  letter-spacing: 0.03em;
+}
+
+#main .page__content th {
+  padding: 16px 20px;
+  text-align: left;
+  border-bottom: 2px solid rgba(248, 187, 208, 0.5);
+}
+
+#main .page__content td {
+  padding: 14px 20px;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  transition: background 0.2s ease;
+}
+
+#main .page__content tbody tr:hover {
+  background: rgba(255, 249, 246, 0.8);
+}
+
+#main .page__content td ul {
+  margin: 0.3em 0 0;
+  padding-left: 1.2em;
+  list-style: none;
+}
+
+#main .page__content td ul li::before {
+  content: "✦ ";
+  color: #f8bbd0;
+  margin-right: 0.3em;
+}
+
+#main .page__content td ul li {
+  margin: 4px 0;
+}
+
+/* 成员对应颜色 - 柔和马卡龙色 */
+#main .page__content .yellow { background: linear-gradient(135deg, #fffde7, #fff9c4); color: #7c5500; }
+#main .page__content .green { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); color: #2e7d32; }
+#main .page__content .purple { background: linear-gradient(135deg, #f3e5f5, #e1bee7); color: #6a1b9a; }
+#main .page__content .white { background: rgba(255,255,255,0.9); color: #5c5c5c; }
+#main .page__content .pink { background: linear-gradient(135deg, #fce4ec, #f8bbd0); color: #ad1457; }
+#main .page__content .blue { background: linear-gradient(135deg, #e3f2fd, #bbdefb); color: #1565c0; }
+#main .page__content .lightblue { background: linear-gradient(135deg, #e1f5fe, #b3e5fc); color: #0277bd; }
+#main .page__content .red { background: linear-gradient(135deg, #ffebee, #ffcdd2); color: #c62828; }
+
+/* iframe 时间线 */
+#main .page__content iframe {
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(248, 187, 208, 0.2);
+  border: 1px solid rgba(248, 187, 208, 0.3);
+  margin: 1em 0 2em;
+}
+
+/* 播放列表卡片 */
+#main .page__content .playlist {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.2em;
+  margin: 1.5em 0 2em;
+}
+
+#main .page__content .card {
+  border-radius: 20px;
+  padding: 1.4em 1.6em;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.8);
+}
+
+#main .page__content .card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 16px 40px rgba(248, 187, 208, 0.25);
+}
+
+#main .page__content .card h3 {
+  margin: 0 0 0.5em;
+  font-size: 1.15em;
+  line-height: 1.4;
+}
+
+#main .page__content .card .artist {
+  font-size: 0.9em;
+  font-weight: 600;
+  margin-bottom: 0.6em;
+  color: #6b5b6b;
+  opacity: 0.95;
+}
+
+#main .page__content .card .description {
+  font-size: 0.9em;
+  line-height: 1.55;
+  color: #5a5a5a;
+  flex-grow: 1;
+}
+
+#main .page__content .card .video-links {
+  margin-top: 0.8em;
+  padding-top: 0.8em;
+  border-top: 1px dashed rgba(0,0,0,0.08);
+}
+
+#main .page__content .card .video-links a {
+  display: inline-block;
+  margin-right: 0.8em;
+  margin-bottom: 0.3em;
+  font-size: 0.85em;
+  padding: 0.3em 0.6em;
+  background: rgba(255,255,255,0.6);
+  border-radius: 8px;
+  border: none;
+}
+
+/* 卡片背景色 */
+#main .page__content .bg-pink { 
+  background: linear-gradient(145deg, rgba(255, 235, 238, 0.95), rgba(248, 187, 208, 0.5)); 
+}
+#main .page__content .bg-white { 
+  background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(255, 249, 246, 0.8)); 
+}
+#main .page__content .bg-yellow { 
+  background: linear-gradient(145deg, rgba(255, 253, 231, 0.95), rgba(255, 249, 196, 0.6)); 
+}
+#main .page__content .bg-green { 
+  background: linear-gradient(145deg, rgba(232, 245, 233, 0.95), rgba(200, 230, 201, 0.6)); 
+}
+#main .page__content .bg-purple { 
+  background: linear-gradient(145deg, rgba(243, 229, 245, 0.95), rgba(225, 190, 231, 0.6)); 
+}
+
+/* 活动记录表格 - 斑马纹 */
+#main .page__content tbody tr:nth-child(even) {
+  background: rgba(255, 248, 250, 0.5);
+}
+
+/* 页面标题特殊样式 */
+#main .page .page__title {
+  font-family: 'M PLUS Rounded 1c', 'Zen Maru Gothic', sans-serif !important;
+  background: linear-gradient(135deg, #e91e63 0%, #ad1457 50%, #7b1fa2 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
