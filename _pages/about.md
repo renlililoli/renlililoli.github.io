@@ -27,3 +27,4 @@ Currently, my interests mainly focus on
 ## Events
 
 - 2025-2026 Spring: TA of Discrete Mathematics
+- 2024-2025 Fall: TA of Numerical Linear Algebra and Optimization
