@@ -10,11 +10,15 @@ html {
 body {
   /* Set via _themes.scss */
   color: var(--global-text-color);
-  background-color: var(--global-bg-color);
+  background-color: #fffbf5;
+  /* 可爱柔和渐变背景 - 黄粉蓝绿 */
   background-image:
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 249, 230, 0.9), transparent),
-    radial-gradient(ellipse 60% 40% at 100% 50%, rgba(227, 242, 253, 0.4), transparent),
-    radial-gradient(ellipse 50% 30% at 0% 80%, rgba(255, 228, 236, 0.3), transparent);
+    radial-gradient(ellipse 100% 70% at 50% -15%, rgba(255, 249, 230, 0.98), transparent 55%),
+    radial-gradient(ellipse 60% 50% at 90% 15%, rgba(255, 228, 236, 0.75), transparent 55%),
+    radial-gradient(ellipse 55% 45% at 10% 85%, rgba(232, 245, 233, 0.65), transparent 50%),
+    radial-gradient(ellipse 50% 60% at 0% 45%, rgba(227, 242, 253, 0.55), transparent 48%),
+    radial-gradient(ellipse 35% 40% at 75% 55%, rgba(255, 236, 179, 0.4), transparent 45%);
+  background-attachment: fixed;
 
   margin: 0;
   padding: $masthead-height 0 0;
