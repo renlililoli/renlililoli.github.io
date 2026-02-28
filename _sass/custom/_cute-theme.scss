@@ -30,6 +30,21 @@
   margin-bottom: 0.5em;
 }
 
+/* 修复：条目文字占满卡片宽度，覆盖原主题为右侧边栏预留的 padding */
+.archive .list__item {
+  padding-right: 1.5em !important;
+
+  @media screen and (min-width: 768px) {
+    padding-right: 1.5em !important;
+  }
+  @media screen and (min-width: 925px) {
+    padding-right: 1.5em !important;
+  }
+  @media screen and (min-width: 1280px) {
+    padding-right: 1.5em !important;
+  }
+}
+
 /* Nav active state - softer */
 .nav__list .active {
   background: linear-gradient(135deg, #f48fb1, #ce93d8);
