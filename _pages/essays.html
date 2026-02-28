@@ -1,16 +1,21 @@
 ---
 layout: archive
-title: "Blog"
-permalink: /blog/
+title: "Essays"
+permalink: /essays/
 author_profile: false
 ---
 
+<div class="archive__intro">
+  <h2>和学术与工作无关, 乱七八糟的东西都在这里</h2>
+  <p>全部是随笔和杂谈</p>
+</div>
+
 {% include base_path %}
 
-{% assign blog_by_year = site.blog | group_by_exp:"post", "post.date | date: '%Y'" %}
-{% assign years_sorted = blog_by_year | sort: "name" | reverse %}
+{% assign essays_by_year = site.essays | group_by_exp:"post", "post.date | date: '%Y'" %}
+{% assign essay_years = essays_by_year | sort: "name" | reverse %}
 
-{% for year_group in years_sorted %}
+{% for year_group in essay_years %}
 <section id="year-{{ year_group.name }}" class="archive__year-section">
   <h2 class="archive__subtitle">{{ year_group.name }} 年</h2>
   {% assign posts_sorted = year_group.items | sort: "date" | reverse %}

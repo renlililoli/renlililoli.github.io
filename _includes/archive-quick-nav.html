@@ -1,0 +1,92 @@
+{% include base_path %}
+{% comment %}
+  右侧快速导览 - 按日期/分类跳转 + 快速链接
+  根据当前页面 (blog/publications/essays) 显示不同内容
+{% endcomment %}
+
+<aside class="archive__quick-nav">
+  <div class="quick-nav__inner">
+    <h4 class="quick-nav__title">📎 快速导览</h4>
+
+    {% if page.url contains '/blog/' %}
+      {% comment %} Blog: 按年份跳转 {% endcomment %}
+      {% assign blog_by_year = site.blog | group_by_exp:"post", "post.date | date: '%Y'" %}
+      {% assign years_sorted = blog_by_year | sort: "name" | reverse %}
+      {% if years_sorted.size > 0 %}
+        <div class="quick-nav__section">
+          <h5 class="quick-nav__section-title">按年份</h5>
+          <ul class="quick-nav__list">
+            {% for year_group in years_sorted %}
+              <li><a href="#year-{{ year_group.name }}">{{ year_group.name }} 年</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="quick-nav__section">
+          <h5 class="quick-nav__section-title">近期文章</h5>
+          <ul class="quick-nav__list quick-nav__list--compact">
+            {% assign recent_blog = site.blog | sort: "date" | reverse | limit: 8 %}
+            {% for post in recent_blog %}
+              <li><a href="{{ base_path }}{{ post.url }}" title="{{ post.title }}">{{ post.title | truncate: 20 }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+    {% elsif page.url contains '/publications/' %}
+      {% comment %} Publications: 按分类跳转 {% endcomment %}
+      {% if site.publication_category %}
+        <div class="quick-nav__section">
+          <h5 class="quick-nav__section-title">按分类</h5>
+          <ul class="quick-nav__list">
+            {% for category in site.publication_category %}
+              <li><a href="#cat-{{ category[0] }}">{{ category[1].title }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+        <div class="quick-nav__section">
+          <h5 class="quick-nav__section-title">近期论文</h5>
+          <ul class="quick-nav__list quick-nav__list--compact">
+            {% assign recent_pubs = site.publications | sort: "date" | reverse | limit: 8 %}
+            {% for post in recent_pubs %}
+              <li><a href="{{ base_path }}{{ post.url }}" title="{{ post.title }}">{{ post.title | truncate: 20 }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+
+    {% elsif page.url contains '/essays/' %}
+      {% comment %} Essays: 按年份 + 文章列表 {% endcomment %}
+      {% assign essays_by_year = site.essays | group_by_exp:"post", "post.date | date: '%Y'" %}
+      {% assign essay_years = essays_by_year | sort: "name" | reverse %}
+      {% if essay_years.size > 0 %}
+        <div class="quick-nav__section">
+          <h5 class="quick-nav__section-title">按年份</h5>
+          <ul class="quick-nav__list">
+            {% for year_group in essay_years %}
+              <li><a href="#year-{{ year_group.name }}">{{ year_group.name }} 年</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+        <div class="quick-nav__section">
+          <h5 class="quick-nav__section-title">全部随笔</h5>
+          <ul class="quick-nav__list quick-nav__list--compact">
+            {% assign sorted_essays = site.essays | sort: "date" | reverse %}
+            {% for post in sorted_essays %}
+              <li><a href="{{ base_path }}{{ post.url }}" title="{{ post.title }}">{{ post.title | truncate: 18 }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+    {% endif %}
+
+    {% comment %} 通用: 导航链接 {% endcomment %}
+    <div class="quick-nav__section quick-nav__section--links">
+      <h5 class="quick-nav__section-title">导航</h5>
+      <ul class="quick-nav__list">
+        {% for link in site.data.navigation.main %}
+          <li><a href="{{ base_path }}{{ link.url }}">{{ link.title }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</aside>

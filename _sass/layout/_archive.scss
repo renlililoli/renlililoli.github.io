@@ -1,8 +1,13 @@
 /* ==========================================================================
-   ARCHIVE - Cute card-style layout
+   ARCHIVE - Cute card-style layout + 3-column with quick nav
    ========================================================================== */
 
-.archive {
+.archive-layout {
+  @include clearfix;
+}
+
+.archive,
+.archive__main {
   margin-bottom: 2em;
 
   @include breakpoint($medium) {
@@ -10,19 +15,45 @@
   }
 
   @include breakpoint($large) {
+    /* Default: no quick nav - full width */
     @include span(10 of 12 last);
     @include prefix(0.5 of 12);
   }
+}
 
-  a {
+/* With quick nav: main content narrower, quick nav on right */
+.archive-layout:has(.archive__quick-nav) {
+  .archive__main {
+    @include breakpoint($large) {
+      @include prefix(0);
+    }
+  }
+}
+
+/* Blog, Essays: 9 cols main + 3 cols quick nav */
+.archive-layout:has(.archive__quick-nav):not(:has(.sidebar)) .archive__main {
+  @include breakpoint($large) {
+    @include span(9 of 12);
+    @include prefix(0);
+  }
+}
+
+/* Publications: 2 sidebar + 7 main + 3 quick nav (sidebar is fixed, so we need left offset) */
+.archive-layout:has(.sidebar):has(.archive__quick-nav) .archive__main {
+  @include breakpoint($large) {
+    @include span(7 of 12);
+    @include prefix(2 of 12); /* Space for fixed left sidebar */
+  }
+}
+
+.archive a {
+  text-decoration: none;
+
+  &:hover {
     text-decoration: none;
 
-    &:hover {
-      text-decoration: none;
-
-      img {
-        box-shadow: var(--card-shadow-hover);
-      }
+    img {
+      box-shadow: var(--card-shadow-hover);
     }
   }
 }

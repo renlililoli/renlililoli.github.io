@@ -53,15 +53,15 @@ $small                      : 600px !default;
 $medium                     : 768px !default;
 $medium-wide                : 900px !default;
 $large                      : 925px !default;
-$x-large                    : 1280px !default;
+$x-large                    : 1440px !default;
 
 /* ==========================================================================
    Grid
    ========================================================================== */
 
-$right-sidebar-width-narrow : auto;
-$right-sidebar-width        : auto;
-$right-sidebar-width-wide   : auto;
+$right-sidebar-width-narrow : 200px;
+$right-sidebar-width        : 260px;
+$right-sidebar-width-wide   : 300px;
 
 $susy: (
     columns: 12,
