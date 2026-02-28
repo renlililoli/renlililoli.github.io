@@ -152,17 +152,7 @@
     transform: translateY(-2px);
   }
 
-  @include breakpoint($medium) {
-    padding-right: $right-sidebar-width-narrow;
-  }
-
-  @include breakpoint($large) {
-    padding-right: $right-sidebar-width;
-  }
-
-  @include breakpoint($x-large) {
-    padding-right: $right-sidebar-width-wide;
-  }
+  /* 快速导览在网格中已占独立列，无需为右侧边栏预留 padding */
 
   .page__meta {
     margin: 0.5em 0 4px;
