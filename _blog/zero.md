@@ -117,6 +117,14 @@ DP尽管并行效率非常高，但是问题在于它会导致global batch上升
 ✅ 把 梯度（gradients） 移到 CPU（计算后再 offload）
 ✅ 在 CPU 上做参数更新（optimizer compute）
 
+### 划分的原则
+
+如何卸载参数， 有一些重要的原则：
+- 首先，计算负载型优先在gpu上执行， 对于LLM训练来说， 计算复杂度可以被衡量为$O(MB)$, 其中$M$是模型参数数量，$B$是batch大小。 因此forward和backward仍然在gpu上执行。这意味着gpu 端至少要保留所有的模型参数和激活值。而对于简单的计算， 比如element-wise的计算， 可以被卸载到cpu上执行。这包括了梯度更新， 优化器状态更新等。
+- 其次，是由于pcie带宽相对较低， cpu和gpu间应该尽可能减少通信
+
+根据这两个重要的原则（事实上原论文有更多的原则，但是个人认为这两个最重要），划分结果就是如最开始所说， 模型参数和激活值在gpu上， 优化器状态在cpu上。pcie的数据交换仅仅发生在bf16的梯度上。
+
 ### 它的工作流程简化版（DP基础上）
 
 ZeRO-Offload 基于 ZeRO-2 的状态切分思想，但做了更激进的 offload：
@@ -192,3 +200,387 @@ sequenceDiagram
     CPU->>GPU: L2 param shard -> GPU
 ```
 
+### 伪代码实现
+
+```python
+# 假设：world_size 个 rank 做数据并行
+for_parallel rank in range(world_size):
+
+    # 初始化模型层
+    initialize_layers()
+
+    # 每个 rank 都遍历自己的数据 shard
+    for batch in dataset:
+
+        # ======== Forward ========
+        # 使用 GPU 上的 FP16 参数做前向
+        x = forward(batch)
+
+        # 计算 loss，并通过 autograd 生成梯度
+        compute_loss(x, batch).backward()
+
+        # 手动逐层 backward（用于梯度分片与通信控制）
+        backward(x.grad)
+
+        # 参数更新阶段
+        step()
+
+
+# =========================================================
+# 判断当前 rank 是否是某一层的“owner”
+# 只有 owner 才保存 FP32 master 参数和 optimizer 状态
+# =========================================================
+def _is_owner(i):
+    return True if rank owns layer i else False
+
+
+# =========================================================
+# 初始化阶段
+# =========================================================
+def initialize_layers():
+
+    for i in range(num_layers):
+
+        # 所有 rank 在 GPU 上都分配 FP16 参数副本
+        allocate_on_gpu layers[i].param_fp16
+
+        # 只有 owner 才分配以下资源
+        if _is_owner(i):
+
+            # 在 CPU 上保存 FP32 master 参数
+            allocate_on_cpu layers[i].param_fp32
+
+            # 在 CPU 上保存 optimizer 状态（如 Adam 的 m, v）
+            allocate_on_cpu layers[i].optim_states_fp32
+
+            # CPU 侧梯度缓存
+            allocate_on_cpu layers[i].cpu_grad
+
+
+# =========================================================
+# Forward 过程
+# =========================================================
+def forward(x):
+
+    for i in range(num_layers):
+
+        # 使用 GPU 上的 FP16 参数进行计算
+        x = layers[i].forward(x)
+
+    return x
+
+
+# =========================================================
+# Backward 过程（核心通信逻辑）
+# =========================================================
+def backward(dx):
+
+    # 反向逐层传播
+    for i in reversed(range(num_layers)):
+
+        # 计算当前层的梯度（在 GPU 上）
+        dx = layers[i].backward(dx)
+
+        # 将梯度 reduce 到该层的 owner rank
+        # 非 owner 发送，owner 接收并累加
+        reduce(layers[i].grad, dest_rank=_owner_rank(i))
+
+        if _is_owner(i):
+            # owner 将 GPU 上的梯度拷贝到 CPU
+            layers[i].cpu_grad.copy(layers[i].grad)
+
+        # 删除 GPU 上的梯度以释放显存
+        del layers[i].grad
+
+
+# =========================================================
+# Step 阶段（参数更新）
+# =========================================================
+def step():
+
+    for i in range(num_layers):
+
+        if _is_owner(i):
+
+            # 在 CPU 上执行优化器更新（使用 FP32 精度）
+            update_in_cpu(
+                layers[i].optim_states_fp32,
+                layers[i].cpu_grad,
+                layers[i].param_fp32
+            )
+
+            # 将更新后的 FP32 参数转成 FP16
+            # 并拷贝到 GPU
+            layers[i].param_fp16.copy(layers[i].param_fp32)
+
+        # 从 owner 广播 FP16 参数到所有 rank
+        # 保证所有 GPU 副本一致
+        BROADCAST(layers[i].param_fp16,
+                  src=_owner_rank(i))
+```
+
+**注意这里实现使用的是reduce+broadcast， 而不是allreduce**
+
+## ZeRO-Infinity
+
+下面是整理后的**结构化笔记版本**，便于系统理解与复盘。
+
+---
+
+### 大模型训练中的两类关键显存：MSWM vs AWM
+
+在超大规模 Transformer 训练中，即便使用 ZeRO / offload 等技术，仍然存在两个不可忽视的显存下限：
+
+1. **Model State Working Memory (MSWM)**
+2. **Activation Working Memory (AWM)**
+
+这两个概念常见于类似 DeepSpeed ZeRO-Infinity 的系统论文。
+
+---
+
+#### Model State Working Memory (MSWM)
+
+#### 1. 定义
+
+> 在所有模型状态（参数、梯度、优化器状态）都已 offload 到 CPU / NVMe 后，为执行**单个最大算子**的 forward/backward 所必须占用的最小 GPU 显存。
+
+关键点：
+
+* 不需要整个模型常驻 GPU
+* 只需要当前正在执行的算子
+* 瓶颈来自“最大单个 operator”
+
+---
+
+#### 2. 为什么只看最大算子？
+
+训练过程是逐层执行的：
+
+```text
+当前层加载 → forward → backward → 释放
+```
+
+因此 GPU 显存峰值由：
+
+```text
+largest operator
+```
+
+决定。
+
+---
+
+#### 3. Transformer 中的最大算子
+
+在标准 Transformer（参见 Attention Is All You Need）中：
+
+最大参数矩阵通常是 FFN 第一层：
+
+$$
+W \in \mathbb{R}^{h_d \times 4h_d}
+$$
+
+---
+
+#### 4. MSWM 公式来源
+
+参数大小：
+
+$$
+h_d × 4h_d
+$$
+
+梯度大小相同：
+
+$$
+h_d × 4h_d
+$$
+
+FP16 (2 bytes)：
+
+$$
+2 × (h_d × 4h_d) × 2
+= 4 × h_d × 4h_d \text{ bytes}
+$$
+
+其中：
+
+* 一个 2：参数 + 梯度
+* 一个 2：FP16 字节数
+
+---
+
+#### 5. 为什么 100B+ 会出现问题？
+
+当 hidden size 很大：
+
+例如：
+
+$$
+h_d = 12288
+$$
+
+则：
+
+$$
+12288 × 49152 ≈ 600M 参数
+$$
+
+参数+梯度 (FP16)：
+
+$$
+600M × 4 bytes ≈ 2.4GB
+$$
+
+意味着：
+
+> 单层就需要 ~2GB 连续显存
+
+问题：
+
+* 显存总量可能够
+* 但无法分配足够大的连续块
+* 出现 OOM（memory fragmentation）
+
+### MSWM 特征
+
+* 必须连续
+* 由 hidden size 决定
+* 是结构性瓶颈
+
+---
+
+### 二、Activation Working Memory (AWM)
+
+#### 1. 定义
+
+> 反向传播时，为重算激活所需的临时显存。
+
+通常与 activation checkpoint 相关。
+
+---
+
+#### 2. AWM 公式
+
+$$
+bsz × seq × c_i × (16h_d + 2 × attn_heads × seq)
+$$
+
+变量解释：
+
+* bsz = batch size
+* seq = 序列长度
+* (c_i) = checkpoint 间隔
+* (16h_d) ≈ FFN/QKV 中间激活
+* (2 × attn_heads × seq) ≈ attention score
+
+---
+
+#### 3. AWM 特征
+
+* 与 batch size / seq length 强相关
+* 由训练规模决定
+* 由多个小 tensor 组成
+* 不需要连续大块显存
+
+只要：
+
+```text
+总显存容量足够
+```
+
+即可运行。
+
+---
+
+### 三、MSWM vs AWM 对比
+
+|       | MSWM        | AWM         |
+| ----- | ----------- | ----------- |
+| 来源    | 参数 + 梯度     | 激活          |
+| 依赖    | hidden size | batch × seq |
+| 内存结构  | 单个巨大 tensor | 多个小 tensor  |
+| 是否需连续 | 是           | 否           |
+| 爆炸规模  | >100B       | >10T        |
+
+---
+
+### zero-infinity
+
+zero-infinity 的设计理念有几个方面
+
+- 将模型参数和激活值卸载到cpu上，这一点和zero-offload不同，zero-offload基于zero2，zero-infinity基于zero3，zero3将模型参数和激活值卸载到内存或nvme内存。除此之外，zero-infinity甚至将激活值和未参与运算的权重卸载，这进一步减少了gpu上的显存占用。
+
+- 算子分裂：zero-infinity将一个算子拆分成多个算子，每个算子在gpu上执行，这样可以减少gpu上的显存占用。 由于训练通常不关心延迟，因此拆分是可行的。
+
+对于每一项训练中的ait以及达到相应效率（计算/计算+通信）所需要的通信带宽：
+- 权重：seq * bsz： 70GB/s
+- 优化器：seq * bsz / 4： 1.5TB/s
+- 激活值：24 * hd * ci： 1-4GB/s
+
+#### bandwith-centric partition
+
+在前两个工作中，和伪代码展示的类似， 一层的参数归一个rank所有，数据需要从nvme传输到gpu，然后再卡间通信，相当于只用上了单路的nvme-cpu-gpu带宽。而zero-infinity类似于tp，将单层参数切分，需要时从多路nvme并行拷贝数据， 然后在gpu高带宽通信。这样等效带宽提升到了最大agregate pcie带宽和nvme单节点最大带宽。
+
+随着节点数目增加，数据读取带宽事实上在提高，而分片带来的allgather由于gpu的高带宽可以忽略。
+
+#### pipeline-centric design
+
+NVMe 访问的三步数据路径，当参数位于 NVMe 时，访问必须经过三步：
+
+- nc-transfer：从 NVMe 读到 CPU 内存
+
+- cg-transfer：从 CPU 内存拷贝到 GPU 内存
+
+- gg-transfer：GPU 之间执行 allgather，重建完整参数
+
+为了解决延迟的问题，核心思想：Overlap Engine
+
+为解决该问题，ZeRO-Infinity 设计了一个 overlap engine，实现：
+
+- GPU-GPU 通信与 GPU 计算重叠
+
+- NVMe → CPU 通信
+
+- CPU → GPU 通信
+
+- 以上通信之间的相互重叠
+
+实现多级 pipeline。
+
+**动态预取器（Dynamic Prefetcher）**
+
+在参数被 forward / backward 使用前，提前重建参数。
+
+工作机制：
+
+在运行时动态跟踪 forward 和 backward 的执行轨迹
+
+构建本轮 iteration 的 operator 执行序列图
+
+在执行过程中跟踪当前 operator 位置
+
+预取未来 operator 所需的参数
+
+**通信与卸载重叠机制（针对梯度）**
+
+在 backward 阶段：
+
+在执行第 i 个算子反向计算时，
+同时对第 i+1 个算子的梯度执行 reduce-scatter，
+同时，将第 i+2 个算子已经分片的梯度传输到 CPU 或 NVMe。
+
+也就是说：
+
+```text
+Backward compute(i)
+    ↕
+Reduce-scatter(i+1)
+    ↕
+Gradient offload(i+2)
+```
+全部并行执行。
+
+### 实现
+
+类似于DDP，zero-infinity也采用了hook注入的方式进行。
