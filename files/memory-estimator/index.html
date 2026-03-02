@@ -43,7 +43,7 @@
       margin-bottom: 12px;
       font-size: 0.95rem;
     }
-    #treemap-container, #timeline-container {
+    #treemap-container {
       min-height: 280px;
     }
     .config-grid {
@@ -57,9 +57,15 @@
       gap: 12px;
     }
     .config-row label {
-      flex: 0 0 140px;
+      flex: 0 0 155px;
       font-size: 0.85rem;
       color: #555;
+    }
+    .param-hint {
+      cursor: help;
+      margin-left: 4px;
+      color: #999;
+      font-size: 0.75rem;
     }
     .config-row input[type="range"] {
       flex: 1;
@@ -97,7 +103,7 @@
 
     <div class="main-grid">
       <div class="panel">
-        <div class="panel-title">Memory usage breakdown</div>
+        <div class="panel-title" title="参数/梯度/优化器状态：与模型大小相关；激活：与 batch、seq 相关">Memory usage breakdown</div>
         <div class="summary-row" id="summary-text">Total: 0 GB | Activation: 0 GB | Params/Grads/Opt: 0 GB</div>
         <div id="treemap-container"></div>
       </div>
@@ -105,7 +111,7 @@
         <div class="panel-title">Model Configuration</div>
         <div class="config-grid">
           <div class="config-row">
-            <label>Presets</label>
+            <label title="预设模型配置，选择后自动填充其余参数">Presets<span class="param-hint" title="预设模型配置，选择后自动填充其余参数">ⓘ</span></label>
             <select id="preset">
               <option value="custom">Custom</option>
               <option value="tiny">Llama 3 Tiny</option>
@@ -116,55 +122,60 @@
             </select>
           </div>
           <div class="config-row">
-            <label>Attention Heads (a)</label>
+            <label title="注意力头数，需满足 h % a = 0。影响激活内存中的 attention 项">Attention Heads (a)<span class="param-hint" title="注意力头数，需满足 h % a = 0。影响激活内存中的 attention 项">ⓘ</span></label>
             <input type="range" id="a" min="1" max="64" value="1">
             <input type="number" id="a_val" value="1" min="1" max="128">
           </div>
           <div class="config-row">
-            <label>Micro Batch (b)</label>
+            <label title="每轮 forward 的样本数，直接决定激活内存占用。与 Grad Accum 配合得到 Global Batch">Micro Batch (b)<span class="param-hint" title="每轮 forward 的样本数，直接决定激活内存占用。与 Grad Accum 配合得到 Global Batch">ⓘ</span></label>
             <input type="range" id="b" min="1" max="32" value="1">
             <input type="number" id="b_val" value="1" min="1" max="256">
           </div>
           <div class="config-row">
-            <label>Hidden (h)</label>
+            <label title="梯度累积步数，不增加激活内存。Global Batch = b × Grad Accum × d">Grad Accum Steps<span class="param-hint" title="梯度累积步数，不增加激活内存。Global Batch = b × Grad Accum × d">ⓘ</span></label>
+            <input type="range" id="grad_acc" min="1" max="64" value="1">
+            <input type="number" id="grad_acc_val" value="1" min="1" max="256">
+          </div>
+          <div class="config-row">
+            <label title="隐藏层维度，参数量和激活内存的核心变量">Hidden (h)<span class="param-hint" title="隐藏层维度，参数量和激活内存的核心变量">ⓘ</span></label>
             <input type="range" id="h" min="256" max="8192" step="64" value="2494">
             <input type="number" id="h_val" value="2494" min="256" max="16384">
           </div>
           <div class="config-row">
-            <label>FF Dim (h_ff)</label>
+            <label title="前馈网络中间维度，SwiGLU 中通常为 4h 左右（如 Llama 8B 为 11008）">FF Dim (h_ff)<span class="param-hint" title="前馈网络中间维度，SwiGLU 中通常为 4h 左右（如 Llama 8B 为 11008）">ⓘ</span></label>
             <input type="range" id="hff" min="512" max="28672" step="256" value="12810">
             <input type="number" id="hff_val" value="12810" min="512" max="65536">
           </div>
           <div class="config-row">
-            <label>Layers (L)</label>
+            <label title="Transformer 层数，与激活内存线性相关">Layers (L)<span class="param-hint" title="Transformer 层数，与激活内存线性相关">ⓘ</span></label>
             <input type="range" id="L" min="1" max="80" value="1">
             <input type="number" id="L_val" value="1" min="1" max="128">
           </div>
           <div class="config-row">
-            <label>Seq Length (s)</label>
+            <label title="序列长度（token 数），激活内存与 seq 线性和二次项相关">Seq Length (s)<span class="param-hint" title="序列长度（token 数），激活内存与 seq 线性和二次项相关">ⓘ</span></label>
             <input type="range" id="s" min="512" max="131072" step="512" value="16337">
             <input type="number" id="s_val" value="16337" min="128" max="262144">
           </div>
           <div class="config-row">
-            <label>Tensor Parallel (t)</label>
+            <label title="张量并行度，将参数/梯度/激活按列切分到 t 张卡">Tensor Parallel (t)<span class="param-hint" title="张量并行度，将参数/梯度/激活按列切分到 t 张卡">ⓘ</span></label>
             <input type="range" id="t" min="1" max="8" value="8">
             <input type="number" id="t_val" value="8" min="1" max="16">
           </div>
           <div class="config-row">
-            <label>Data Parallel (d)</label>
+            <label title="数据并行度，每张卡独立一份数据。配合 ZeRO 可进一步分片优化器/梯度/参数">Data Parallel (d)<span class="param-hint" title="数据并行度，每张卡独立一份数据。配合 ZeRO 可进一步分片优化器/梯度/参数">ⓘ</span></label>
             <input type="range" id="d" min="1" max="64" value="1">
             <input type="number" id="d_val" value="1" min="1" max="256">
           </div>
           <div class="config-row">
-            <label>Mixed Precision</label>
+            <label title="混合精度（BF16），参数/梯度 2B，激活 2B；关闭则 FP32 各 4B">Mixed Precision<span class="param-hint" title="混合精度（BF16），参数/梯度 2B，激活 2B；关闭则 FP32 各 4B">ⓘ</span></label>
             <input type="checkbox" id="mixed" checked>
           </div>
           <div class="config-row">
-            <label>Sequence Parallel</label>
+            <label title="序列并行：将 seq 维切分到 TP 各卡，等效每卡 seq/t">Sequence Parallel<span class="param-hint" title="序列并行：将 seq 维切分到 TP 各卡，等效每卡 seq/t">ⓘ</span></label>
             <input type="checkbox" id="seq_par">
           </div>
           <div class="config-row">
-            <label>Recomputation</label>
+            <label title="激活重计算：Selective 约省 70% 激活，Full 约省 90%，代价为额外计算">Recomputation<span class="param-hint" title="激活重计算：Selective 约省 70% 激活，Full 约省 90%，代价为额外计算">ⓘ</span></label>
             <select id="recompute">
               <option value="none">None</option>
               <option value="selective">Selective</option>
@@ -172,26 +183,21 @@
             </select>
           </div>
           <div class="config-row">
-            <label>ZeRO</label>
+            <label title="ZeRO-1: 分片优化器状态; ZeRO-2: +梯度; ZeRO-3: +参数。按 d 分片">ZeRO<span class="param-hint" title="ZeRO-1: 分片优化器状态; ZeRO-2: +梯度; ZeRO-3: +参数。按 d 分片">ⓘ</span></label>
             <input type="number" id="zero" value="0" min="0" max="3" style="width:72px">
           </div>
           <div class="config-row">
-            <label>Vocab Size (v)</label>
+            <label title="词表大小，影响 embedding 和 lm_head 参数量 (2×h×v)">Vocab Size (v)<span class="param-hint" title="词表大小，影响 embedding 和 lm_head 参数量 (2×h×v)">ⓘ</span></label>
             <input type="number" id="v_val" value="30522" min="1024" max="500000">
           </div>
           <div class="config-row">
-            <label>Opt Params (k)</label>
+            <label title="每参数优化器字节数，Adam 通常 8 (momentum+方差)，含 FP32 master 约 12">Opt Params (k)<span class="param-hint" title="每参数优化器字节数，Adam 通常 8 (momentum+方差)，含 FP32 master 约 12">ⓘ</span></label>
             <input type="number" id="k_val" value="8" min="2" max="16">
           </div>
         </div>
       </div>
     </div>
 
-    <div class="panel">
-      <p class="intro-text">我们还开发了一个工具，可以用来预测训练过程中的内存消耗情况：</p>
-      <div class="panel-title">Memory Timeline</div>
-      <div id="timeline-container"></div>
-    </div>
   </div>
 
   <script>
@@ -215,6 +221,7 @@
       return {
         a: +document.getElementById('a_val').value,
         b: +document.getElementById('b_val').value,
+        gradAcc: +(document.getElementById('grad_acc_val')?.value || 1),
         h: +document.getElementById('h_val').value,
         hff: +document.getElementById('hff_val').value,
         L: +document.getElementById('L_val').value,
@@ -232,8 +239,8 @@
 
     function computeMemory(cfg) {
       const N = countParams(cfg.h, cfg.L, cfg.v, cfg.hff);
-      const bytes = cfg.mixed ? 2 : 4;
-      const optMult = cfg.k;  // Adam: 8 bytes/param (momentum+var) or 12 with master
+      const bytes = cfg.mixed ? 2 : 4;  // params & grads bytes per elem
+      const optMult = cfg.k;  // Adam: 8 bytes/param (momentum+var)
 
       // Per-GPU: TP shards params/grads/opt by t; ZeRO shards across d
       let mParams = (bytes * N) / cfg.t;
@@ -243,41 +250,27 @@
       if (cfg.zero >= 2) mGrad /= cfg.d;
       if (cfg.zero >= 3) mParams /= cfg.d;
 
+      // Activation: m_act = L * seq * bs * h * (34 + 5*n_heads*seq/h) [elements]
+      // bs = micro batch size (activation mem is per micro-batch, grad accum doesn't increase it)
       const seqEff = cfg.seqPar ? cfg.s / cfg.t : cfg.s;
-      const actBase = cfg.L * cfg.b * seqEff * cfg.h * (34 + (5 * cfg.a * seqEff) / cfg.h);
+      const actElements = cfg.L * cfg.b * seqEff * cfg.h * (34 + (5 * cfg.a * seqEff) / cfg.h);
       let actFactor = 1;
       if (cfg.recompute === 'selective') actFactor = 0.3;
       else if (cfg.recompute === 'full') actFactor = 0.1;
-
-      const mAct = (actBase * actFactor * 2) / cfg.t;  // 2 bytes for bf16
+      const actBytes = actElements * actFactor * (cfg.mixed ? 2 : 4);  // bf16=2, fp32=4
+      const mAct = actBytes / cfg.t;  // TP shards activations
 
       return {
         params: mParams,
         gradients: mGrad,
         optimizer: mOpt,
         activation: mAct,
-        total: mParams + mGrad + mOpt + mAct
-      };
-    }
-
-    function computeTimeline(cfg, mem) {
-      const gaSteps = 4;
-      const modelInit = mem.params;
-      const gradAccInit = mem.params + mem.gradients + mem.optimizer;
-      const fwdBwdPeak = gradAccInit + mem.activation;
-      const optStep = gradAccInit;
-      return {
-        'Model Init': modelInit,
-        'Gradient Accumulator Init': gradAccInit * Math.min(gaSteps, 4),
-        'Fwd-Bwd Peak': fwdBwdPeak,
-        'Optimizer Step': optStep,
-        '2nd Fwd-Bwd Peak': fwdBwdPeak * 1.05,
-        '2nd Optimizer Step': optStep
+        total: mParams + mGrad + mOpt + mAct,
+        globalBatch: cfg.b * (cfg.gradAcc || 1) * cfg.d  // for display
       };
     }
 
     function toGB(bytes) { return (bytes / 1e9).toFixed(2); }
-    function toMiB(bytes) { return (bytes / (1024 * 1024)).toFixed(1); }
 
     function syncSlider(id) {
       const slider = document.getElementById(id);
@@ -299,10 +292,10 @@
     function updateUI() {
       const cfg = getConfig();
       const mem = computeMemory(cfg);
-      const timeline = computeTimeline(cfg, mem);
 
+      const gbs = mem.globalBatch ? ` | Global Batch: ${mem.globalBatch}` : '';
       document.getElementById('summary-text').textContent =
-        `Total: ${toGB(mem.total)} GB | Activation: ${toGB(mem.activation)} GB | Params/Grads/Opt: ${toGB(mem.params + mem.gradients + mem.optimizer)} GB`;
+        `Total: ${toGB(mem.total)} GB | Activation: ${toGB(mem.activation)} GB (bs=${cfg.b}) | Params/Grads/Opt: ${toGB(mem.params + mem.gradients + mem.optimizer)} GB${gbs}`;
 
       const treemapData = [{
         type: 'treemap',
@@ -325,33 +318,12 @@
         paper_bgcolor: 'transparent',
         plot_bgcolor: 'transparent'
       }, { responsive: true });
-
-      const stages = Object.keys(timeline);
-      const timelineData = [{
-        x: stages,
-        y: stages.map(s => timeline[s]),
-        type: 'bar',
-        marker: {
-          color: stages.map((_, i) => ['#a8e6cf', '#88d8b0', '#ffd3b6', '#ffaaa5', '#ff8b94', '#ff6b6b'][i % 6])
-        },
-        text: stages.map(s => toMiB(timeline[s]) + ' MiB'),
-        textposition: 'outside'
-      }];
-
-      Plotly.react('timeline-container', [timelineData], {
-        margin: { t: 30, r: 40, b: 80, l: 60 },
-        xaxis: { tickangle: -30 },
-        yaxis: { title: 'Memory (MiB)' },
-        paper_bgcolor: 'transparent',
-        plot_bgcolor: 'transparent',
-        showlegend: false
-      }, { responsive: true });
     }
 
     function applyPreset(key) {
       const p = PRESETS[key];
       if (!p) return;
-      ['a', 'b', 'h', 'hff', 'L', 's', 't', 'd', 'v'].forEach(k => {
+      ['a', 'b', 'h', 'hff', 'L', 's', 't', 'd', 'v', 'grad_acc'].forEach(k => {
         if (p[k] !== undefined) {
           const el = document.getElementById(k + '_val') || document.getElementById(k);
           if (el) el.value = p[k];
@@ -367,14 +339,14 @@
       updateUI();
     });
 
-    ['a', 'b', 'h', 'hff', 'L', 's', 't', 'd'].forEach(id => {
+    ['a', 'b', 'h', 'hff', 'L', 's', 't', 'd', 'grad_acc'].forEach(id => {
       const slider = document.getElementById(id);
       const input = document.getElementById(id + '_val');
       if (slider) slider.addEventListener('input', () => { syncInput(id); updateUI(); });
       if (input) input.addEventListener('change', () => { syncSlider(id); updateUI(); });
     });
 
-    ['mixed', 'seq_par', 'recompute', 'zero', 'v_val', 'k_val'].forEach(id => {
+    ['mixed', 'seq_par', 'recompute', 'zero', 'v_val', 'k_val', 'grad_acc_val'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.addEventListener('change', updateUI);
       if (el && el.type === 'number') el.addEventListener('input', updateUI);
