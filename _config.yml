@@ -171,8 +171,7 @@ include:
   - _pages
   - files
 exclude:
-  - "files/ultrascale-playbook-zh/docs"
-  - "files/ultrascale-playbook-zh/metadata.yaml"
+  - "files/ultrascale-playbook-zh"
   - "*.sublime-project"
   - "*.sublime-workspace"
   - .asset-cache
