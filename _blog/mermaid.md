@@ -22,6 +22,7 @@ obj[descriptor] --> |arrow descriptor| obj[description]
 其中mermaid提供了不同的样式
 
 
+{% raw %}
 ```mermaid
 graph TD
     A[方框] -.-> B(圆角)
@@ -32,6 +33,7 @@ graph TD
     F --x G{{数据}}
     G --> H[(数据库)]
 ```
+{% endraw %}
 
 
 ```mermaid

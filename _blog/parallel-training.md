@@ -3,7 +3,7 @@ title: "并行训练"
 collection: blog
 type: "blog"
 date: 2026-03-02
-excerpt: 'Notes on playing with the `Ultra scale playbook`.
+excerpt: "Notes on playing with the UltraScale Playbook."
 location: "Shanghai, China"
 ---
 
