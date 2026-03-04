@@ -16,6 +16,20 @@ location: "Shanghai, China"
   style="border:none; border-radius:12px; overflow:hidden; min-height:800px;">
 </iframe>
 
+## LLM 训练 FLOPs 计算器
+
+下面这个小程序可以快速估算单 step 的训练 FLOPs（含 forward / backward），并支持混合精度等效 FLOPs 显示：
+
+<iframe
+  src="{{ '/files/flops-estimator/?nHeads=32&hidden=4096&seqLen=4096&batchSize=1&nLayers=32&ffnRatio=4&precision=mixed' | relative_url }}"
+  width="100%"
+  height="700"
+  style="border:none; border-radius:12px; overflow:hidden; min-height:620px;">
+</iframe>
+
+你可以直接调 `heads`、`hidden`、`seqlen`、`batch size`（以及层数和 FFN ratio）。  
+这里的混合精度选项用于展示 Tensor Core 等效 FLOPs，方便和硬件峰值吞吐做对比。
+
 ## DP，TP，PP 都比较常见，省略
 
 ## Sequence Parallelism

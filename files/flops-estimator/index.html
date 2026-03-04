@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LLM 训练 FLOPs 估算器</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f6f8fb;
+      color: #1f2937;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .title {
+      margin: 0 0 8px;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    .desc {
+      margin: 0 0 14px;
+      color: #4b5563;
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+    .panel {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(170px, 1fr));
+      gap: 10px;
+      align-items: end;
+    }
+    @media (max-width: 900px) {
+      .controls {
+        grid-template-columns: repeat(2, minmax(150px, 1fr));
+      }
+    }
+    .control label {
+      display: block;
+      font-size: 0.82rem;
+      color: #4b5563;
+      margin-bottom: 6px;
+    }
+    .control input, .control select, .control button {
+      width: 100%;
+      padding: 7px 9px;
+      border-radius: 7px;
+      border: 1px solid #d1d5db;
+      background: #fff;
+      font-size: 0.9rem;
+    }
+    .control button {
+      border: none;
+      background: #2563eb;
+      color: #fff;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .control button:hover { background: #1d4ed8; }
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(240px, 1fr));
+      gap: 10px;
+    }
+    @media (max-width: 700px) {
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .metric {
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 10px;
+      background: #f9fafb;
+    }
+    .metric .name {
+      font-size: 0.8rem;
+      color: #6b7280;
+      margin-bottom: 4px;
+    }
+    .metric .value {
+      font-size: 1.02rem;
+      color: #111827;
+      font-weight: 700;
+    }
+    .formula {
+      margin-top: 10px;
+      font-size: 0.84rem;
+      color: #4b5563;
+      line-height: 1.45;
+      border-top: 1px dashed #e5e7eb;
+      padding-top: 10px;
+    }
+    code {
+      background: #eef2ff;
+      border-radius: 5px;
+      padding: 1px 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">LLM 训练 FLOPs 估算器</h1>
+    <p class="desc">
+      用于粗略估算 Transformer 训练单 step 的浮点运算量。支持调节 `head / hidden / seqlen / batch size`，并可选择混合精度显示 Tensor Core 等效 FLOPs。
+    </p>
+
+    <div class="panel">
+      <div class="controls">
+        <div class="control">
+          <label for="nHeads">Attention Heads</label>
+          <input id="nHeads" type="number" min="1" max="256" value="32">
+        </div>
+        <div class="control">
+          <label for="hidden">Hidden Size</label>
+          <input id="hidden" type="number" min="64" step="64" value="4096">
+        </div>
+        <div class="control">
+          <label for="seqLen">Sequence Length</label>
+          <input id="seqLen" type="number" min="8" step="8" value="4096">
+        </div>
+        <div class="control">
+          <label for="batchSize">Batch Size (micro)</label>
+          <input id="batchSize" type="number" min="1" value="1">
+        </div>
+        <div class="control">
+          <label for="nLayers">Layers</label>
+          <input id="nLayers" type="number" min="1" max="256" value="32">
+        </div>
+        <div class="control">
+          <label for="ffnRatio">FFN Ratio</label>
+          <input id="ffnRatio" type="number" min="1" step="0.1" value="4">
+        </div>
+        <div class="control">
+          <label for="precision">Precision Mode</label>
+          <select id="precision">
+            <option value="fp32">FP32</option>
+            <option value="mixed" selected>Mixed (BF16/FP16 + FP32 acc)</option>
+          </select>
+        </div>
+        <div class="control">
+          <label>&nbsp;</label>
+          <button id="calcBtn" type="button">计算 FLOPs</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="result-grid">
+        <div class="metric">
+          <div class="name">每层 Forward FLOPs</div>
+          <div class="value" id="fwdPerLayer">-</div>
+        </div>
+        <div class="metric">
+          <div class="name">每层 Train FLOPs (Fwd+Bwd)</div>
+          <div class="value" id="trainPerLayer">-</div>
+        </div>
+        <div class="metric">
+          <div class="name">单 Step 总 FLOPs</div>
+          <div class="value" id="totalTrain">-</div>
+        </div>
+        <div class="metric">
+          <div class="name">混合精度 Tensor Core 等效 FLOPs</div>
+          <div class="value" id="effective">-</div>
+        </div>
+      </div>
+      <div class="formula" id="notes"></div>
+    </div>
+  </div>
+
+  <script>
+    function getPositiveNumber(id, fallback) {
+      const value = Number(document.getElementById(id).value);
+      return Number.isFinite(value) && value > 0 ? value : fallback;
+    }
+
+    function fmtFlops(value) {
+      const units = [
+        { u: "YFLOPs", s: 1e24 },
+        { u: "ZFLOPs", s: 1e21 },
+        { u: "EFLOPs", s: 1e18 },
+        { u: "PFLOPs", s: 1e15 },
+        { u: "TFLOPs", s: 1e12 },
+        { u: "GFLOPs", s: 1e9 }
+      ];
+      for (const item of units) {
+        if (value >= item.s) return (value / item.s).toFixed(3) + " " + item.u;
+      }
+      return value.toFixed(0) + " FLOPs";
+    }
+
+    function computeFlops(cfg) {
+      const dHead = cfg.hidden / cfg.nHeads;
+      const ffDim = cfg.hidden * cfg.ffnRatio;
+      const tokens = cfg.batchSize * cfg.seqLen;
+
+      // Approx per-layer forward FLOPs (training-style Transformer block):
+      // Linear projections (Q,K,V,O): 8 * tokens * h^2
+      const proj = 8 * tokens * cfg.hidden * cfg.hidden;
+      // Attention scores + apply: 4 * batch * heads * seq^2 * d_head = 4 * batch * seq^2 * h
+      const attn = 4 * cfg.batchSize * cfg.seqLen * cfg.seqLen * cfg.hidden;
+      // FFN (up + down, with GELU-like ratio): 4 * tokens * h * ff_dim
+      const ffn = 4 * tokens * cfg.hidden * ffDim;
+      const fwdPerLayer = proj + attn + ffn;
+
+      // Backward + gradient w.r.t. weights/acts is commonly approximated as ~2x forward,
+      // so train FLOPs per layer ~= 3x forward.
+      const trainPerLayer = 3 * fwdPerLayer;
+      const totalTrain = trainPerLayer * cfg.nLayers;
+
+      // "Effective" FLOPs for mixed precision: useful to compare against tensor-core peak.
+      // This does NOT change mathematical FLOPs, only hardware-equivalent accounting.
+      const precisionScale = cfg.precision === "mixed" ? 2 : 1;
+      const effective = totalTrain * precisionScale;
+
+      return {
+        dHead,
+        ffDim,
+        fwdPerLayer,
+        trainPerLayer,
+        totalTrain,
+        effective,
+        proj,
+        attn,
+        ffn,
+        precisionScale
+      };
+    }
+
+    function render() {
+      const cfg = {
+        nHeads: getPositiveNumber("nHeads", 32),
+        hidden: getPositiveNumber("hidden", 4096),
+        seqLen: getPositiveNumber("seqLen", 4096),
+        batchSize: getPositiveNumber("batchSize", 1),
+        nLayers: getPositiveNumber("nLayers", 32),
+        ffnRatio: getPositiveNumber("ffnRatio", 4),
+        precision: document.getElementById("precision").value
+      };
+
+      if (cfg.hidden % cfg.nHeads !== 0) {
+        document.getElementById("notes").textContent = "注意: hidden 必须能被 heads 整除。";
+        return;
+      }
+
+      const out = computeFlops(cfg);
+      document.getElementById("fwdPerLayer").textContent = fmtFlops(out.fwdPerLayer);
+      document.getElementById("trainPerLayer").textContent = fmtFlops(out.trainPerLayer);
+      document.getElementById("totalTrain").textContent = fmtFlops(out.totalTrain);
+      document.getElementById("effective").textContent = fmtFlops(out.effective);
+
+      const precisionNote = cfg.precision === "mixed"
+        ? "开启混合精度时，数学 FLOPs 不变；这里把结果按 2x 显示为 Tensor Core 等效 FLOPs。"
+        : "FP32 模式下，等效 FLOPs 与数学 FLOPs 相同。";
+
+      document.getElementById("notes").innerHTML =
+        "分解: " +
+        "Proj <code>" + fmtFlops(out.proj) + "</code>, " +
+        "Attn <code>" + fmtFlops(out.attn) + "</code>, " +
+        "FFN <code>" + fmtFlops(out.ffn) + "</code>（每层 Forward）。" +
+        "<br>" +
+        "假设: train FLOPs ≈ <code>3 x forward</code>；d_head = <code>" + out.dHead + "</code>，ff_dim = <code>" + out.ffDim + "</code>。" +
+        "<br>" + precisionNote;
+    }
+
+    function initFromQuery() {
+      const q = new URLSearchParams(location.search);
+      ["nHeads", "hidden", "seqLen", "batchSize", "nLayers", "ffnRatio", "precision"].forEach((id) => {
+        if (q.has(id)) document.getElementById(id).value = q.get(id);
+      });
+    }
+
+    function writeQuery() {
+      const q = new URLSearchParams();
+      ["nHeads", "hidden", "seqLen", "batchSize", "nLayers", "ffnRatio", "precision"].forEach((id) => {
+        q.set(id, document.getElementById(id).value);
+      });
+      history.replaceState({}, "", "?" + q.toString());
+    }
+
+    document.getElementById("calcBtn").addEventListener("click", () => {
+      render();
+      writeQuery();
+    });
+    ["nHeads", "hidden", "seqLen", "batchSize", "nLayers", "ffnRatio", "precision"].forEach((id) => {
+      document.getElementById(id).addEventListener("change", () => {
+        render();
+        writeQuery();
+      });
+    });
+
+    initFromQuery();
+    render();
+  </script>
+</body>
+</html>
