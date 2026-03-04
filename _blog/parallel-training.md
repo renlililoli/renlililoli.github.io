@@ -99,6 +99,33 @@ This will increase the commucation cost since the forward and backward should ex
 
 可以直接调 `m`、`v` 和 `micro-batches`；默认示例就是 `m=4, v=2`。
 
+实际上还有更复杂的调度，它们的核心思想就是后续回传其实只依赖于激活值的梯度，而不需要权重的梯度，
+这意味着权重的回传只需要在优化器更新前进行即可，因此可以通过合理安排梯度回传的时机减少device idle的时间。
+
+代表工作是zerobubble和dualpipe。
+
+
+## Expert Parallelism
+
+专家并行指的是将多个FFN专家分配在不同的gpu，所有的token在选择专家后会同一进行路由分配到相应gpu，
+这样每个gpu的激活就不是稀疏的，这压缩了显存和提升了计算效率。
+
+但是专家并行的问题在于负载不均衡， 比如有的专家非常热门， 大量token路由到热门专家导致严重的计算和通信
+负载不均衡， 部分专家处于idle。
+
+## 5D parallelism
+
+总结一下所有的并行策略
+
+PP和Zero3：PP和zero3都是将权重分配到多gpu上，每个层计算的时候都需要完整的层权重。选择的时候重点看更关注
+权重的通信还是激活的通信。结合它们可能会显著的增加glbal batch size。
+
+zero1，2可以和PP自然的结合使用， 因为没有将权重分片，这对流水线而言非常方便。
+
+TP和SP通常是互补的，一个涉及对hidden dimension的切分，一个涉及对sequence dimension的切分。TP对于通信要求较高，通常用于节点内的高速互联，而DP和PP则更适用于节点间。PP对带宽要求更低，而Zero能很好的处理通信和计算隐藏延迟。
+
+
+
 
 
 
