@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LLM 训练 FLOPs 估算器</title>
+  <title>LLM 训练 FLOPs + 显存估算器</title>
   <style>
     * { box-sizing: border-box; }
     body {
@@ -13,21 +13,9 @@
       background: #f6f8fb;
       color: #1f2937;
     }
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    .title {
-      margin: 0 0 8px;
-      font-size: 1.2rem;
-      font-weight: 700;
-    }
-    .desc {
-      margin: 0 0 14px;
-      color: #4b5563;
-      font-size: 0.9rem;
-      line-height: 1.45;
-    }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .title { margin: 0 0 8px; font-size: 1.2rem; font-weight: 700; }
+    .desc { margin: 0 0 14px; color: #4b5563; font-size: 0.9rem; line-height: 1.45; }
     .panel {
       background: #fff;
       border-radius: 10px;
@@ -42,9 +30,7 @@
       align-items: end;
     }
     @media (max-width: 900px) {
-      .controls {
-        grid-template-columns: repeat(2, minmax(150px, 1fr));
-      }
+      .controls { grid-template-columns: repeat(2, minmax(150px, 1fr)); }
     }
     .control label {
       display: block;
@@ -74,9 +60,7 @@
       gap: 10px;
     }
     @media (max-width: 700px) {
-      .result-grid {
-        grid-template-columns: 1fr;
-      }
+      .result-grid { grid-template-columns: 1fr; }
     }
     .metric {
       border: 1px solid #e5e7eb;
@@ -94,7 +78,7 @@
       color: #111827;
       font-weight: 700;
     }
-    .formula {
+    .note {
       margin-top: 10px;
       font-size: 0.84rem;
       color: #4b5563;
@@ -111,23 +95,23 @@
 </head>
 <body>
   <div class="container">
-    <h1 class="title">LLM 训练 FLOPs 估算器</h1>
+    <h1 class="title">LLM 训练 FLOPs + 显存估算器</h1>
     <p class="desc">
-      用于粗略估算 Transformer 训练单 step 的浮点运算量。支持调节 `head / hidden / seqlen / batch size`，并可选择混合精度显示 Tensor Core 等效 FLOPs。
+      同时估算参数量、单 step 训练 FLOPs、和每卡显存占用（GB）。支持调节 `heads / hidden / seqlen / batch size`，并包含混合精度、TP、DP、ZeRO。
     </p>
 
     <div class="panel">
       <div class="controls">
         <div class="control">
-          <label for="nHeads">Attention Heads</label>
+          <label for="nHeads">Heads</label>
           <input id="nHeads" type="number" min="1" max="256" value="32">
         </div>
         <div class="control">
-          <label for="hidden">Hidden Size</label>
+          <label for="hidden">Hidden</label>
           <input id="hidden" type="number" min="64" step="64" value="4096">
         </div>
         <div class="control">
-          <label for="seqLen">Sequence Length</label>
+          <label for="seqLen">SeqLen</label>
           <input id="seqLen" type="number" min="8" step="8" value="4096">
         </div>
         <div class="control">
@@ -143,15 +127,50 @@
           <input id="ffnRatio" type="number" min="1" step="0.1" value="4">
         </div>
         <div class="control">
-          <label for="precision">Precision Mode</label>
+          <label for="vocabSize">Vocab Size</label>
+          <input id="vocabSize" type="number" min="1024" value="128256">
+        </div>
+        <div class="control">
+          <label for="precision">Precision</label>
           <select id="precision">
             <option value="fp32">FP32</option>
-            <option value="mixed" selected>Mixed (BF16/FP16 + FP32 acc)</option>
+            <option value="mixed" selected>Mixed (BF16/FP16)</option>
+          </select>
+        </div>
+        <div class="control">
+          <label for="tp">Tensor Parallel (t)</label>
+          <input id="tp" type="number" min="1" max="64" value="1">
+        </div>
+        <div class="control">
+          <label for="dp">Data Parallel (d)</label>
+          <input id="dp" type="number" min="1" max="256" value="1">
+        </div>
+        <div class="control">
+          <label for="zero">ZeRO Stage (0-3)</label>
+          <input id="zero" type="number" min="0" max="3" value="0">
+        </div>
+        <div class="control">
+          <label for="optBytes">Optimizer Bytes/Param</label>
+          <input id="optBytes" type="number" min="2" max="16" value="8">
+        </div>
+        <div class="control">
+          <label for="recompute">Recompute</label>
+          <select id="recompute">
+            <option value="none">None</option>
+            <option value="selective">Selective</option>
+            <option value="full">Full</option>
+          </select>
+        </div>
+        <div class="control">
+          <label for="seqPar">Sequence Parallel</label>
+          <select id="seqPar">
+            <option value="off">Off</option>
+            <option value="on">On</option>
           </select>
         </div>
         <div class="control">
           <label>&nbsp;</label>
-          <button id="calcBtn" type="button">计算 FLOPs</button>
+          <button id="calcBtn" type="button">计算</button>
         </div>
       </div>
     </div>
@@ -159,23 +178,31 @@
     <div class="panel">
       <div class="result-grid">
         <div class="metric">
+          <div class="name">模型参数量</div>
+          <div class="value" id="paramsCount">-</div>
+        </div>
+        <div class="metric">
           <div class="name">每层 Forward FLOPs</div>
           <div class="value" id="fwdPerLayer">-</div>
         </div>
         <div class="metric">
-          <div class="name">每层 Train FLOPs (Fwd+Bwd)</div>
-          <div class="value" id="trainPerLayer">-</div>
-        </div>
-        <div class="metric">
-          <div class="name">单 Step 总 FLOPs</div>
+          <div class="name">单 Step 总 FLOPs (Train)</div>
           <div class="value" id="totalTrain">-</div>
         </div>
         <div class="metric">
-          <div class="name">混合精度 Tensor Core 等效 FLOPs</div>
+          <div class="name">混合精度等效 FLOPs</div>
           <div class="value" id="effective">-</div>
         </div>
+        <div class="metric">
+          <div class="name">每卡显存总占用</div>
+          <div class="value" id="memTotal">-</div>
+        </div>
+        <div class="metric">
+          <div class="name">显存分解 (Params / Grads / Opt / Act)</div>
+          <div class="value" id="memBreakdown">-</div>
+        </div>
       </div>
-      <div class="formula" id="notes"></div>
+      <div class="note" id="notes"></div>
     </div>
   </div>
 
@@ -185,10 +212,71 @@
       return Number.isFinite(value) && value > 0 ? value : fallback;
     }
 
+    function getCfg() {
+      return {
+        nHeads: getPositiveNumber("nHeads", 32),
+        hidden: getPositiveNumber("hidden", 4096),
+        seqLen: getPositiveNumber("seqLen", 4096),
+        batchSize: getPositiveNumber("batchSize", 1),
+        nLayers: getPositiveNumber("nLayers", 32),
+        ffnRatio: getPositiveNumber("ffnRatio", 4),
+        vocabSize: getPositiveNumber("vocabSize", 128256),
+        tp: getPositiveNumber("tp", 1),
+        dp: getPositiveNumber("dp", 1),
+        zero: Math.max(0, Math.min(3, Math.floor(getPositiveNumber("zero", 0)))),
+        optBytes: getPositiveNumber("optBytes", 8),
+        precision: document.getElementById("precision").value,
+        recompute: document.getElementById("recompute").value,
+        seqPar: document.getElementById("seqPar").value === "on"
+      };
+    }
+
+    function countParams(cfg) {
+      const ffDim = cfg.hidden * cfg.ffnRatio;
+      const embed = 2 * cfg.hidden * cfg.vocabSize;
+      const perLayer = 4 * cfg.hidden * cfg.hidden + 3 * cfg.hidden * ffDim + 10 * cfg.hidden;
+      return embed + cfg.nLayers * perLayer;
+    }
+
+    function computeFlops(cfg) {
+      const ffDim = cfg.hidden * cfg.ffnRatio;
+      const tokens = cfg.batchSize * cfg.seqLen;
+      const proj = 8 * tokens * cfg.hidden * cfg.hidden;
+      const attn = 4 * cfg.batchSize * cfg.seqLen * cfg.seqLen * cfg.hidden;
+      const ffn = 4 * tokens * cfg.hidden * ffDim;
+      const fwdPerLayer = proj + attn + ffn;
+      const totalTrain = 3 * fwdPerLayer * cfg.nLayers;
+      const effective = totalTrain * (cfg.precision === "mixed" ? 2 : 1);
+      return { fwdPerLayer, totalTrain, effective };
+    }
+
+    function computeMemory(cfg, totalParams) {
+      const elemBytes = cfg.precision === "mixed" ? 2 : 4;
+      let mParams = (elemBytes * totalParams) / cfg.tp;
+      let mGrads = (elemBytes * totalParams) / cfg.tp;
+      let mOpt = (cfg.optBytes * totalParams) / cfg.tp;
+      if (cfg.zero >= 1) mOpt /= cfg.dp;
+      if (cfg.zero >= 2) mGrads /= cfg.dp;
+      if (cfg.zero >= 3) mParams /= cfg.dp;
+
+      const seqEff = cfg.seqPar ? cfg.seqLen / cfg.tp : cfg.seqLen;
+      const actElements = cfg.nLayers * cfg.batchSize * seqEff * cfg.hidden * (34 + (5 * cfg.nHeads * seqEff) / cfg.hidden);
+      let actFactor = 1;
+      if (cfg.recompute === "selective") actFactor = 0.3;
+      if (cfg.recompute === "full") actFactor = 0.1;
+      const mAct = (actElements * actFactor * elemBytes) / cfg.tp;
+
+      return {
+        params: mParams,
+        grads: mGrads,
+        optimizer: mOpt,
+        activation: mAct,
+        total: mParams + mGrads + mOpt + mAct
+      };
+    }
+
     function fmtFlops(value) {
       const units = [
-        { u: "YFLOPs", s: 1e24 },
-        { u: "ZFLOPs", s: 1e21 },
         { u: "EFLOPs", s: 1e18 },
         { u: "PFLOPs", s: 1e15 },
         { u: "TFLOPs", s: 1e12 },
@@ -200,92 +288,51 @@
       return value.toFixed(0) + " FLOPs";
     }
 
-    function computeFlops(cfg) {
-      const dHead = cfg.hidden / cfg.nHeads;
-      const ffDim = cfg.hidden * cfg.ffnRatio;
-      const tokens = cfg.batchSize * cfg.seqLen;
+    function fmtParams(count) {
+      if (count >= 1e9) return (count / 1e9).toFixed(3) + " B";
+      if (count >= 1e6) return (count / 1e6).toFixed(3) + " M";
+      return count.toFixed(0);
+    }
 
-      // Approx per-layer forward FLOPs (training-style Transformer block):
-      // Linear projections (Q,K,V,O): 8 * tokens * h^2
-      const proj = 8 * tokens * cfg.hidden * cfg.hidden;
-      // Attention scores + apply: 4 * batch * heads * seq^2 * d_head = 4 * batch * seq^2 * h
-      const attn = 4 * cfg.batchSize * cfg.seqLen * cfg.seqLen * cfg.hidden;
-      // FFN (up + down, with GELU-like ratio): 4 * tokens * h * ff_dim
-      const ffn = 4 * tokens * cfg.hidden * ffDim;
-      const fwdPerLayer = proj + attn + ffn;
-
-      // Backward + gradient w.r.t. weights/acts is commonly approximated as ~2x forward,
-      // so train FLOPs per layer ~= 3x forward.
-      const trainPerLayer = 3 * fwdPerLayer;
-      const totalTrain = trainPerLayer * cfg.nLayers;
-
-      // "Effective" FLOPs for mixed precision: useful to compare against tensor-core peak.
-      // This does NOT change mathematical FLOPs, only hardware-equivalent accounting.
-      const precisionScale = cfg.precision === "mixed" ? 2 : 1;
-      const effective = totalTrain * precisionScale;
-
-      return {
-        dHead,
-        ffDim,
-        fwdPerLayer,
-        trainPerLayer,
-        totalTrain,
-        effective,
-        proj,
-        attn,
-        ffn,
-        precisionScale
-      };
+    function toGB(bytes) {
+      return (bytes / 1e9).toFixed(2) + " GB";
     }
 
     function render() {
-      const cfg = {
-        nHeads: getPositiveNumber("nHeads", 32),
-        hidden: getPositiveNumber("hidden", 4096),
-        seqLen: getPositiveNumber("seqLen", 4096),
-        batchSize: getPositiveNumber("batchSize", 1),
-        nLayers: getPositiveNumber("nLayers", 32),
-        ffnRatio: getPositiveNumber("ffnRatio", 4),
-        precision: document.getElementById("precision").value
-      };
-
+      const cfg = getCfg();
       if (cfg.hidden % cfg.nHeads !== 0) {
         document.getElementById("notes").textContent = "注意: hidden 必须能被 heads 整除。";
         return;
       }
 
-      const out = computeFlops(cfg);
-      document.getElementById("fwdPerLayer").textContent = fmtFlops(out.fwdPerLayer);
-      document.getElementById("trainPerLayer").textContent = fmtFlops(out.trainPerLayer);
-      document.getElementById("totalTrain").textContent = fmtFlops(out.totalTrain);
-      document.getElementById("effective").textContent = fmtFlops(out.effective);
+      const params = countParams(cfg);
+      const flops = computeFlops(cfg);
+      const mem = computeMemory(cfg, params);
 
-      const precisionNote = cfg.precision === "mixed"
-        ? "开启混合精度时，数学 FLOPs 不变；这里把结果按 2x 显示为 Tensor Core 等效 FLOPs。"
-        : "FP32 模式下，等效 FLOPs 与数学 FLOPs 相同。";
+      document.getElementById("paramsCount").textContent = fmtParams(params);
+      document.getElementById("fwdPerLayer").textContent = fmtFlops(flops.fwdPerLayer);
+      document.getElementById("totalTrain").textContent = fmtFlops(flops.totalTrain);
+      document.getElementById("effective").textContent = fmtFlops(flops.effective);
+      document.getElementById("memTotal").textContent = toGB(mem.total);
+      document.getElementById("memBreakdown").textContent =
+        toGB(mem.params) + " / " + toGB(mem.grads) + " / " + toGB(mem.optimizer) + " / " + toGB(mem.activation);
 
       document.getElementById("notes").innerHTML =
-        "分解: " +
-        "Proj <code>" + fmtFlops(out.proj) + "</code>, " +
-        "Attn <code>" + fmtFlops(out.attn) + "</code>, " +
-        "FFN <code>" + fmtFlops(out.ffn) + "</code>（每层 Forward）。" +
-        "<br>" +
-        "假设: train FLOPs ≈ <code>3 x forward</code>；d_head = <code>" + out.dHead + "</code>，ff_dim = <code>" + out.ffDim + "</code>。" +
-        "<br>" + precisionNote;
+        "说明: 显存为每卡估算值，单位统一为 GB。FLOPs 假设 <code>train ~= 3 x forward</code>；混合精度下额外给出 2x 的等效 FLOPs（便于对比 Tensor Core 峰值）。";
     }
+
+    const fields = ["nHeads", "hidden", "seqLen", "batchSize", "nLayers", "ffnRatio", "vocabSize", "precision", "tp", "dp", "zero", "optBytes", "recompute", "seqPar"];
 
     function initFromQuery() {
       const q = new URLSearchParams(location.search);
-      ["nHeads", "hidden", "seqLen", "batchSize", "nLayers", "ffnRatio", "precision"].forEach((id) => {
+      for (const id of fields) {
         if (q.has(id)) document.getElementById(id).value = q.get(id);
-      });
+      }
     }
 
     function writeQuery() {
       const q = new URLSearchParams();
-      ["nHeads", "hidden", "seqLen", "batchSize", "nLayers", "ffnRatio", "precision"].forEach((id) => {
-        q.set(id, document.getElementById(id).value);
-      });
+      for (const id of fields) q.set(id, document.getElementById(id).value);
       history.replaceState({}, "", "?" + q.toString());
     }
 
@@ -293,12 +340,12 @@
       render();
       writeQuery();
     });
-    ["nHeads", "hidden", "seqLen", "batchSize", "nLayers", "ffnRatio", "precision"].forEach((id) => {
+    for (const id of fields) {
       document.getElementById(id).addEventListener("change", () => {
         render();
         writeQuery();
       });
-    });
+    }
 
     initFromQuery();
     render();

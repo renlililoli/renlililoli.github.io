@@ -7,28 +7,17 @@ excerpt: "Notes on playing with the UltraScale Playbook."
 location: "Shanghai, China"
 ---
 
-基于 [UltraScale Playbook](https://github.com/nanotron/nanotron) 的内存估算工具，可预测 LLM 训练过程中的内存消耗：
+基于 [UltraScale Playbook](https://github.com/nanotron/nanotron) 的一体化估算工具，可同时预测 LLM 训练中的参数量、FLOPs 和显存占用（GB）：
 
 <iframe 
-  src="{{ '/files/memory-estimator/' | relative_url }}"
+  src="{{ '/files/flops-estimator/?nHeads=32&hidden=4096&seqLen=4096&batchSize=1&nLayers=32&ffnRatio=4&precision=mixed&tp=1&dp=1&zero=0&recompute=none&seqPar=off' | relative_url }}"
   width="100%" 
-  height="900"
-  style="border:none; border-radius:12px; overflow:hidden; min-height:800px;">
+  height="860"
+  style="border:none; border-radius:12px; overflow:hidden; min-height:760px;">
 </iframe>
 
-## LLM 训练 FLOPs 计算器
-
-下面这个小程序可以快速估算单 step 的训练 FLOPs（含 forward / backward），并支持混合精度等效 FLOPs 显示：
-
-<iframe
-  src="{{ '/files/flops-estimator/?nHeads=32&hidden=4096&seqLen=4096&batchSize=1&nLayers=32&ffnRatio=4&precision=mixed' | relative_url }}"
-  width="100%"
-  height="700"
-  style="border:none; border-radius:12px; overflow:hidden; min-height:620px;">
-</iframe>
-
-你可以直接调 `heads`、`hidden`、`seqlen`、`batch size`（以及层数和 FFN ratio）。  
-这里的混合精度选项用于展示 Tensor Core 等效 FLOPs，方便和硬件峰值吞吐做对比。
+你可以直接调 `heads`、`hidden`、`seqlen`、`batch size`，并切换混合精度、TP/DP/ZeRO。  
+显存结果按每卡统计，并统一使用 `GB` 展示。
 
 ## DP，TP，PP 都比较常见，省略
 
