@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pipeline 并行可视化</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f6f8fb;
+      color: #1f2937;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .title {
+      margin: 0 0 10px;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    .desc {
+      margin: 0 0 14px;
+      color: #4b5563;
+      font-size: 0.9rem;
+    }
+    .panel {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(140px, 1fr));
+      gap: 10px;
+      align-items: end;
+    }
+    @media (max-width: 900px) {
+      .controls { grid-template-columns: repeat(2, minmax(120px, 1fr)); }
+    }
+    .control label {
+      display: block;
+      font-size: 0.82rem;
+      color: #4b5563;
+      margin-bottom: 6px;
+    }
+    .control input, .control select, .control button {
+      width: 100%;
+      padding: 7px 9px;
+      border-radius: 7px;
+      border: 1px solid #d1d5db;
+      background: #fff;
+      font-size: 0.9rem;
+    }
+    .control button {
+      border: none;
+      background: #2563eb;
+      color: #fff;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .control button:hover { background: #1d4ed8; }
+    .summary {
+      margin-top: 8px;
+      font-size: 0.88rem;
+      color: #334155;
+    }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      margin-bottom: 10px;
+      font-size: 0.82rem;
+      color: #334155;
+    }
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      flex: 0 0 auto;
+    }
+    .canvas-wrap {
+      width: 100%;
+      overflow: auto;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      background: #fff;
+    }
+    #chart {
+      display: block;
+      width: 100%;
+      height: auto;
+      min-width: 640px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">Pipeline 并行时间图生成器</h1>
+    <p class="desc">输入配置后自动生成 GPU 时间线。图中数字是 micro-batch 编号，颜色表示前向/后向以及虚拟 stage 组。</p>
+
+    <div class="panel">
+      <div class="controls">
+        <div class="control">
+          <label for="m">m（GPU 数）</label>
+          <input id="m" type="number" min="1" max="16" value="4">
+        </div>
+        <div class="control">
+          <label for="v">v（每张卡虚拟 stage 数）</label>
+          <input id="v" type="number" min="1" max="8" value="2">
+        </div>
+        <div class="control">
+          <label for="nmb">micro-batches</label>
+          <input id="nmb" type="number" min="1" max="64" value="16">
+        </div>
+        <div class="control">
+          <label for="mode">模式</label>
+          <select id="mode">
+            <option value="1f1b">Interleaved 1F1B</option>
+            <option value="afab">AFAB</option>
+          </select>
+        </div>
+        <div class="control">
+          <label>&nbsp;</label>
+          <button id="renderBtn" type="button">生成图</button>
+        </div>
+      </div>
+      <div class="summary" id="summary"></div>
+    </div>
+
+    <div class="panel">
+      <div class="legend" id="legend"></div>
+      <div class="canvas-wrap">
+        <canvas id="chart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function taskId(type, stage, mb) {
+      return type + ":" + stage + ":" + mb;
+    }
+
+    function parseTaskId(id) {
+      const [type, s, mb] = id.split(":");
+      return { type, stage: Number(s), mb: Number(mb) };
+    }
+
+    function buildDag(m, v, nmb) {
+      const stages = m * v;
+      const deps = new Map();
+      const allTasks = [];
+
+      for (let s = 0; s < stages; s++) {
+        for (let mb = 0; mb < nmb; mb++) {
+          const fId = taskId("F", s, mb);
+          const fDeps = [];
+          if (s > 0) fDeps.push(taskId("F", s - 1, mb));
+          if (mb > 0) fDeps.push(taskId("F", s, mb - 1));
+          deps.set(fId, fDeps);
+          allTasks.push(fId);
+        }
+      }
+
+      for (let s = 0; s < stages; s++) {
+        for (let mb = 0; mb < nmb; mb++) {
+          const bId = taskId("B", s, mb);
+          const bDeps = [taskId("F", s, mb)];
+          if (s < stages - 1) bDeps.push(taskId("B", s + 1, mb));
+          if (mb > 0) bDeps.push(taskId("B", s, mb - 1));
+          deps.set(bId, bDeps);
+          allTasks.push(bId);
+        }
+      }
+
+      return { deps, allTasks, stages };
+    }
+
+    function ready(task, deps, doneAt, t) {
+      const requirements = deps.get(task) || [];
+      for (const dep of requirements) {
+        const done = doneAt.get(dep);
+        if (done === undefined || done > t) return false;
+      }
+      return true;
+    }
+
+    function chooseTask(candidates, mode) {
+      if (!candidates.length) return null;
+      candidates.sort((a, b) => {
+        if (mode === "1f1b") {
+          if (a.type !== b.type) return a.type === "B" ? -1 : 1;
+        } else if (mode === "afab") {
+          if (a.type !== b.type) return a.type === "F" ? -1 : 1;
+        }
+        if (a.type === b.type) {
+          if (a.type === "F") {
+            if (a.stage !== b.stage) return a.stage - b.stage;
+            return a.mb - b.mb;
+          }
+          if (a.stage !== b.stage) return b.stage - a.stage;
+          return a.mb - b.mb;
+        }
+        return 0;
+      });
+      return candidates[0].id;
+    }
+
+    function schedule(m, v, nmb, mode) {
+      const { deps, allTasks } = buildDag(m, v, nmb);
+      const total = allTasks.length;
+      const started = new Set();
+      const doneAt = new Map();
+      const timeline = Array.from({ length: m }, () => []);
+      let finished = 0;
+      let t = 0;
+
+      while (finished < total && t < 20000) {
+        const current = Array(m).fill(null);
+        for (let gpu = 0; gpu < m; gpu++) {
+          const candidates = [];
+          for (const id of allTasks) {
+            if (started.has(id)) continue;
+            const task = parseTaskId(id);
+            if ((task.stage % m) !== gpu) continue;
+            if (!ready(id, deps, doneAt, t)) continue;
+            candidates.push({ ...task, id });
+          }
+          const picked = chooseTask(candidates, mode);
+          if (picked) {
+            current[gpu] = picked;
+            started.add(picked);
+          }
+        }
+
+        for (let gpu = 0; gpu < m; gpu++) {
+          const item = current[gpu];
+          timeline[gpu][t] = item ? parseTaskId(item) : null;
+          if (item) {
+            doneAt.set(item, t + 1);
+            finished += 1;
+          }
+        }
+        t += 1;
+      }
+
+      return { timeline, steps: t };
+    }
+
+    function colorFor(type, chunk, v) {
+      if (type === "F") {
+        if (v === 1) return "#2a9d8f";
+        const t = chunk / Math.max(1, v - 1);
+        const a = [42, 157, 143];
+        const b = [115, 198, 211];
+        return "rgb(" + [
+          Math.round(a[0] + (b[0] - a[0]) * t),
+          Math.round(a[1] + (b[1] - a[1]) * t),
+          Math.round(a[2] + (b[2] - a[2]) * t)
+        ].join(",") + ")";
+      }
+      if (v === 1) return "#c77dff";
+      const t = chunk / Math.max(1, v - 1);
+      const a = [236, 72, 153];
+      const b = [167, 139, 250];
+      return "rgb(" + [
+        Math.round(a[0] + (b[0] - a[0]) * t),
+        Math.round(a[1] + (b[1] - a[1]) * t),
+        Math.round(a[2] + (b[2] - a[2]) * t)
+      ].join(",") + ")";
+    }
+
+    function renderLegend(v) {
+      const legend = document.getElementById("legend");
+      legend.innerHTML = "";
+      for (let c = 0; c < v; c++) {
+        const f = document.createElement("span");
+        f.className = "legend-item";
+        f.innerHTML = '<span class="swatch" style="background:' + colorFor("F", c, v) + '"></span>Forward (chunk ' + (c + 1) + ")";
+        legend.appendChild(f);
+      }
+      for (let c = 0; c < v; c++) {
+        const b = document.createElement("span");
+        b.className = "legend-item";
+        b.innerHTML = '<span class="swatch" style="background:' + colorFor("B", c, v) + '"></span>Backward (chunk ' + (c + 1) + ")";
+        legend.appendChild(b);
+      }
+      const idle = document.createElement("span");
+      idle.className = "legend-item";
+      idle.innerHTML = '<span class="swatch" style="background:#d1d5db"></span>Device idle';
+      legend.appendChild(idle);
+    }
+
+    function drawChart(timeline, m, v, nmb) {
+      const canvas = document.getElementById("chart");
+      const ctx = canvas.getContext("2d");
+      const rows = m;
+      const cols = Math.max(...timeline.map(r => r.length));
+
+      const leftPad = 70;
+      const topPad = 28;
+      const cellW = 24;
+      const cellH = 34;
+      const gap = 2;
+      const width = leftPad + cols * (cellW + gap) + 22;
+      const height = topPad + rows * (cellH + gap) + 38;
+
+      canvas.width = width;
+      canvas.height = height;
+
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.font = "12px sans-serif";
+      ctx.fillStyle = "#111827";
+      ctx.fillText("GPU", 10, 18);
+
+      for (let r = 0; r < rows; r++) {
+        const y = topPad + r * (cellH + gap);
+        ctx.fillStyle = "#111827";
+        ctx.font = "20px sans-serif";
+        ctx.fillText(String(r + 1), 30, y + 23);
+        for (let t = 0; t < cols; t++) {
+          const x = leftPad + t * (cellW + gap);
+          const task = timeline[r][t];
+          if (!task) {
+            ctx.fillStyle = "#d1d5db";
+            ctx.fillRect(x, y, cellW, cellH);
+            continue;
+          }
+          const chunk = Math.floor(task.stage / m);
+          ctx.fillStyle = colorFor(task.type, chunk, v);
+          ctx.fillRect(x, y, cellW, cellH);
+          ctx.strokeStyle = "rgba(0,0,0,0.12)";
+          ctx.strokeRect(x + 0.5, y + 0.5, cellW - 1, cellH - 1);
+
+          ctx.fillStyle = "#f9fafb";
+          ctx.font = "bold 11px sans-serif";
+          const text = String(task.mb + 1);
+          const tw = ctx.measureText(text).width;
+          ctx.fillText(text, x + (cellW - tw) / 2, y + 21);
+        }
+      }
+
+      ctx.fillStyle = "#111827";
+      ctx.font = "14px sans-serif";
+      ctx.fillText("Time  ->", leftPad, height - 12);
+
+      const bubble = Math.max(0, cols - (2 * nmb + v * m - 2));
+      const summary = document.getElementById("summary");
+      summary.textContent = "总时隙: " + cols + " | 理论最少(近似): " + (2 * nmb + v * m - 2) + " | 额外气泡(近似): " + bubble;
+    }
+
+    function getInt(id, fallback) {
+      const v = Number(document.getElementById(id).value);
+      if (!Number.isFinite(v)) return fallback;
+      return Math.max(1, Math.floor(v));
+    }
+
+    function render() {
+      const m = getInt("m", 4);
+      const v = getInt("v", 2);
+      const nmb = getInt("nmb", 16);
+      const mode = document.getElementById("mode").value;
+      const { timeline } = schedule(m, v, nmb, mode);
+      renderLegend(v);
+      drawChart(timeline, m, v, nmb);
+
+      const qs = new URLSearchParams();
+      qs.set("m", m);
+      qs.set("v", v);
+      qs.set("nmb", nmb);
+      qs.set("mode", mode);
+      history.replaceState({}, "", "?" + qs.toString());
+    }
+
+    function initFromQuery() {
+      const q = new URLSearchParams(location.search);
+      ["m", "v", "nmb"].forEach(id => {
+        if (q.has(id)) document.getElementById(id).value = q.get(id);
+      });
+      if (q.has("mode")) document.getElementById("mode").value = q.get("mode");
+    }
+
+    document.getElementById("renderBtn").addEventListener("click", render);
+    ["m", "v", "nmb", "mode"].forEach(id => {
+      document.getElementById(id).addEventListener("change", render);
+    });
+
+    initFromQuery();
+    render();
+  </script>
+</body>
+</html>
