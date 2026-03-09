@@ -12,8 +12,8 @@ location: "Shanghai, China"
 <iframe 
   src="{{ '/files/flops-estimator/?nHeads=32&hidden=4096&seqLen=4096&batchSize=1&nLayers=32&ffnRatio=4&precision=mixed&tp=1&dp=1&zero=0&recompute=none&seqPar=off' | relative_url }}"
   width="100%" 
-  height="860"
-  style="border:none; border-radius:12px; overflow:hidden; min-height:760px;">
+  height="1020"
+  style="border:none; border-radius:12px; overflow:auto; min-height:960px;">
 </iframe>
 
 你可以直接调 `heads`、`hidden`、`seqlen`、`batch size`，并切换混合精度、TP/DP/ZeRO。  
