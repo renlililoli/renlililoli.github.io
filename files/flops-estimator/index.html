@@ -190,6 +190,14 @@
           <div class="value" id="totalTrain">-</div>
         </div>
         <div class="metric">
+          <div class="name">Forward / Backward / Optimizer 分解</div>
+          <div class="value" id="flopsBreakdown">-</div>
+        </div>
+        <div class="metric">
+          <div class="name">Forward / Backward / Optimizer 占比</div>
+          <div class="value" id="flopsRatio">-</div>
+        </div>
+        <div class="metric">
           <div class="name">混合精度等效 FLOPs</div>
           <div class="value" id="effective">-</div>
         </div>
@@ -238,16 +246,23 @@
       return embed + cfg.nLayers * perLayer;
     }
 
-    function computeFlops(cfg) {
+    const OPT_FLOP_PER_PARAM = 6; // Adam: m update ~2 + v update ~2 + param update ~2 per param
+
+    function computeFlops(cfg, totalParams) {
       const ffDim = cfg.hidden * cfg.ffnRatio;
       const tokens = cfg.batchSize * cfg.seqLen;
       const proj = 8 * tokens * cfg.hidden * cfg.hidden;
       const attn = 4 * cfg.batchSize * cfg.seqLen * cfg.seqLen * cfg.hidden;
       const ffn = 4 * tokens * cfg.hidden * ffDim;
       const fwdPerLayer = proj + attn + ffn;
-      const totalTrain = 3 * fwdPerLayer * cfg.nLayers;
+
+      const forward = fwdPerLayer * cfg.nLayers;
+      const backward = 2 * forward;  // backprop ~2x forward
+      const optimizer = OPT_FLOP_PER_PARAM * totalParams;
+
+      const totalTrain = forward + backward + optimizer;
       const effective = totalTrain * (cfg.precision === "mixed" ? 2 : 1);
-      return { fwdPerLayer, totalTrain, effective };
+      return { fwdPerLayer, forward, backward, optimizer, totalTrain, effective };
     }
 
     function computeMemory(cfg, totalParams) {
@@ -306,19 +321,28 @@
       }
 
       const params = countParams(cfg);
-      const flops = computeFlops(cfg);
+      const flops = computeFlops(cfg, params);
       const mem = computeMemory(cfg, params);
+
+      const pct = (v) => (v / flops.totalTrain * 100).toFixed(1);
+      const fwdPct = pct(flops.forward);
+      const bwdPct = pct(flops.backward);
+      const optPct = pct(flops.optimizer);
 
       document.getElementById("paramsCount").textContent = fmtParams(params);
       document.getElementById("fwdPerLayer").textContent = fmtFlops(flops.fwdPerLayer);
       document.getElementById("totalTrain").textContent = fmtFlops(flops.totalTrain);
+      document.getElementById("flopsBreakdown").textContent =
+        fmtFlops(flops.forward) + " / " + fmtFlops(flops.backward) + " / " + fmtFlops(flops.optimizer);
+      document.getElementById("flopsRatio").textContent =
+        fwdPct + "% / " + bwdPct + "% / " + optPct + "%";
       document.getElementById("effective").textContent = fmtFlops(flops.effective);
       document.getElementById("memTotal").textContent = toGB(mem.total);
       document.getElementById("memBreakdown").textContent =
         toGB(mem.params) + " / " + toGB(mem.grads) + " / " + toGB(mem.optimizer) + " / " + toGB(mem.activation);
 
       document.getElementById("notes").innerHTML =
-        "说明: 显存为每卡估算值，单位统一为 GB。FLOPs 假设 <code>train ~= 3 x forward</code>；混合精度下额外给出 2x 的等效 FLOPs（便于对比 Tensor Core 峰值）。";
+        "说明: 显存为每卡估算值，单位统一为 GB。FLOPs 分解: <code>forward</code> 1x，<code>backward</code> ≈ 2x forward，<code>optimizer step</code> ≈ " + OPT_FLOP_PER_PARAM + " FLOPs/param（Adam）。混合精度下额外给出 2x 等效 FLOPs（便于对比 Tensor Core 峰值）。";
     }
 
     const fields = ["nHeads", "hidden", "seqLen", "batchSize", "nLayers", "ffnRatio", "vocabSize", "precision", "tp", "dp", "zero", "optBytes", "recompute", "seqPar"];
