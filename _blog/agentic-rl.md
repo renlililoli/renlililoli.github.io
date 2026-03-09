@@ -347,3 +347,349 @@ $$
 其中$T$是序列长度。
 
 这样就可以避免概率连乘积趋近于0的问题。 但是问题在于这个并不是无偏的梯度的估计。 但是会极大增加训练的稳定性。
+
+
+## PPO代码
+
+1️⃣ 采样
+2️⃣ reward + KL
+3️⃣ GAE advantage
+4️⃣ PPO loss
+
+---
+
+### 1 数据结构
+
+一条 sample：
+
+```text
+prompt: x
+completion: y = [y1 ... yT]
+
+logprob_old[t]      # old policy log π_old(y_t|s_t)
+logprob_ref[t]      # reference model log π_ref
+value[t]            # value head V(s_t)
+reward_model_score  # RM(x,y)
+```
+
+---
+
+### 2 采样阶段
+
+```python
+for prompt in batch:
+
+    completion, logprob_old, value = model.generate(prompt)
+
+    logprob_ref = ref_model.logprob(prompt, completion)
+
+    reward = reward_model(prompt, completion)
+
+    store(
+        prompt,
+        completion,
+        logprob_old,
+        logprob_ref,
+        value,
+        reward
+    )
+```
+
+**注意这里**： we use $\pi_\text{old}$ for pure inference, this combine prefill and decode stages. All logprob_old are saved. Then use the $\pi_\text{ref}$ to compute the logprob_ref. This only need to do prefill stage. No need to save compute graph. (Can this stage use quantized model?)
+
+---
+
+### reward shaping
+
+RLHF 通常先把 KL 加进 reward。
+
+```python
+rewards = [0]*T
+rewards[T-1] = shaped_reward
+```
+
+****
+
+---
+
+### 4 重新计算当前策略 logprob
+
+PPO update 时需要 **新策略概率**：
+
+```python
+logprob_new = model.logprob(prompt, completion)
+```
+
+**注意这里**： 计算logprob_new，must use the new model and save compute graph. This need backward!!!(bf16 model need this). Alse the
+value head are generated per token.
+
+---
+
+### 5 GAE 计算 advantage
+
+Generalized Advantage Estimation：
+
+```python
+advantages = []
+returns = []
+
+gae = 0
+
+for t in reversed(range(T)):
+
+    delta = rewards[t] + gamma * values[t+1] - values[t]
+
+    gae = delta + gamma * lambda_gae * gae
+
+    advantages[t] = gae
+
+    returns[t] = advantages[t] + values[t]
+```
+
+通常会做 **advantage normalization**：
+
+```python
+advantages = (advantages - mean) / (std + 1e-8)
+```
+
+
+---
+
+### 6 PPO policy loss
+
+importance ratio：
+
+```python
+ratio = exp(logprob_new - logprob_old)
+```
+
+clip：
+
+```python
+ratio_clipped = clip(ratio, 1-eps, 1+eps)
+```
+
+policy loss：
+
+```python
+loss_policy = -mean(
+    min(
+        ratio * advantage,
+        ratio_clipped * advantage
+    )
+)
+```
+
+---
+
+### 7 value loss
+
+```python
+loss_value = mean(
+    (value_new - returns)**2
+)
+```
+
+有些实现会 **clip value update**：
+
+```python
+value_clipped = value_old + clip(
+    value_new - value_old,
+    -value_clip,
+    value_clip
+)
+
+loss_value = max(
+    (value_new - returns)^2,
+    (value_clipped - returns)^2
+)
+```
+
+---
+
+### 8 entropy bonus
+
+鼓励 exploration：
+
+```python
+entropy = -sum(p * log p)
+
+loss_entropy = -entropy_coef * entropy
+```
+
+---
+
+### 9 总 loss
+
+```python
+loss =
+    loss_policy
+  + c1 * loss_value
+  + loss_entropy
+  + loss_kl(pi_theta, pi_ref)
+```
+
+注意：
+
+KL **已经在 reward 里**。
+
+---
+
+### 10 完整 PPO step 伪代码
+
+```python
+for batch in rollout_buffer:
+
+    logprob_new, value_new = model.forward(batch)
+
+    ratio = exp(logprob_new - batch.logprob_old)
+
+    ratio_clipped = clip(ratio, 1-eps, 1+eps)
+
+    loss_policy = -mean(
+        min(
+            ratio * batch.advantage,
+            ratio_clipped * batch.advantage
+        )
+    )
+
+    loss_value = mean(
+        (value_new - batch.return)**2
+    )
+
+    entropy = compute_entropy(logprob_new)
+    loss_kl = compute_kl(logprob_new, logprob_ref)
+    loss =
+        loss_policy \
+        + c1 * loss_value \
+        - c2 * entropy \
+        + loss_kl
+
+    optimizer.step(loss)
+```
+
+---
+
+### 11 LLM PPO 的几个关键工程细节
+
+### 1 prompt token 不参与 loss
+
+```python
+mask = completion_mask
+loss *= mask
+```
+
+---
+
+### 2 每个 batch 会 update 多次
+
+```python
+for epoch in range(K_epochs):
+    ppo_update()
+```
+
+常见：
+
+```text
+K_epochs = 4
+```
+
+---
+
+### 3 adaptive KL coefficient
+
+目标：
+
+```text
+target KL ≈ 0.1
+```
+
+动态调整：
+
+```python
+if kl > target:
+    beta *= 1.5
+else:
+    beta /= 1.5
+```
+
+---
+
+# 12 RLHF PPO pipeline 总流程
+
+```text
+SFT model
+   │
+   ▼
+generate samples
+   │
+   ▼
+reward model scoring
+   │
+   ▼
+KL penalty
+   │
+   ▼
+GAE advantage
+   │
+   ▼
+PPO update
+   │
+   ▼
+repeat
+```
+
+---
+
+### 细节：
+
+用专用的inference engine 来rollout和计算pi_ref。
+不用save compute graph，只save logprob_old。这里为了加速pi_ref和pi_old都是低精度！它们可以单独使用gpu进行rollout，和训练gpu形成流水线。
+
+单独用gpu来算reward model，这个模型可以用一个小模型。
+
+用主要的gpu来存放训练模型，训练模型要求计算value head和logprob_new。
+
+---
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│  Driver / Actor Trainer（控制流）                                  │
+└─────────────────────────────────────────────────────────────────┘
+         │
+         │  1. prompts（list[str] 或 token_ids）
+         ▼
+┌─────────────────┐     Ray.remote() / ray.put()     ┌──────────────┐
+│  Rollout (vLLM) │ ◄───────────────────────────────│  Prompt 池   │
+│  GPU 0,1        │                                 │  (可来自     │
+└────────┬────────┘                                 │   DataLoader)│
+         │                                          └──────────────┘
+         │  2. completion, logprob_old（序列化后放入 Ray Object Store）
+         ▼
+┌─────────────────┐     ray.get() / .remote()       ┌──────────────┐
+│  Ref Model      │ ◄──────────────────────────────│ completions  │
+│  GPU 2          │     (prompt + completion)       │ + prompts    │
+└────────┬────────┘                                 └──────────────┘
+         │
+         │  3. logprob_ref
+         ▼
+┌─────────────────┐     .remote(prompt, completion)  ┌──────────────┐
+│  Reward Model   │ ◄───────────────────────────────│ 同一批数据   │
+│  GPU 3          │                                 │              │
+└────────┬────────┘                                 └──────────────┘
+         │
+         │  4. reward scores
+         ▼
+┌─────────────────┐
+│  Replay Buffer  │  ← 汇总：prompt, completion, logprob_old, 
+│  (CPU / 共享)   │       logprob_ref, value, reward
+└────────┬────────┘
+         │
+         │  5. 采样 batch，送入 PPO
+         ▼
+┌─────────────────┐
+│  Actor + Critic │  训练 GPU（可单独一组，如 GPU 4,5,6,7）
+│  (DeepSpeed)    │  - forward：logprob_new, value_new
+│                 │  - backward：更新策略和 value head
+└─────────────────┘
+
+```
