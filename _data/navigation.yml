@@ -30,8 +30,8 @@ main:
   - title: "Publications"
     url: /publications/
 
-  - title: "Essays"
-    url: /essays/
+  # - title: "Essays"
+  #   url: /essays/
     
   - title: "CV"
     url: /cv/
