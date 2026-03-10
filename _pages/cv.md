@@ -18,17 +18,29 @@ redirect_from:
 
 ---
 
-## Research Experience
-- **Research on Macro Placement**, Huawei Cooperation Project, Shanghai (2024–Present)  
-  Participated in a joint research project with Huawei on macro placement in chip physical design.  
-  Developed placement algorithms and evaluation scripts in Python/C++ for industrial EDA datasets.
+## Research & Internship Experience
 
-- **Administrator, Small-Scale HPC Cluster**, Fudan University, Shanghai (2024–Present)  
-  Maintained and managed an internal high-performance computing cluster,  
-  including configurations of NFS, Slurm, and distributed computing environments.
+- **LLM-RL Fine-tuning Practice** (2026–Present)  
+  Explored load distribution and performance bottlenecks across different stages of PPO, GRPO, and other reinforcement learning algorithms.  
+  Used the `trl` library for RL fine-tuning of large language models; improved rollout efficiency with vLLM and studied vLLM/SGLang inference frameworks.  
+  Evaluated optimizers (Adam, Lion, Muon) and gained experience with multi-GPU training: data/model/pipeline parallelism, DeepSpeed ZeRO, LoRA-based fine-tuning.
 
-- **Assistant Organizer, International Summer School on Quantum Computing**, Fudan University, Shanghai (2024)  
-  Assisted in organizing academic activities, guest coordination, and technical support for participants.
+- **Parallel PDE Solver** (2026–Present)  
+  Implemented high-performance Poisson–Boltzmann equation solver in C++/MPI using the HIF-SI algorithm library, achieving linear scaling with problem size.  
+  Benchmarking and optimization on Tianhe-3 supercomputer and commercial cloud platforms; tuned communication and load balancing strategies.
+
+- **Research on Macro Placement**, Huawei Cooperation Project (2024–2025)  
+  Studied macro placement in chip physical design; surveyed state-of-the-art open-source techniques.  
+  Developed C++ placement algorithms to improve 2D macro placement in Huawei’s in-house tool; code merged into the internal codebase.  
+  Optimized Open3DBench’s 3D macro placement algorithm for better layout quality and efficiency.
+
+- **HPC Cluster Administrator**, Fudan University (2024–Present)  
+  Set up and maintain a multi-node HPC cluster for the research group; configured network and storage.  
+  Installed scientific software, managed environments, and user support; monitored cluster health; administered compute resources via Slurm.
+
+- **Quantum Computing Algorithm Implementation** (2023–2025)  
+  Implemented quantum algorithms (qOMM, SSVQD) for molecular excited-state energy calculations using Qiskit.  
+  Code contributed and merged into the qiskit-ecosystem community.
 
 ---
 
@@ -48,14 +60,14 @@ redirect_from:
 ---
 
 ## Awards
+- **2021** — Second Prize (Shanghai Division), National Undergraduate Mathematics Competition, China.  
 - **2019** — First Prize (Henan Division), National High School Physics Competition, China.
 
 ---
 
 ## Technical Skills
-- **Programming:** Python, C++, basic CUDA  
-- **HPC / Tools:** Linux, Slurm, BLAS, LAPACK, basic MPI  
-- **Mathematics:** Numerical analysis, linear algebra, probability theory, stochastic processes
+- **Programming / Tools:** Python, C++, Linux, MPI  
+- **Mathematics:** Numerical analysis, linear algebra, probability theory
 
 ---
 
