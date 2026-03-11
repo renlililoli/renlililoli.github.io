@@ -693,3 +693,661 @@ repeat
 └─────────────────┘
 
 ```
+
+我把我们这段对话里涉及的 **TRL、PPO、异步RLHF系统、rollout/训练开销、reward model瓶颈等内容**整理成一份 **结构化笔记**。
+我尽量把逻辑重新组织了一下，让它像一份 **RLHF系统设计 notes**，而不是简单的问答记录。
+
+---
+
+# RLHF / PPO / TRL / OpenRLHF 系统笔记
+
+## 1 TRL PPO 的基本机制
+
+### 1.1 PPO 的理论公式
+
+PPO优化目标：
+
+[
+r_t(\theta) = \frac{\pi_\theta(a_t|s_t)}{\pi_{old}(a_t|s_t)}
+]
+
+[
+L = \min(r_t A_t, \text{clip}(r_t, 1-\epsilon,1+\epsilon)A_t)
+]
+
+其中：
+
+* πθ：当前策略
+* πold：采样时策略
+* At：advantage
+
+---
+
+### 1.2 工程实现中的 π_old
+
+在工程实现中：
+
+```
+π_old 并不会以模型形式保存
+```
+
+只保存：
+
+```
+old_logprob
+```
+
+计算方式：
+
+```
+ratio = exp(new_logprob - old_logprob)
+```
+
+因此：
+
+```
+π_old ≈ rollout 时记录的 logprob
+```
+
+不需要维护第二个 policy 模型。
+
+---
+
+## 2 TRL PPO 的训练流程
+
+### 2.1 两个阶段
+
+TRL PPO 是 **同步训练**：
+
+```
+rollout
+↓
+update
+```
+
+伪代码：
+
+```
+for iteration:
+
+    # rollout
+    responses = model.generate(prompts)
+    old_logprob = compute_logprob(responses)
+    reward = reward_model(responses)
+
+    store experience
+
+    # PPO update
+    for epoch:
+        new_logprob = model(responses)
+        ratio = exp(new - old)
+        optimize PPO loss
+```
+
+特点：
+
+* rollout 与 update 串行
+* 同一 policy
+* 不支持异步 pipeline
+
+---
+
+### 2.2 rollout 阶段保存的内容
+
+buffer 中通常包含：
+
+```
+prompt
+response tokens
+old_logprob
+value
+reward
+```
+
+update 时重新计算：
+
+```
+new_logprob
+```
+
+---
+
+## 3 TRL vs OpenRLHF
+
+### 3.1 TRL 架构
+
+```
+single trainer
+
+rollout
+↓
+update
+↓
+rollout
+```
+
+特点：
+
+* 同步
+* 实验友好
+* 实现简单
+
+---
+
+### 3.2 OpenRLHF 架构
+
+OpenRLHF 使用 **actor-learner 架构**：
+
+```
+Actor workers (rollout)
+      ↓
+experience queue
+      ↓
+Learner (PPO update)
+```
+
+结构：
+
+```
+       +---------+
+       | learner |
+       +---------+
+           ↑
+   experience queue
+           ↑
++------+ +------+ +------+
+|actor1| |actor2| |actor3|
++------+ +------+ +------+
+```
+
+---
+
+## 4 异步 PPO 的关键思想
+
+### 4.1 不需要同步 policy
+
+每个 rollout worker：
+
+```
+pull weights
+freeze as π_old
+rollout
+send experience
+```
+
+experience 包含：
+
+```
+prompt
+response
+old_logprob
+reward
+```
+
+learner 不需要 actor 的模型参数。
+
+---
+
+### 4.2 不同 worker 的 π_old 可以不同
+
+例如：
+
+```
+actor1 rollout using π_t
+actor2 rollout using π_t-5
+actor3 rollout using π_t-10
+```
+
+只要：
+
+```
+old_logprob 正确
+```
+
+PPO ratio 仍然成立：
+
+```
+ratio = exp(new_logprob - old_logprob)
+```
+
+---
+
+### 4.3 policy lag
+
+异步系统会产生：
+
+```
+π_actor ≠ π_current
+```
+
+例如：
+
+```
+actor rollout: π_100
+learner update: π_108
+```
+
+ratio 实际为：
+
+```
+π_108 / π_100
+```
+
+PPO clipping 可以缓解。
+
+---
+
+### 4.4 为什么不频繁同步参数
+
+大模型参数很大：
+
+```
+7B model ≈ 14GB
+```
+
+频繁同步成本高。
+
+解决方案：
+
+```
+periodic weight sync
+```
+
+例如：
+
+```
+每 N step refresh
+```
+
+---
+
+## 5 RLHF rollout vs training 的计算成本
+
+### 5.1 rollout 的复杂度
+
+生成 N token：
+
+```
+N × forward
+```
+
+例如：
+
+```
+response length = 128
+→ 128 forward
+```
+
+原因：
+
+```
+autoregressive generation
+```
+
+---
+
+### 5.2 training 的复杂度
+
+训练时：
+
+```
+sequence forward + backward
+```
+
+复杂度：
+
+```
+≈ 3 × forward
+```
+
+---
+
+### 5.3 理论 FLOPs
+
+示例：
+
+```
+rollout: 128 forward
+train: 3 forward
+```
+
+所以：
+
+```
+rollout FLOPs > training FLOPs
+```
+
+---
+
+## 6 rollout 的优化
+
+现代 RLHF 系统常见优化：
+
+```
+vLLM inference
+INT8 / INT4 quantization
+KV cache
+continuous batching
+speculative decoding
+```
+
+这可以大幅提高 rollout 吞吐量。
+
+---
+
+## 7 reward model 为什么可能成为瓶颈
+
+### 7.1 reward model 无法 KV cache
+
+rollout generation：
+
+```
+attention complexity ≈ O(T)
+```
+
+因为：
+
+```
+KV cache
+```
+
+---
+
+reward model：
+
+```
+full sequence forward
+```
+
+复杂度：
+
+```
+O(T²)
+```
+
+例如：
+
+```
+512 × 512 attention
+```
+
+---
+
+### 7.2 reward model 必须完整序列
+
+输入：
+
+```
+[prompt + response]
+```
+
+不能 streaming。
+
+必须等待：
+
+```
+response complete
+```
+
+---
+
+### 7.3 batching 不稳定
+
+rollout：
+
+```
+continuous batching
+```
+
+reward：
+
+```
+variable sequence length
+padding overhead
+```
+
+---
+
+### 7.4 reward model 通常较大
+
+常见配置：
+
+```
+policy = 7B
+reward = 7B
+```
+
+甚至：
+
+```
+reward = 13B
+```
+
+---
+
+### 7.5 reward 不易量化
+
+reward ranking 对精度敏感：
+
+```
+过度量化 → ranking collapse
+```
+
+通常使用：
+
+```
+bf16 / fp16
+```
+
+---
+
+## 8 RLHF PPO 为什么 policy forward 次数少
+
+很多人误以为：
+
+```
+update 也要 generate
+```
+
+其实不是。
+
+---
+
+### 8.1 rollout 已经生成 trajectory
+
+rollout 得到：
+
+```
+prompt
+response
+old_logprob
+value
+```
+
+---
+
+### 8.2 update 使用 teacher forcing
+
+输入：
+
+```
+prompt + response
+```
+
+只需要：
+
+```
+一次 sequence forward
+```
+
+得到：
+
+```
+new_logprob
+value
+```
+
+---
+
+### 8.3 PPO ratio
+
+```
+ratio = exp(new_logprob - old_logprob)
+```
+
+---
+
+### 8.4 forward 次数对比
+
+示例：
+
+```
+batch = 256
+response = 128
+ppo_epoch = 4
+```
+
+rollout：
+
+```
+256 × 128 = 32768 forward
+```
+
+update：
+
+```
+256 × 4 = 1024 forward
+```
+
+差距：
+
+```
+~32×
+```
+
+---
+
+## 9 PPO reward 的 token-level 传播
+
+RLHF 通常：
+
+```
+reward 只在最后 token
+```
+
+例如：
+
+```
+sequence reward = 0.8
+```
+
+通过：
+
+```
+GAE / return propagation
+```
+
+得到：
+
+```
+token-level advantage
+```
+
+因此：
+
+```
+整条序列都能训练
+```
+
+---
+
+## 10 RLHF 系统的真实计算分布
+
+典型 profile：
+
+```
+policy rollout       ~35%
+reward model         ~35%
+policy update        ~20%
+value update         ~10%
+```
+
+很多时候：
+
+```
+trainer GPU 等 rollout
+```
+
+---
+
+# 总结
+
+RLHF PPO 的关键系统设计：
+
+### 1 PPO 实现
+
+```
+π_old ≈ old_logprob
+```
+
+不需要保存 old policy。
+
+---
+
+### 2 TRL vs OpenRLHF
+
+TRL：
+
+```
+同步 rollout → update
+```
+
+OpenRLHF：
+
+```
+actor-learner 异步 pipeline
+```
+
+---
+
+### 3 异步 RLHF
+
+* rollout workers 可使用不同 π_old
+* 只需发送 old_logprob
+* learner 定期同步权重
+
+---
+
+### 4 rollout vs training
+
+```
+rollout: autoregressive (多 forward)
+training: teacher forcing (少 forward)
+```
+
+---
+
+### 5 reward model
+
+瓶颈原因：
+
+```
+无 KV cache
+O(T²) attention
+完整序列 forward
+batching 差
+```
+
+---
+
+### 6 PPO update
+
+无需重新生成：
+
+```
+sequence forward + backward
+```
+
+大幅减少 compute。
+
+---
