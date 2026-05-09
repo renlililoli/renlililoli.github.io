@@ -18,7 +18,13 @@ redirect_from:
 
 ---
 
-## Research & Internship Experience
+## Internship Experience
+
+- **High-frequency Futures Quantitative Research**, Pengfu Tech (2026-Present)    
+  Using statistical and machine learning methods to mine alpha factors from tick-level limit order book snapshot data in the Chinese commodity futures market.
+  
+
+## Research
 
 - **LLM-RL Fine-tuning Practice** (2026–Present)  
   Explored load distribution and performance bottlenecks across different stages of PPO, GRPO, and other reinforcement learning algorithms.  
