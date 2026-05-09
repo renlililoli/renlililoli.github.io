@@ -128,14 +128,17 @@ from datetime import datetime, timedelta
 # 数据
 # =======================
 data = [
-    ("Jiujiu",   "2025-03-16", "2026-02-01"),
-    ("Itsume",   "2025-03-16", "2026-02-01"),
-    ("Sakura",   "2025-03-16", "2026-02-01"),
-    ("Koyoi",    "2025-10-01", "2026-02-01"),
+    ("Jiujiu",   "2025-03-16", "2026-05-30"),
+    ("Itsume",   "2025-03-16", "2026-05-30"),
+    ("Sakura",   "2025-03-16", "2026-05-30"),
+    ("Koyoi",    "2025-10-01", "2026-05-30"),
     ("Kaori",    "2025-03-16", "2026-01-18"),
     ("Yukikoo",  "2025-03-16", "2026-01-18"),
     ("Shimizu",  "2025-03-16", "2025-07-27"),
     ("Mizuki",   "2025-03-16", "2025-11-02"),
+    ("Cocona",   "2026-01-31", "2026-05-30"),
+    ("Chinka",   "2026-01-31", "2026-04-12"),
+    ("Seiko",    "2026-04-19", "2026-05-30"),
 ]
 
 df = pd.DataFrame(data, columns=["Member", "Start", "End"])
@@ -145,8 +148,8 @@ df["End"]   = pd.to_datetime(df["End"])
 # =======================
 # Open-ended
 # =======================
-OPEN_END = pd.Timestamp("2026-02-01")
-open_ended_members = {"Jiujiu", "Itsume", "Sakura", "Koyoi"}
+OPEN_END = pd.Timestamp("2026-05-06")
+open_ended_members = {"Jiujiu", "Itsume", "Sakura", "Koyoi", "Seiko", "Cocona"}
 
 df["IsOpen"] = df["Member"].isin(open_ended_members)
 df.loc[df["IsOpen"], "End"] = OPEN_END
@@ -163,6 +166,9 @@ member_colors = {
     "Yukikoo":  "#F9F9F9",
     "Shimizu":  "#38BDF8",
     "Mizuki":   "#EF4444",
+    "Seiko":    "#F9F9F9",
+    "Cocona":   "#8B5CF6",
+    "Chinka":   "#EF4444",
 }
 
 # 保持成员原始顺序（你可以根据需要排序）
@@ -239,6 +245,10 @@ milestones = {
     "2025.07.27": "2025-07-27",
     "2025.11.02": "2025-11-02",
     "2026.01.18": "2026-01-18",
+    "2026.01.31": "2026-01-31",
+    "2026.04.12": "2026-04-12",
+    "2026.04.19": "2026-04-19",
+    "2026.05.06": "2026-05-06",
 }
 
 # 为 milestones 添加 line shapes 与 annotation
