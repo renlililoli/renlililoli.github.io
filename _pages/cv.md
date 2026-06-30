@@ -20,7 +20,10 @@ redirect_from:
 
 ## Internship Experience
 
-- **High-frequency Futures Quantitative Research**, Pengfu Tech (2026-Present)    
+- **Agent Memory and Context Management**, Huawei (2026.6-)
+- 
+
+- **High-frequency Futures Quantitative Research**, Pengfu Tech (2026.4-2026.6)    
   Using statistical and machine learning methods to mine alpha factors from tick-level limit order book snapshot data in the Chinese commodity futures market.
   
 
