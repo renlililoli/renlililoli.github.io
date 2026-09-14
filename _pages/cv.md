@@ -9,85 +9,146 @@ redirect_from:
 
 {% include base_path %}
 
-## Education
-- **Ph.D. Candidate in Computational Mathematics**, School of Mathematical Sciences, Fudan University, Shanghai (2024–Present)  
-  *Research Focus: Quantum Computing and Fast Algorithms.*
+<div class="resume-page">
+  <section class="resume-summary">
+    <p>
+      Ph.D. candidate in computational mathematics working on efficient AI inference,
+      parallel scientific computing, numerical algorithms, and quantum computing.
+    </p>
+    <div class="resume-contact" aria-label="Contact links">
+      <a href="mailto:grzhu24@m.fudan.edu.cn"><i class="fa-solid fa-envelope" aria-hidden="true"></i> grzhu24@m.fudan.edu.cn</a>
+      <a href="https://github.com/renlililoli"><i class="fa-brands fa-github" aria-hidden="true"></i> GitHub</a>
+      <span><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Shanghai, China</span>
+    </div>
+  </section>
 
-- **B.Sc. in Mathematics and Applied Mathematics**, School of Mathematical Sciences, Fudan University, Shanghai (2020–2024)  
-  *Awarded Outstanding Graduate of Fudan University.*
+  <section class="resume-section" aria-labelledby="cv-education">
+    <h2 id="cv-education">Education</h2>
+    <article class="resume-entry">
+      <div class="resume-entry__date">2024 – Present</div>
+      <div class="resume-entry__content">
+        <h3>Ph.D. Candidate in Computational Mathematics</h3>
+        <p class="resume-entry__org">School of Mathematical Sciences, Fudan University</p>
+        <p>Research focus: quantum computing and fast algorithms. Advised by <a href="https://yingzhouli.com">Prof. Yingzhou Li</a>.</p>
+      </div>
+    </article>
+    <article class="resume-entry">
+      <div class="resume-entry__date">2020 – 2024</div>
+      <div class="resume-entry__content">
+        <h3>B.Sc. in Mathematics and Applied Mathematics</h3>
+        <p class="resume-entry__org">School of Mathematical Sciences, Fudan University</p>
+        <p>Mathematics Talent Program. Awarded Outstanding Graduate of Fudan University.</p>
+      </div>
+    </article>
+  </section>
 
----
+  <section class="resume-section" aria-labelledby="cv-experience">
+    <h2 id="cv-experience">Engineering & Research Experience</h2>
+    <article class="resume-entry resume-entry--featured">
+      <div class="resume-entry__date">Jun 2026 – Present</div>
+      <div class="resume-entry__content">
+        <h3>Research Intern, Data Storage Technology Development</h3>
+        <p class="resume-entry__org">Huawei, ICT BG Data Storage Product Line</p>
+        <ul>
+          <li>Analyze video generation inference pipelines, locate performance bottlenecks, and validate optimization strategies.</li>
+          <li>Model inference processes and workload characteristics to support performance analysis and architecture evaluation.</li>
+          <li>Develop activation-offloading approaches through <a href="https://github.com/renlililoli/minimax-h3-seq-chunk-attn">MiniMax-H3 SeqAttn</a> and <a href="https://github.com/renlililoli/stream-attn">Stream-Attn</a>, enabling arbitrary-resolution and arbitrary-duration video generation on consumer GPUs without loss of accuracy or inference speed.</li>
+        </ul>
+      </div>
+    </article>
+    <article class="resume-entry">
+      <div class="resume-entry__date">2026</div>
+      <div class="resume-entry__content">
+        <h3>Parallel PDE Solver</h3>
+        <p class="resume-entry__org">Scientific Computing Project</p>
+        <ul>
+          <li>Implemented a parallel Poisson–Boltzmann solver in C++ and MPI using the HIF-SI algorithm library.</li>
+          <li>Ran scaling studies on the Tianhe-3 supercomputer and commercial cloud platforms, focusing on communication, workload distribution, and parallel efficiency.</li>
+        </ul>
+      </div>
+    </article>
+    <article class="resume-entry">
+      <div class="resume-entry__date">2024 – 2025</div>
+      <div class="resume-entry__content">
+        <h3>Macro Placement Algorithm Research</h3>
+        <p class="resume-entry__org">Huawei Collaboration Project</p>
+        <ul>
+          <li>Developed and optimized C++ algorithms for 2D macro placement; evaluated results on industrial EDA workloads and merged code into Huawei's internal repository.</li>
+          <li>Improved Open3DBench's 3D macro placement algorithm for placement quality and runtime efficiency.</li>
+        </ul>
+      </div>
+    </article>
+    <article class="resume-entry">
+      <div class="resume-entry__date">2024 – Present</div>
+      <div class="resume-entry__content">
+        <h3>HPC Cluster Administrator</h3>
+        <p class="resume-entry__org">Fudan University</p>
+        <ul>
+          <li>Built and maintain a multi-node HPC cluster, including networking, storage, user environments, and scientific software.</li>
+          <li>Manage compute resources and jobs with Slurm; use Grafana and agent-assisted workflows for metrics collection, anomaly identification, and job analysis.</li>
+        </ul>
+      </div>
+    </article>
+  </section>
 
-## Internship Experience
+  <section class="resume-section" aria-labelledby="cv-publications">
+    <h2 id="cv-publications">Publications</h2>
+    <article class="resume-publication">
+      <span>2025</span>
+      <div>
+        <h3>Quantum Circuit for Non-Unitary Linear Transformation of Basis Sets</h3>
+        <p><strong>Zhu, G.</strong>, Bierman, J., Lu, J., & Li, Y. <em>npj Quantum Information</em>, 11, 198 (2025).</p>
+        <a href="https://doi.org/10.1038/s41534-025-01145-3">DOI: 10.1038/s41534-025-01145-3</a>
+      </div>
+    </article>
+    <article class="resume-publication">
+      <span>2025</span>
+      <div>
+        <h3>State-Specific Orbital Optimization for Enhanced Excited-States Calculation on Quantum Computers</h3>
+        <p><strong>Zhu, G.</strong>, Bierman, J., Lu, J., & Li, Y. <em>arXiv preprint</em> arXiv:2510.13544.</p>
+        <a href="https://arxiv.org/abs/2510.13544">arXiv:2510.13544</a>
+      </div>
+    </article>
+  </section>
 
-- **Agent Memory and Context Management**, Huawei (2026.6-)
-- 
+  <div class="resume-two-column">
+    <section class="resume-section" aria-labelledby="cv-honors">
+      <h2 id="cv-honors">Honors</h2>
+      <ul class="resume-compact-list">
+        <li><strong>2024</strong> Outstanding Graduate of Fudan University</li>
+        <li><strong>2021</strong> Second Prize, National Undergraduate Mathematics Competition, Shanghai Division</li>
+        <li><strong>2019</strong> First Prize, National High School Physics Competition, Henan Division</li>
+      </ul>
+    </section>
 
-- **High-frequency Futures Quantitative Research**, Pengfu Tech (2026.4-2026.6)    
-  Using statistical and machine learning methods to mine alpha factors from tick-level limit order book snapshot data in the Chinese commodity futures market.
-  
+    <section class="resume-section" aria-labelledby="cv-teaching">
+      <h2 id="cv-teaching">Teaching</h2>
+      <ul class="resume-compact-list">
+        <li><strong>Spring 2026</strong> Teaching Assistant, Discrete Mathematics</li>
+        <li><strong>Fall 2024</strong> Teaching Assistant, Numerical Linear Algebra and Optimization</li>
+      </ul>
+    </section>
+  </div>
 
-## Research
-
-- **LLM-RL Fine-tuning Practice** (2026–Present)  
-  Explored load distribution and performance bottlenecks across different stages of PPO, GRPO, and other reinforcement learning algorithms.  
-  Used the `trl` library for RL fine-tuning of large language models; improved rollout efficiency with vLLM and studied vLLM/SGLang inference frameworks.  
-  Evaluated optimizers (Adam, Lion, Muon) and gained experience with multi-GPU training: data/model/pipeline parallelism, DeepSpeed ZeRO, LoRA-based fine-tuning.
-
-- **Parallel PDE Solver** (2026–Present)  
-  Implemented high-performance Poisson–Boltzmann equation solver in C++/MPI using the HIF-SI algorithm library, achieving linear scaling with problem size.  
-  Benchmarking and optimization on Tianhe-3 supercomputer and commercial cloud platforms; tuned communication and load balancing strategies.
-
-- **Research on Macro Placement**, Huawei Cooperation Project (2024–2025)  
-  Studied macro placement in chip physical design; surveyed state-of-the-art open-source techniques.  
-  Developed C++ placement algorithms to improve 2D macro placement in Huawei’s in-house tool; code merged into the internal codebase.  
-  Optimized Open3DBench’s 3D macro placement algorithm for better layout quality and efficiency.
-
-- **HPC Cluster Administrator**, Fudan University (2024–Present)  
-  Set up and maintain a multi-node HPC cluster for the research group; configured network and storage.  
-  Installed scientific software, managed environments, and user support; monitored cluster health; administered compute resources via Slurm.
-
-- **Quantum Computing Algorithm Implementation** (2023–2025)  
-  Implemented quantum algorithms (qOMM, SSVQD) for molecular excited-state energy calculations using Qiskit.  
-  Code contributed and merged into the qiskit-ecosystem community.
-
----
-
-## Publications
-- **Zhu, G.**, Bierman, J., Lu, J., & Li, Y.  
-  *“Quantum Circuit for Non-Unitary Linear Transformation of Basis Sets.”*  
-  *arXiv preprint arXiv:2502.08962*, 2025.  
-  [arXiv:2502.08962](https://arxiv.org/abs/2502.08962)
-  To appear in **npj Quantum Inf.**
-## Preprints
-
-- **Zhu, G.**, Bierman, J., Lu, J., & Li, Y.  
-  *“State-Specific Orbital Optimization for Enhanced Excited-States Calculation on Quantum Computers.”*  
-  *arXiv preprint arXiv:2510.13544*, 2025.  
-  [arXiv:2510.13544](https://arxiv.org/abs/2510.13544)
-
----
-
-## Awards
-- **2021** — Second Prize (Shanghai Division), National Undergraduate Mathematics Competition, China.  
-- **2019** — First Prize (Henan Division), National High School Physics Competition, China.
-
----
-
-## Technical Skills
-- **Programming / Tools:** Python, C++, Linux, MPI  
-- **Mathematics:** Numerical analysis, linear algebra, probability theory
-
----
-
-## Languages
-- **Chinese:** Native speaker  
-- **English:** Fluent (academic and technical writing)
-
----
-
-## Research Interests
-- High-Performance Computing  
-- Scientific Software Development  
-- Numerical Algorithms  
-- Quantum Computing
+  <section class="resume-section" aria-labelledby="cv-skills">
+    <h2 id="cv-skills">Technical Skills</h2>
+    <dl class="resume-skills">
+      <div>
+        <dt>Programming & Systems</dt>
+        <dd>C++, Python, CUDA C++, Linux, MPI, Slurm</dd>
+      </div>
+      <div>
+        <dt>AI & Performance</dt>
+        <dd>Model inference optimization, workload modeling, profiling, AI-agent-assisted development</dd>
+      </div>
+      <div>
+        <dt>Mathematics</dt>
+        <dd>Linear algebra, numerical analysis, numerical PDEs, parallel algorithms, scientific computing</dd>
+      </div>
+      <div>
+        <dt>Languages</dt>
+        <dd>Chinese (native), English (CET-6)</dd>
+      </div>
+    </dl>
+  </section>
+</div>

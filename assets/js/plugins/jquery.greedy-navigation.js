@@ -51,6 +51,7 @@ function updateNav() {
     if (breaks.length < 1) {
       $btn.addClass('hidden');
       $btn.removeClass('close');
+      $btn.attr('aria-expanded', 'false');
       $hlinks.addClass('hidden');
     }
   }
@@ -81,6 +82,7 @@ screen.orientation.addEventListener("change", function () {
 $btn.on('click', function () {
   $hlinks.toggleClass('hidden');
   $(this).toggleClass('close');
+  $(this).attr('aria-expanded', $(this).hasClass('close') ? 'true' : 'false');
 });
 
 updateNav();

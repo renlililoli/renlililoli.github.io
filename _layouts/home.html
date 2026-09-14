@@ -1,0 +1,17 @@
+---
+layout: default
+---
+
+{% include base_path %}
+
+<div id="main" role="main" class="home-layout">
+  {% include sidebar.html %}
+
+  <main class="page home-layout__content" itemscope itemtype="https://schema.org/Person">
+    <div class="page__inner-wrap">
+      <section class="page__content" itemprop="description">
+        {{ content }}
+      </section>
+    </div>
+  </main>
+</div>

@@ -9,10 +9,10 @@
 # Basic Site Settings
 locale                   : "en-US"
 site_theme               : "default"
-title                    : "Home"
+title                    : "Guorui Zhu"
 title_separator          : "-"
 name                     : &name "Guorui Zhu"
-description              : &description "P.h.D candidate at Fudan University."
+description              : &description "Ph.D. candidate at Fudan University working on efficient AI systems, high-performance computing, numerical algorithms, and quantum computing."
 url                      : https://renlililoli.github.io # the base hostname & protocol for your site e.g. "https://[your GitHub username].github.io" or if you already have some other page hosted on Github then use "https://[your GitHub username].github.io/[Your Repo Name]"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "renlililoli/renlililoli.github.io"
@@ -25,11 +25,11 @@ author:
   avatar           : "profile.png"
   name             : "Guorui Zhu"
   pronouns         : # example: "she/her"  
-  bio              : "Green. Z."
-  location         : "Shanghi, China"
+  bio              : "Ph.D. candidate in computational mathematics."
+  location         : "Shanghai, China"
   employer         : "Fudan University"
   uri              : # URL
-  email            : "renlililoli@163.com" 
+  email            : "grzhu24@m.fudan.edu.cn"
 
   # Academic websites
   academia         : # URL

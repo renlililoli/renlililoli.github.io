@@ -52,4 +52,7 @@ html[data-theme="dark"] {
     --global-text-color                 : #{$text};
     --global-text-color-light           : #{$light-gray};
     --global-thead-color                : #{$background-lighter};
+    --card-bg                           : #3f3f3f;
+    --card-shadow                       : 0 2px 14px rgba(0, 0, 0, 0.22);
+    --card-shadow-hover                 : 0 10px 28px rgba(0, 0, 0, 0.32);
 }

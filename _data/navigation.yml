@@ -24,7 +24,7 @@ main:
   # - title: "Portfolio"
   #   url: /portfolio/
         
-  - title: "Blog Posts"
+  - title: "Writing"
     url: /blog/
 
   - title: "Publications"

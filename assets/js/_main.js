@@ -45,6 +45,12 @@ $(document).ready(function () {
   };
 
   $('#theme-toggle').on('click', toggleTheme);
+  $('#theme-toggle').on('keydown', function (event) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      toggleTheme();
+    }
+  });
 
   // These should be the same as the settings in _variables.scss
   const scssLarge = 925; // pixels
@@ -74,6 +80,7 @@ $(document).ready(function () {
   $(".author__urls-wrapper button").on("click", function () {
     $(".author__urls").fadeToggle("fast", function () { });
     $(".author__urls-wrapper button").toggleClass("open");
+    $(this).attr('aria-expanded', $(this).hasClass('open') ? 'true' : 'false');
   });
 
   // Restore the follow menu if toggled on a window resize
