@@ -4,24 +4,68 @@ collection: essays
 type: "Essay"
 permalink: /essays/mirakuru
 date: 2025-05-13
-location: "Shanghi, China"
+modified: 2026-05-05
+location: "Shanghai, China"
 ---
 
 
-给常看的团收集一些资源, 包括本人推的fo和一些cover曲目
+记录 MIRAKURU 魔法转生少女的成员变动、原创与 cover 曲目，以及个人整理的现场资料。
+团体于 2025.03.16 初披露，并于 2026.05.05 解散。
 
 ## 所属: [绮丽偶像日](https://weibo.com/7983156796?refer_flag=1001030103_)
 
-### 初披露: 2025.03.16 Theboxx城市乐园
+### 活动时间: 2025.03.16 — 2026.05.05
 
-## Member
+<div class="mirakuru-status" role="status">
+  <span class="mirakuru-status__badge">已解散</span>
+  <span>解散日期：2026.05.05</span>
+</div>
 
-<iframe 
-  src="/essays/images/mirakuru/mirakuru_timeline.html"
-  width="100%" 
-  height="600"
-  style="border:none; border-radius:12px; overflow:hidden;">
-</iframe>
+## 成员与时间线
+
+<div class="mirakuru-timeline" role="img" aria-label="MIRAKURU 成员活动时间线：2025年3月16日初披露，2026年5月5日解散">
+  <div class="mirakuru-timeline__axis" aria-hidden="true">
+    <span>2025.03.16<small>初披露</small></span>
+    <span>2025.10.01<small>小释加入</small></span>
+    <span>2026.01.18<small>薰、雪酥毕业</small></span>
+    <span>2026.05.05<small>团体解散</small></span>
+  </div>
+
+  <div class="mirakuru-timeline__rows">
+    <div class="mirakuru-timeline__row">
+      <div class="mirakuru-timeline__label"><span class="mirakuru-dot mirakuru-dot--yellow"></span>舟舟 Jiujiu</div>
+      <div class="mirakuru-timeline__track"><span class="mirakuru-timeline__bar mirakuru-bar--yellow" style="left: 0%; width: 100%;">2025.03.16 — 2026.05.05</span></div>
+    </div>
+    <div class="mirakuru-timeline__row">
+      <div class="mirakuru-timeline__label"><span class="mirakuru-dot mirakuru-dot--green"></span>依都 Itsume</div>
+      <div class="mirakuru-timeline__track"><span class="mirakuru-timeline__bar mirakuru-bar--green" style="left: 0%; width: 100%;">2025.03.16 — 2026.05.05</span></div>
+    </div>
+    <div class="mirakuru-timeline__row">
+      <div class="mirakuru-timeline__label"><span class="mirakuru-dot mirakuru-dot--pink"></span>樱樱 Sakura</div>
+      <div class="mirakuru-timeline__track"><span class="mirakuru-timeline__bar mirakuru-bar--pink" style="left: 0%; width: 100%;">2025.03.16 — 2026.05.05</span></div>
+    </div>
+    <div class="mirakuru-timeline__row">
+      <div class="mirakuru-timeline__label"><span class="mirakuru-dot mirakuru-dot--blue"></span>小释 Koyoi</div>
+      <div class="mirakuru-timeline__track"><span class="mirakuru-timeline__bar mirakuru-bar--blue" style="left: 48%; width: 52%;">2025.10.01 — 2026.05.05</span></div>
+    </div>
+    <div class="mirakuru-timeline__row">
+      <div class="mirakuru-timeline__label"><span class="mirakuru-dot mirakuru-dot--purple"></span>薰 Kaori</div>
+      <div class="mirakuru-timeline__track"><span class="mirakuru-timeline__bar mirakuru-bar--purple" style="left: 0%; width: 74%;">2025.03.16 — 2026.01.18</span></div>
+    </div>
+    <div class="mirakuru-timeline__row">
+      <div class="mirakuru-timeline__label"><span class="mirakuru-dot mirakuru-dot--white"></span>雪酥 Yukikoo</div>
+      <div class="mirakuru-timeline__track"><span class="mirakuru-timeline__bar mirakuru-bar--white" style="left: 0%; width: 74%;">2025.03.16 — 2026.01.18</span></div>
+    </div>
+    <div class="mirakuru-timeline__row">
+      <div class="mirakuru-timeline__label"><span class="mirakuru-dot mirakuru-dot--lightblue"></span>霁川 Shimizu</div>
+      <div class="mirakuru-timeline__track"><span class="mirakuru-timeline__bar mirakuru-bar--lightblue" style="left: 0%; width: 32%;">2025.03.16 — 2025.07.27</span></div>
+    </div>
+    <div class="mirakuru-timeline__row">
+      <div class="mirakuru-timeline__label"><span class="mirakuru-dot mirakuru-dot--red"></span>晓月 Mizuki</div>
+      <div class="mirakuru-timeline__track"><span class="mirakuru-timeline__bar mirakuru-bar--red" style="left: 0%; width: 56%;">2025.03.16 — 2025.11.02</span></div>
+    </div>
+  </div>
+</div>
 
 
 <table>
@@ -37,26 +81,26 @@ location: "Shanghi, China"
     <tr class="yellow">
       <td>舟舟Jiujiu</td>
       <td><a href="https://weibo.com/n/%E8%88%9F%E8%88%9Fjiujiu_MIRAKURU" target="_blank">微博</a></td>
-      <td>2025.03.16 —</td>
-      <td>在团</td>
+      <td>2025.03.16 — 2026.05.05</td>
+      <td>随团解散</td>
     </tr>
     <tr class="green">
       <td>依都Itsume</td>
       <td><a href="https://weibo.com/n/%E4%BE%9D%E9%83%BDItsume_MIRAKURU" target="_blank">微博</a></td>
-      <td>2025.03.16 —</td>
-      <td>在团</td>
+      <td>2025.03.16 — 2026.05.05</td>
+      <td>随团解散</td>
     </tr>
     <tr class="pink">
       <td>樱樱Sakura</td>
       <td><a href="https://weibo.com/n/%E6%A8%B1%E6%A8%B1Sakura_MIRAKURU" target="_blank">微博</a></td>
-      <td>2025.03.16 —</td>
-      <td>在团</td>
+      <td>2025.03.16 — 2026.05.05</td>
+      <td>随团解散</td>
     </tr>
     <tr class="blue">
       <td>小释Koyoi</td>
       <td><a href="https://weibo.com/u/7936958193" target="_blank">微博</a></td>
-      <td>2025.10.01 —</td>
-      <td>在团</td>
+      <td>2025.10.01 — 2026.05.05</td>
+      <td>随团解散</td>
     </tr>
     <tr class="purple">
       <td>薰Kaori</td>
