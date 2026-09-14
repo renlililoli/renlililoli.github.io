@@ -799,6 +799,16 @@
   background: var(--global-footer-bg-color);
 }
 
+.footer__quiet-link {
+  display: inline-block;
+  margin-left: 1rem;
+  opacity: 0.58;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
 html[data-theme="dark"] body {
   background-color: var(--global-bg-color);
   background-image: none;
