@@ -88,8 +88,8 @@ redirect_from:
     <header class="home-section__header">
       <p class="home-section__index">02</p>
       <div>
-        <h2 id="work-title">Selected Work</h2>
-        <p>Recent engineering and research projects.</p>
+        <h2 id="work-title">Experience &amp; Research</h2>
+        <p>A record of engineering, research, operations, and quantitative work.</p>
       </div>
     </header>
 
@@ -135,6 +135,26 @@ redirect_from:
             <li>MPI</li>
             <li>HIF-SI</li>
             <li>Tianhe-3</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="project-item">
+        <div class="project-item__meta">
+          <span>Pengfu Tech</span>
+          <time datetime="2026-04">Apr 2026 – Jun 2026</time>
+        </div>
+        <div class="project-item__body">
+          <h3>High-Frequency Futures Quantitative Research</h3>
+          <p>
+            Used statistical and machine learning methods to mine alpha factors from tick-level
+            limit-order-book snapshot data in the Chinese commodity futures market.
+          </p>
+          <ul class="tag-list" aria-label="Technologies">
+            <li>Quantitative Research</li>
+            <li>Machine Learning</li>
+            <li>Alpha Factors</li>
+            <li>Limit Order Book</li>
           </ul>
         </div>
       </article>

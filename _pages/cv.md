@@ -57,6 +57,17 @@ redirect_from:
       </div>
     </article>
     <article class="resume-entry">
+      <div class="resume-entry__date">Apr 2026 – Jun 2026</div>
+      <div class="resume-entry__content">
+        <h3>High-Frequency Futures Quantitative Research</h3>
+        <p class="resume-entry__org">Pengfu Tech</p>
+        <ul>
+          <li>Used statistical and machine learning methods to mine alpha factors from tick-level limit-order-book snapshot data.</li>
+          <li>Worked with data from the Chinese commodity futures market to study high-frequency signals and quantitative research workflows.</li>
+        </ul>
+      </div>
+    </article>
+    <article class="resume-entry">
       <div class="resume-entry__date">2026</div>
       <div class="resume-entry__content">
         <h3>Parallel PDE Solver</h3>
