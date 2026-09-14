@@ -105,6 +105,14 @@ redirect_from:
   <section class="resume-section" aria-labelledby="cv-publications">
     <h2 id="cv-publications">Publications</h2>
     <article class="resume-publication">
+      <span>2026</span>
+      <div>
+        <h3>Structure-Aware Compilation for Scalable Neutral-Atom Quantum Computing</h3>
+        <p>D. Dong, F. Zou, H. Chen, <strong>Zhu, G.</strong>, & Li, Y. <em>arXiv preprint</em> arXiv:2607.01787.</p>
+        <a href="https://arxiv.org/abs/2607.01787">arXiv:2607.01787</a>
+      </div>
+    </article>
+    <article class="resume-publication">
       <span>2025</span>
       <div>
         <h3>Quantum Circuit for Non-Unitary Linear Transformation of Basis Sets</h3>

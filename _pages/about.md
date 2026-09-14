@@ -214,6 +214,12 @@ redirect_from:
 
     <div class="publication-list">
       <article class="publication-item">
+        <p class="publication-item__venue">arXiv preprint · 2026</p>
+        <h3>Structure-Aware Compilation for Scalable Neutral-Atom Quantum Computing</h3>
+        <p>D. Dong, F. Zou, H. Chen, <strong>Guorui Zhu</strong>, and Y. Li. <span class="publication-volume">arXiv:2607.01787.</span></p>
+        <a href="https://arxiv.org/abs/2607.01787">arXiv <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+      </article>
+      <article class="publication-item">
         <p class="publication-item__venue">npj Quantum Information · 2025</p>
         <h3>Quantum Circuit for Non-Unitary Linear Transformation of Basis Sets</h3>
         <p><strong>Guorui Zhu</strong>, J. Bierman, J. Lu, and Y. Li. <span class="publication-volume">11, 198 (2025).</span></p>
