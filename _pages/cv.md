@@ -12,11 +12,13 @@ redirect_from:
 <div class="resume-page">
   <section class="resume-summary">
     <p>
-      Ph.D. candidate in computational mathematics working on efficient AI inference,
-      parallel scientific computing, numerical algorithms, and quantum computing.
+      Ph.D. candidate in computational mathematics working on AI infrastructure,
+      efficient model inference, parallel scientific computing, numerical algorithms,
+      and quantum computing.
     </p>
     <div class="resume-contact" aria-label="Contact links">
       <a href="mailto:grzhu24@m.fudan.edu.cn"><i class="fa-solid fa-envelope" aria-hidden="true"></i> grzhu24@m.fudan.edu.cn</a>
+      <a href="https://renlililoli.github.io/"><i class="fa-solid fa-globe" aria-hidden="true"></i> Website</a>
       <a href="https://github.com/renlililoli"><i class="fa-brands fa-github" aria-hidden="true"></i> GitHub</a>
       <span><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Shanghai, China</span>
     </div>
@@ -50,9 +52,22 @@ redirect_from:
         <h3>Research Intern, Data Storage Technology Development</h3>
         <p class="resume-entry__org">Huawei, ICT BG Data Storage Product Line</p>
         <ul>
-          <li>Analyze video generation inference pipelines, locate performance bottlenecks, and validate optimization strategies.</li>
-          <li>Model inference processes and workload characteristics to support performance analysis and architecture evaluation.</li>
-          <li>Develop activation-offloading approaches through <a href="https://github.com/renlililoli/minimax-h3-seq-chunk-attn">MiniMax-H3 SeqAttn</a> and <a href="https://github.com/renlililoli/stream-attn">Stream-Attn</a>, enabling arbitrary-resolution and arbitrary-duration video generation on consumer GPUs without loss of accuracy or inference speed.</li>
+          <li>Profile image and video generation inference pipelines and model workload characteristics, with practical understanding of Diffusion, Flow Matching, and Score Matching.</li>
+          <li>Independently designed and implemented <a href="https://github.com/renlililoli/minimax-h3-seq-chunk-attn">MiniMax-H3 SeqAttn</a> and <a href="https://github.com/renlililoli/stream-attn">Stream-Attn</a>, combining sequence chunking, streaming execution, and activation offloading to reduce memory pressure while preserving output quality and inference speed.</li>
+          <li>Enabled arbitrary-resolution and arbitrary-duration video generation on consumer GPUs through joint algorithm and systems optimization.</li>
+        </ul>
+      </div>
+    </article>
+    <article class="resume-entry">
+      <div class="resume-entry__date">Jun 2026 – Present</div>
+      <div class="resume-entry__content">
+        <h3>Kimi K3 Training Systems &amp; Activation Offloading</h3>
+        <p class="resume-entry__org">Huawei, ICT BG Data Storage Product Line</p>
+        <ul>
+          <li>Independently built the full training software stack for Ascend 910C and 950 systems, including the operating system, drivers, runtime, and distributed-training dependencies; brought up Kimi K3 pruned-model pretraining with FSDP2 on a single-node A3 system with 8 Ascend 910C cards (16 dies, 8 × 2 × 64 GB).</li>
+          <li>Evaluated activation offloading on an A5/Ascend 950 setup with high-speed interconnects and an external memory box; read and traced recomputation and offloading mechanisms in MindSpeed MM and selected activations for offloading at operator granularity.</li>
+          <li>Used MS Insight to analyze forward hotspots and arithmetic intensity, and studied the amount of data that can be offloaded while overlapping computation, I/O, and communication.</li>
+          <li>Analyzed HCCS communication paths and DMA behavior in multi-card communication and activation transfers, achieving about 15% end-to-end speedup over the recomputation baseline.</li>
         </ul>
       </div>
     </article>
@@ -153,16 +168,24 @@ redirect_from:
     <h2 id="cv-skills">Technical Skills</h2>
     <dl class="resume-skills">
       <div>
-        <dt>Programming & Systems</dt>
+        <dt>Programming &amp; Systems</dt>
         <dd>C++, Python, CUDA C++, Linux, MPI, Slurm</dd>
       </div>
       <div>
-        <dt>AI & Performance</dt>
-        <dd>Model inference optimization, workload modeling, profiling, AI-agent-assisted development</dd>
+        <dt>AI Infrastructure &amp; Training</dt>
+        <dd>Ascend 910C/950, CANN, FSDP2, MindSpeed MM, activation offloading, recomputation</dd>
+      </div>
+      <div>
+        <dt>Distributed Performance</dt>
+        <dd>HCCS, DMA, MS Insight, operator profiling, arithmetic-intensity analysis, compute/I/O/communication overlap</dd>
+      </div>
+      <div>
+        <dt>Generative Models</dt>
+        <dd>Diffusion, Flow Matching, Score Matching, image and video generation inference optimization</dd>
       </div>
       <div>
         <dt>Mathematics</dt>
-        <dd>Linear algebra, numerical analysis, numerical PDEs, parallel algorithms, scientific computing</dd>
+        <dd>Linear algebra, numerical analysis, stochastic analysis, numerical PDEs, parallel algorithms, scientific computing</dd>
       </div>
       <div>
         <dt>Languages</dt>

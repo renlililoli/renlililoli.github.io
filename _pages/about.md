@@ -2,7 +2,7 @@
 layout: home
 permalink: /
 title: "Guorui Zhu"
-excerpt: "Ph.D. candidate at Fudan University working on efficient AI systems, high-performance computing, numerical algorithms, and quantum computing."
+excerpt: "Ph.D. candidate at Fudan University working on AI infrastructure, efficient model inference, high-performance computing, numerical algorithms, and quantum computing."
 author_profile: true
 redirect_from: 
   - /about/
@@ -11,13 +11,14 @@ redirect_from:
 
 <div class="home-page">
   <section class="home-hero" aria-labelledby="home-title">
-    <p class="home-eyebrow">Computational Mathematics · Efficient AI Systems</p>
+    <p class="home-eyebrow">Computational Mathematics · AI Infrastructure</p>
     <h1 id="home-title">Guorui Zhu</h1>
     <p class="home-role">Ph.D. Candidate at Fudan University</p>
     <p class="home-intro">
-      I work at the intersection of efficient model inference, high-performance computing,
-      numerical algorithms, and quantum computing. My current work focuses on making
-      demanding AI and scientific workloads faster, more scalable, and easier to deploy.
+      I work at the intersection of AI infrastructure, efficient model inference,
+      high-performance computing, numerical algorithms, and quantum computing. My current
+      work focuses on making demanding AI and scientific workloads faster, more scalable,
+      and easier to deploy.
     </p>
 
     <div class="home-actions" aria-label="Primary links">
@@ -38,7 +39,7 @@ redirect_from:
     <dl class="home-facts">
       <div>
         <dt>Current</dt>
-        <dd>Research Intern, Huawei ICT BG</dd>
+        <dd>Research Intern, Huawei ICT BG · AI Infrastructure</dd>
       </div>
       <div>
         <dt>Education</dt>
@@ -63,13 +64,13 @@ redirect_from:
     <div class="focus-grid">
       <article class="focus-item">
         <i class="fa-solid fa-gauge-high" aria-hidden="true"></i>
-        <h3>Efficient AI Inference</h3>
-        <p>Profiling, workload modeling, memory optimization, and systems design for video generation models.</p>
+        <h3>AI Infrastructure &amp; Efficient Inference</h3>
+        <p>Training and inference systems, workload modeling, memory optimization, and performance analysis for generative models.</p>
       </article>
       <article class="focus-item">
         <i class="fa-solid fa-network-wired" aria-hidden="true"></i>
         <h3>High-Performance Computing</h3>
-        <p>Distributed scientific computing with C++, MPI, CUDA, Slurm, and multi-node clusters.</p>
+        <p>Distributed training and scientific computing with Ascend, C++, MPI, CUDA, Slurm, and multi-node clusters.</p>
       </article>
       <article class="focus-item">
         <i class="fa-solid fa-square-root-variable" aria-hidden="true"></i>
@@ -102,19 +103,52 @@ redirect_from:
         <div class="project-item__body">
           <h3>Video Generation Inference Optimization</h3>
           <p>
-            Profiled video generation inference pipelines, identified performance bottlenecks,
-            and modeled workload behavior. Built activation-offloading approaches that preserve
-            output quality and inference speed while enabling long, high-resolution generation on consumer GPUs.
+            Profiled image and video generation inference pipelines and modeled their workload behavior,
+            with practical understanding of Diffusion, Flow Matching, and Score Matching. Independently
+            designed and implemented <a href="https://github.com/renlililoli/minimax-h3-seq-chunk-attn">MiniMax-H3 SeqAttn</a>
+            and <a href="https://github.com/renlililoli/stream-attn">Stream-Attn</a>, combining sequence chunking,
+            streaming execution, and activation offloading to reduce memory pressure while preserving output
+            quality and inference speed on consumer GPUs.
           </p>
           <ul class="tag-list" aria-label="Technologies">
+            <li>Diffusion</li>
+            <li>Flow Matching</li>
+            <li>Video Generation</li>
             <li>CUDA C++</li>
-            <li>Model Inference</li>
-            <li>Performance Modeling</li>
+            <li>Workload Modeling</li>
           </ul>
           <div class="project-links">
             <a href="https://github.com/renlililoli/minimax-h3-seq-chunk-attn">MiniMax-H3 SeqAttn <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
             <a href="https://github.com/renlililoli/stream-attn">Stream-Attn <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
           </div>
+        </div>
+      </article>
+
+      <article class="project-item">
+        <div class="project-item__meta">
+          <span>Huawei</span>
+          <time datetime="2026-06">Jun 2026 – Present</time>
+        </div>
+        <div class="project-item__body">
+          <h3>Kimi K3 Training Systems &amp; Activation Offloading</h3>
+          <p>
+            Independently built the full training software stack for Ascend 910C and 950 systems, including
+            the operating system, drivers, runtime, and distributed-training dependencies. On a single-node
+            A3 system with 8 Ascend 910C cards (16 dies, 8 × 2 × 64 GB), brought up the Kimi K3 pruned-model
+            pretraining workflow with FSDP2. Evaluated activation offloading on an A5/Ascend 950 setup with
+            high-speed interconnects and an external memory box,
+            reading the recomputation and offloading paths in MindSpeed MM and selecting activations at operator
+            granularity. Used MS Insight to inspect forward hotspots and arithmetic intensity, and analyzed
+            HCCS and DMA behavior under compute, I/O, and communication overlap, achieving about 15% end-to-end speedup.
+          </p>
+          <ul class="tag-list" aria-label="Technologies">
+            <li>Ascend 910C/950</li>
+            <li>FSDP2</li>
+            <li>MindSpeed MM</li>
+            <li>MS Insight</li>
+            <li>HCCS</li>
+            <li>DMA</li>
+          </ul>
         </div>
       </article>
 
